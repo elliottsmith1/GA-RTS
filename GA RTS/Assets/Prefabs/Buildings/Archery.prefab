@@ -113,7 +113,7 @@ MonoBehaviour:
   foundationMesh: {fileID: 4300000, guid: 9018b9e829e697640b479e00dd8fdcc0, type: 3}
   constructionMesh: {fileID: 4300000, guid: 27fdd863cab8d1a419f247f4ed7a2b01, type: 3}
   finishedMesh: {fileID: 4300000, guid: 7036859d28e2cb84c9948a1fcf49fe95, type: 3}
-  buildTime: 80
+  buildTime: 50
   buildTimer: 0
   buildState: 0
 --- !u!114 &167486523
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167486519}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 

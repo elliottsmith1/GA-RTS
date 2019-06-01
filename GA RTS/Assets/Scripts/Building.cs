@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Building : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class Building : MonoBehaviour
     private bool built = false;
 
     private MeshFilter meshFilter;
+    private Interactable interactable;
+    private BoxCollider boxCollider;
+    private NavMeshObstacle navMeshObstacle;
 
     [SerializeField] BUILDSTATE buildState = BUILDSTATE.NOT_BUILT;
 
@@ -32,6 +36,11 @@ public class Building : MonoBehaviour
     void Start()
     {
         meshFilter = GetComponent<MeshFilter>();
+        interactable = GetComponent<Interactable>();
+        boxCollider = GetComponent<BoxCollider>();
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
+
+        DeactivateObject();
     }
 
     // Update is called once per frame
@@ -98,6 +107,20 @@ public class Building : MonoBehaviour
                 }
                 return;
         }
+    }
+
+    public void ActivateObject()
+    {
+        boxCollider.enabled = true;
+        navMeshObstacle.enabled = true;
+        interactable.enabled = true;
+    }
+
+    private void DeactivateObject()
+    {
+        boxCollider.enabled = false;
+        navMeshObstacle.enabled = false;
+        interactable.enabled = false;
     }
 
     //private void OnMouseOver()
