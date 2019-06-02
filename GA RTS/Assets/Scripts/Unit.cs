@@ -14,10 +14,24 @@ public class Unit : MonoBehaviour
         FIGHTING
     }
 
+    public enum WEAPON
+    {
+        BOW,
+        CROSSBOW,
+        ONE_HAND,
+        POLEARM,
+        SPEAR,
+        STAFF,
+        TWO_HAND
+    }
+
     private Vector3 targetPosition;
 
     private NavMeshAgent navMeshAgent;
     private UnitManager unitManager;
+
+    [SerializeField] WEAPON weapon;
+    [SerializeField] bool mounted = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,5 +51,15 @@ public class Unit : MonoBehaviour
     public void NewDestination(Vector3 _pos)
     {
         navMeshAgent.SetDestination(_pos);
+    }
+
+    public WEAPON GetWeapon()
+    {
+        return weapon;
+    }
+
+    public bool GetMounted()
+    {
+        return mounted;
     }
 }
