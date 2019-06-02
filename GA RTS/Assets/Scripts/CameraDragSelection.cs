@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CameraDragSelection : MonoBehaviour
 {
+    [SerializeField] UnitManager unitManager;
     //Add all units in the scene to this array
-    [SerializeField] GameObject[] allUnits;
+    private List<GameObject> allUnits = new List<GameObject>();
     //The selection square we draw when we drag the mouse to select units
     [SerializeField] RectTransform selectionSquareTrans;
     //To test the square's corners
@@ -19,10 +20,6 @@ public class CameraDragSelection : MonoBehaviour
     [SerializeField] Material selectedMaterial;
 
     [SerializeField] Camera camMain;
-
-    //All currently selected units
-    //[System.NonSerialized]
-    [SerializeField] List<GameObject> selectedUnits = new List<GameObject>();
 
     //We have hovered above this unit, so we can deselect it next update
     //and dont have to loop through all units
@@ -50,9 +47,6 @@ public class CameraDragSelection : MonoBehaviour
     {
         //Select one or several units by clicking or draging the mouse
         SelectUnits();
-
-        //Highlight by hovering with mouse above a unit which is not selected
-        //HighlightUnit();
     }
 
     //Select units with click or by draging the mouse
@@ -67,15 +61,6 @@ public class CameraDragSelection : MonoBehaviour
         {
             squareStartPos = Input.mousePosition;
             clickTime = Time.time;
-
-            //We dont yet know if we are drawing a square, but we need the first coordinate in case we do draw a square
-            //RaycastHit hit;
-            //Fire ray from camera
-            //if (Physics.Raycast(camMain.ScreenPointToRay(Input.mousePosition), out hit, 200f, 1 << 8))
-            //{
-            //    //The corner position of the square
-            //    squareStartPos = hit.point;
-            //}
         }
         //Release the mouse button
         if (Input.GetMouseButtonUp(0))
@@ -93,11 +78,10 @@ public class CameraDragSelection : MonoBehaviour
                 //Deactivate the square selection image
                 selectionSquareTrans.gameObject.SetActive(false);
 
-                //Clear the list with selected unit
-                selectedUnits.Clear();
+                allUnits = unitManager.GetAllUnits();
 
                 //Select the units
-                for (int i = 0; i < allUnits.Length; i++)
+                for (int i = 0; i < allUnits.Count; i++)
                 {
                     GameObject currentUnit = allUnits[i];
 
@@ -106,7 +90,7 @@ public class CameraDragSelection : MonoBehaviour
                     {
                         currentUnit.GetComponent<Outline>().enabled = true;
 
-                        selectedUnits.Add(currentUnit);
+                        unitManager.SelectUnit(currentUnit.GetComponent<Unit>());
                     }
                     //Otherwise deselect the unit if it's not in the square
                     else
@@ -126,34 +110,9 @@ public class CameraDragSelection : MonoBehaviour
             }
         }
 
-        //Select one unit with left mouse and deselect all units with left mouse by clicking on what's not a unit
         if (isClicking)
         {
-            //Deselect all units
-            for (int i = 0; i < selectedUnits.Count; i++)
-            {
-                selectedUnits[i].GetComponent<Outline>().enabled = false;
-            }
-
-            //Clear the list with selected units
-            selectedUnits.Clear();
-
-            //Try to select a new unit
-            RaycastHit hit;
-            //Fire ray from camera
-            if (Physics.Raycast(camMain.ScreenPointToRay(Input.mousePosition), out hit, 200f))
-            {
-                //Did we hit a friendly unit?
-                if (hit.collider.CompareTag("Friendly"))
-                {
-                    GameObject activeUnit = hit.collider.gameObject;
-                    //Set this unit to selected
-                    //activeUnit.GetComponent<MeshRenderer>().material = selectedMaterial;
-                    activeUnit.GetComponent<Outline>().enabled = true;
-                    //Add it to the list of selected units, which is now just 1 unit
-                    selectedUnits.Add(activeUnit);
-                }
-            }
+            unitManager.DeselectSelection();            
         }
 
         //Drag the mouse to select all units within the square
@@ -174,7 +133,9 @@ public class CameraDragSelection : MonoBehaviour
             //Highlight the units within the selection square, but don't select the units
             if (hasCreatedSquare)
             {
-                for (int i = 0; i < allUnits.Length; i++)
+                allUnits = unitManager.GetAllUnits();
+
+                for (int i = 0; i < allUnits.Count; i++)
                 {
                     GameObject currentUnit = allUnits[i];
 
@@ -193,63 +154,7 @@ public class CameraDragSelection : MonoBehaviour
         }
     }
 
-    //Highlight a unit when mouse is above it
-    void HighlightUnit()
-    {
-        //Change material on the latest unit we highlighted
-        if (highlightThisUnit != null)
-        {
-            //But make sure the unit we want to change material on is not selected
-            bool isSelected = false;
-            for (int i = 0; i < selectedUnits.Count; i++)
-            {
-                if (selectedUnits[i] == highlightThisUnit)
-                {
-                    isSelected = true;
-                    break;
-                }
-            }
-
-            if (!isSelected)
-            {
-                highlightThisUnit.GetComponent<Outline>().enabled = true;
-            }
-
-            highlightThisUnit = null;
-        }
-
-        //Fire a ray from the mouse position to get the unit we want to highlight
-        RaycastHit hit;
-        //Fire ray from camera
-        if (Physics.Raycast(camMain.ScreenPointToRay(Input.mousePosition), out hit, 200f))
-        {
-            //Did we hit a friendly unit?
-            if (hit.collider.CompareTag("Friendly"))
-            {
-                //Get the object we hit
-                GameObject currentObj = hit.collider.gameObject;
-
-                //Highlight this unit if it's not selected
-                bool isSelected = false;
-                for (int i = 0; i < selectedUnits.Count; i++)
-                {
-                    if (selectedUnits[i] == currentObj)
-                    {
-                        isSelected = true;
-                        break;
-                    }
-                }
-
-                if (!isSelected)
-                {
-                    highlightThisUnit = currentObj;
-
-                    highlightThisUnit.GetComponent<Outline>().enabled = true;
-                }
-            }
-        }
-    }
-
+   
     //Is a unit within a polygon determined by 4 corners
     bool IsWithinPolygon(Vector3 unitPos)
     {
@@ -364,7 +269,5 @@ public class CameraDragSelection : MonoBehaviour
 
             hasCreatedSquare = true;
         }
-
-        Debug.Log(i);
     }
 }
