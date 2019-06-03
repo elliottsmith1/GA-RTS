@@ -174,7 +174,6 @@ public class Building : MonoBehaviour
     public Vector3 GetUnitSpawnPos()
     {
         Vector3 pos = transform.position + Vector3.forward;
-        Debug.Log(transform.position + " " + Vector3.forward);
         return pos;
     }
 

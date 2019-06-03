@@ -78,5 +78,10 @@ public class UnitAnimator : MonoBehaviour
     void Update()
     {
         anim.SetFloat("speed", agent.velocity.magnitude);
+
+        if (unit.GetState() == Unit.STATE.FIGHTING)
+        {
+            anim.SetBool("fighting", true);
+        }
     }
 }

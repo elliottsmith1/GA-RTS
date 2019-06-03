@@ -127,39 +127,60 @@ public class UnitManager : MonoBehaviour
 
                 Vector3 point = new Vector3(0, 0, 0);
 
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                RaycastHit[] hits;
+
+                hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+
+                foreach (RaycastHit h in hits)
                 {
-                    point = hit.point;
-                }
-
-                if (hit.transform.tag == "Terrain")
-                {
-                    float offset = 2.0f;
-
-                    point.z -= (offset * (rowNum / 2));
-                    point.x -= (offset * (rowNum / 2));
-
-                    Vector3 newPos = point;
-                                      
-
-                    foreach (Unit unit in selectedUnits)
+                    if (h.transform.tag == "Terrain")
                     {
-                        unit.NewDestination(newPos);
+                        point = h.point;
 
-                        newPos.x += offset;
-
-                        rowCounter++;
-
-                        if (rowCounter >= rowNum)
+                        if (h.transform.tag == "Terrain")
                         {
-                            rowCounter = 0;
-                            newPos.x = point.x;
-                            newPos.z += offset;
+                            float offset = 2.0f;
+
+                            point.z -= (offset * (rowNum / 2));
+                            point.x -= (offset * (rowNum / 2));
+
+                            Vector3 newPos = point;
+
+
+                            foreach (Unit unit in selectedUnits)
+                            {
+                                bool manual = false;
+
+                                //if (unit.GetTarget())
+                                //{
+                                //    manual = true;
+                                //}
+
+                                unit.NewDestination(newPos, manual);
+
+                                newPos.x += offset;
+
+                                rowCounter++;
+
+                                if (rowCounter >= rowNum)
+                                {
+                                    rowCounter = 0;
+                                    newPos.x = point.x;
+                                    newPos.z += offset;
+                                }
+                            }
                         }
+
+                        break;
                     }
                 }
+
+                //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                //RaycastHit hit;
+                //if (Physics.Raycast(ray, out hit))
+                //{
+                //    point = hit.point;
+                //}                
             }
         }
     }

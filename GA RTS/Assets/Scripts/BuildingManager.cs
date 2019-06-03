@@ -40,19 +40,19 @@ public class BuildingManager : MonoBehaviour
         {
             Vector3 point = new Vector3(0, 0, 0);
 
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                point = hit.point;
-                //point.y = 0.0f;
-                //selectedBuilding.transform.position = point;
-                
-                NavMeshHit nHit;
+            RaycastHit[] hits;
 
-                if (NavMesh.FindClosestEdge(point, out nHit, NavMesh.AllAreas))
+            hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+
+            foreach (RaycastHit h in hits)
+            {
+                if (h.transform.tag == "Terrain")
                 {
-                    if (hit.transform.tag == "Terrain")
+                    point = h.point;
+
+                    NavMeshHit nHit;
+
+                    if (NavMesh.FindClosestEdge(point, out nHit, NavMesh.AllAreas))
                     {
                         selectedBuilding.transform.position = point;
 
@@ -66,14 +66,45 @@ public class BuildingManager : MonoBehaviour
                             canPlace = false;
                             outline.OutlineColor = Color.red;
                         }
+                        break;
                     }
-                    else
-                    {
-                        canPlace = false;
-                        outline.OutlineColor = Color.red;
-                    }
-                }                
-            }          
+                }
+            }
+
+            //        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            //RaycastHit hit;
+            //if (Physics.Raycast(ray, out hit))
+            //{
+            //    point = hit.point;
+            //    //point.y = 0.0f;
+            //    //selectedBuilding.transform.position = point;
+                
+            //    NavMeshHit nHit;
+
+            //    if (NavMesh.FindClosestEdge(point, out nHit, NavMesh.AllAreas))
+            //    {
+            //        if (hit.transform.tag == "Terrain")
+            //        {
+            //            selectedBuilding.transform.position = point;
+
+            //            if (nHit.distance > distanceAllowance)
+            //            {
+            //                canPlace = true;
+            //                outline.OutlineColor = Color.green;
+            //            }
+            //            else
+            //            {
+            //                canPlace = false;
+            //                outline.OutlineColor = Color.red;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            canPlace = false;
+            //            outline.OutlineColor = Color.red;
+            //        }
+            //    }                
+            //}          
             
             if (Input.GetMouseButtonDown(1))
             {

@@ -232,29 +232,79 @@ public class CameraDragSelection : MonoBehaviour
         BR = new Vector3(middle.x + sizeX / 2f, middle.y - sizeY / 2f, 0f);
 
         //From screen to world
-        RaycastHit hit;
+        RaycastHit[] hits;
         int i = 0;
+
+        hits = Physics.RaycastAll(camMain.ScreenPointToRay(TL));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.transform.tag == "Terrain")
+            {
+                TL = hit.point;
+                i++;
+                break;
+            }
+        }
+
+        hits = Physics.RaycastAll(camMain.ScreenPointToRay(TR));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.transform.tag == "Terrain")
+            {
+                TR = hit.point;
+                i++;
+                break;
+            }
+        }
+
+        hits = Physics.RaycastAll(camMain.ScreenPointToRay(BL));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.transform.tag == "Terrain")
+            {
+                BL = hit.point;
+                i++;
+                break;
+            }
+        }
+
+        hits = Physics.RaycastAll(camMain.ScreenPointToRay(BR));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.transform.tag == "Terrain")
+            {
+                BR = hit.point;
+                i++;
+                break;
+            }
+        }
+
+
         //Fire ray from camera
-        if (Physics.Raycast(camMain.ScreenPointToRay(TL), out hit, 200f))
-        {
-            TL = hit.point;
-            i++;
-        }
-        if (Physics.Raycast(camMain.ScreenPointToRay(TR), out hit, 200f))
-        {
-            TR = hit.point;
-            i++;
-        }
-        if (Physics.Raycast(camMain.ScreenPointToRay(BL), out hit, 200f))
-        {
-            BL = hit.point;
-            i++;
-        }
-        if (Physics.Raycast(camMain.ScreenPointToRay(BR), out hit, 200f))
-        {
-            BR = hit.point;
-            i++;
-        }
+        //if (Physics.Raycast(camMain.ScreenPointToRay(TL), out hit, 200f))
+        //{
+        //    TL = hit.point;
+        //    i++;
+        //}
+        //if (Physics.Raycast(camMain.ScreenPointToRay(TR), out hit, 200f))
+        //{
+        //    TR = hit.point;
+        //    i++;
+        //}
+        //if (Physics.Raycast(camMain.ScreenPointToRay(BL), out hit, 200f))
+        //{
+        //    BL = hit.point;
+        //    i++;
+        //}
+        //if (Physics.Raycast(camMain.ScreenPointToRay(BR), out hit, 200f))
+        //{
+        //    BR = hit.point;
+        //    i++;
+        //}
 
         //Could we create a square?
         hasCreatedSquare = false;

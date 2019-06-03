@@ -16169,9 +16169,11 @@ GameObject:
   - component: {fileID: 2084155026}
   - component: {fileID: 2084155027}
   - component: {fileID: 2084155028}
+  - component: {fileID: 1663622164}
+  - component: {fileID: 1663622163}
   m_Layer: 0
   m_Name: Archer
-  m_TagString: Untagged
+  m_TagString: Friendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16183,7 +16185,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2084155023}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.45, y: 0, z: 7.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -16303,8 +16305,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e14d732809f32409202afe1308a65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   weapon: 0
   mounted: 0
+  melee: 1
+  range: 15
 --- !u!114 &2084155027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16345,6 +16350,35 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
+--- !u!135 &1663622164
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084155023}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 20
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1663622163
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084155023}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2089526080
 GameObject:
   m_ObjectHideFlags: 0
