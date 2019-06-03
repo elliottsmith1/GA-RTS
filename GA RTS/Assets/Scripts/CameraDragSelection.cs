@@ -61,6 +61,7 @@ public class CameraDragSelection : MonoBehaviour
         {
             squareStartPos = Input.mousePosition;
             clickTime = Time.time;
+            unitManager.DeselectSelection();
         }
         //Release the mouse button
         if (Input.GetMouseButtonUp(0))

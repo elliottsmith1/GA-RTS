@@ -15,6 +15,8 @@ public class BuildingManager : MonoBehaviour
     private Camera cam;
     private Outline outline;
 
+    private Building activeBuilding;
+
     public enum BUILDINGS
     {
         BARRACKS,
@@ -112,6 +114,16 @@ public class BuildingManager : MonoBehaviour
         }
         outline = selectedBuilding.GetComponent<Outline>();
         outline.enabled = true;
+    }
+
+    public void SetActiveBuilding(Building _b)
+    {
+        activeBuilding = _b;
+    }
+
+    public Building GetActiveBuilding()
+    {
+        return activeBuilding;
     }
 }
 

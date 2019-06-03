@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour
         FIGHTING
     }
 
-    public enum WEAPON
+    public enum WEAPONTYPE
     {
         BOW,
         CROSSBOW,
@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private UnitManager unitManager;
 
-    [SerializeField] WEAPON weapon;
+    [SerializeField] WEAPONTYPE weapon;
     [SerializeField] bool mounted = false;
 
     // Start is called before the first frame update
@@ -53,7 +53,7 @@ public class Unit : MonoBehaviour
         navMeshAgent.SetDestination(_pos);
     }
 
-    public WEAPON GetWeapon()
+    public WEAPONTYPE GetWeapon()
     {
         return weapon;
     }

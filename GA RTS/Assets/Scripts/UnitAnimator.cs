@@ -20,26 +20,26 @@ public class UnitAnimator : MonoBehaviour
         SetWeapon(unit.GetWeapon(), unit.GetMounted());
     }
 
-    private void SetWeapon(Unit.WEAPON _wep, bool _mount)
+    private void SetWeapon(Unit.WEAPONTYPE _wep, bool _mount)
     {
         if (_mount)
         {
             anim.SetBool("mounted", true);
             switch (_wep)
             {
-                case Unit.WEAPON.ONE_HAND:
+                case Unit.WEAPONTYPE.ONE_HAND:
                     anim.SetBool("one hand", true);
                     break;
-                case Unit.WEAPON.BOW:
+                case Unit.WEAPONTYPE.BOW:
                     anim.SetBool("bow", true);
                     break;
-                case Unit.WEAPON.CROSSBOW:
+                case Unit.WEAPONTYPE.CROSSBOW:
                     anim.SetBool("crossbow", true);
                     break;
-                case Unit.WEAPON.SPEAR:
+                case Unit.WEAPONTYPE.SPEAR:
                     anim.SetBool("spear", true);
                     break;
-                case Unit.WEAPON.STAFF:
+                case Unit.WEAPONTYPE.STAFF:
                     anim.SetBool("staff", true);
                     break;
             }
@@ -49,25 +49,25 @@ public class UnitAnimator : MonoBehaviour
         {
             switch (_wep)
             {
-                case Unit.WEAPON.ONE_HAND:
+                case Unit.WEAPONTYPE.ONE_HAND:
                     anim.SetBool("one hand", true);
                     break;
-                case Unit.WEAPON.BOW:
+                case Unit.WEAPONTYPE.BOW:
                     anim.SetBool("bow", true);
                     break;
-                case Unit.WEAPON.CROSSBOW:
+                case Unit.WEAPONTYPE.CROSSBOW:
                     anim.SetBool("crossbow", true);
                     break;
-                case Unit.WEAPON.POLEARM:
+                case Unit.WEAPONTYPE.POLEARM:
                     anim.SetBool("polearm", true);
                     break;
-                case Unit.WEAPON.SPEAR:
+                case Unit.WEAPONTYPE.SPEAR:
                     anim.SetBool("spear", true);
                     break;
-                case Unit.WEAPON.STAFF:
+                case Unit.WEAPONTYPE.STAFF:
                     anim.SetBool("staff", true);
                     break;
-                case Unit.WEAPON.TWO_HAND:
+                case Unit.WEAPONTYPE.TWO_HAND:
                     anim.SetBool("two hand", true);
                     break;
             }

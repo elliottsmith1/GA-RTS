@@ -13,6 +13,14 @@ public class Building : MonoBehaviour
         FINISHED
     }
 
+    private enum SPAWNERTYPE
+    {
+        MELEE,
+        RANGED,
+        MAGIC,
+        MOUNTED
+    }
+
     [SerializeField] Image buildtimerBackground;
     [SerializeField] Image buildtimerForeground;
 
@@ -21,6 +29,10 @@ public class Building : MonoBehaviour
     [SerializeField] Mesh finishedMesh;
 
     [SerializeField] float buildTime = 10.0f;
+
+    [SerializeField] bool spawner = false;
+    [SerializeField] SPAWNERTYPE spawnerType = SPAWNERTYPE.MELEE;
+
     public float buildTimer = 0.0f;
 
     private bool built = false;
@@ -29,8 +41,11 @@ public class Building : MonoBehaviour
     private Interactable interactable;
     private BoxCollider boxCollider;
     private NavMeshObstacle navMeshObstacle;
+    private BuildingManager buildingManager;
 
-    [SerializeField] BUILDSTATE buildState = BUILDSTATE.NOT_BUILT;
+    private UIManager uiManager;
+
+    [SerializeField] BUILDSTATE buildState = BUILDSTATE.NOT_BUILT;    
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +54,9 @@ public class Building : MonoBehaviour
         interactable = GetComponent<Interactable>();
         boxCollider = GetComponent<BoxCollider>();
         navMeshObstacle = GetComponent<NavMeshObstacle>();
+
+        uiManager = GameObject.Find("UI").GetComponent<UIManager>();
+        buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
 
         DeactivateObject();
     }
@@ -121,6 +139,43 @@ public class Building : MonoBehaviour
         boxCollider.enabled = false;
         navMeshObstacle.enabled = false;
         interactable.enabled = false;
+    }
+
+    private void OnMouseDown()
+    {
+        if (buildState == BUILDSTATE.FINISHED)
+        {
+            buildingManager.SetActiveBuilding(this);
+            if (spawner)
+            {
+                string spawn = "buildings";
+
+                switch (spawnerType)
+                {
+                    case SPAWNERTYPE.MELEE:
+                        spawn = "barracks";
+                        break;
+                    case SPAWNERTYPE.MAGIC:
+                        spawn = "magetower";
+                        break;
+                    case SPAWNERTYPE.MOUNTED:
+                        spawn = "stables";
+                        break;
+                    case SPAWNERTYPE.RANGED:
+                        spawn = "archery";
+                        break;
+                }
+
+                uiManager.ActivatePane(spawn);
+            }
+        }
+    }
+
+    public Vector3 GetUnitSpawnPos()
+    {
+        Vector3 pos = transform.position + Vector3.forward;
+        Debug.Log(transform.position + " " + Vector3.forward);
+        return pos;
     }
 
     //private void OnMouseOver()
