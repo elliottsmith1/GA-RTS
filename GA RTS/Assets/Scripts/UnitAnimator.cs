@@ -77,11 +77,53 @@ public class UnitAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        anim.SetFloat("speed", agent.velocity.magnitude);
+        if (agent)
+        {
+            anim.SetFloat("speed", agent.velocity.magnitude);
+        }
 
-        if (unit.GetState() == Unit.STATE.FIGHTING)
+        if (unit)
+        {
+            if (unit.GetState() == Unit.STATE.FIGHTING)
+            {
+                anim.SetBool("fighting", true);
+            }
+        }
+    }
+
+    public void SetFighting(bool _fight)
+    {
+        if (_fight)
         {
             anim.SetBool("fighting", true);
+        }
+        else
+        {
+            anim.SetBool("fighting", false);
+        }
+    }
+
+    public void SetDamaged(int _dam)
+    {
+        if (_dam > 0)
+        {
+            anim.SetBool("damaged", true);
+        }
+        else
+        {
+            anim.SetBool("damaged", false);
+        }
+    }
+
+    public void SetDead(bool _dead)
+    {
+        if (_dead)
+        {
+            anim.SetBool("dead", true);
+        }
+        else
+        {
+            anim.SetBool("dead", false);
         }
     }
 }

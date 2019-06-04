@@ -27,12 +27,13 @@ public class Unit : MonoBehaviour
 
     private Vector3 targetPosition;
 
-    private List<GameObject> nearbyEnemies = new List<GameObject>();
+    private List<Unit> nearbyEnemies = new List<Unit>();
 
-    private GameObject target;
+    public Unit target;
 
     private NavMeshAgent navMeshAgent;
     private UnitManager unitManager;
+    private UnitAnimator unitAnimator;
 
     private string enemyTag = "Enemy";
 
@@ -56,6 +57,7 @@ public class Unit : MonoBehaviour
         unitManager = GameObject.Find("UnitManager").GetComponent<UnitManager>();        
 
         navMeshAgent = GetComponent<NavMeshAgent>();
+        unitAnimator = GetComponent<UnitAnimator>();
 
         if (transform.tag == "Enemy")
         {
@@ -75,6 +77,7 @@ public class Unit : MonoBehaviour
         if (state != STATE.DEAD)
         {
             State();
+            StateBehaviour();
             NearestEnemy();
         }
     }
@@ -84,7 +87,13 @@ public class Unit : MonoBehaviour
         if (health < 1)
         {
             state = STATE.DEAD;
-            Destroy(this.gameObject);
+            unitAnimator.SetDamaged(0);
+            unitAnimator.SetFighting(false);
+            unitAnimator.SetDead(true);
+            GetComponent<CapsuleCollider>().enabled = false;
+            navMeshAgent.enabled = false;
+            this.enabled = false;
+            return;
         }
 
         if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
@@ -104,7 +113,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            if (nearbyEnemies.Count == 0)
+            if (nearbyEnemies.Count < 1)
             {
                 if (state != STATE.IDLE)
                 {
@@ -113,20 +122,60 @@ public class Unit : MonoBehaviour
             }
             else
             {
-                if (state != STATE.FIGHTING)
+                if (target)
                 {
-                    state = STATE.FIGHTING;
-                }
+                    if (Vector3.Distance(transform.position, target.transform.position) < range)
+                    {
+                        if (state != STATE.FIGHTING)
+                        {
+                            state = STATE.FIGHTING;
+                            unitAnimator.SetFighting(true);
+                        }
+                    }
+                }                
             }
+        }
+    }
+
+    private void StateBehaviour()
+    {
+        switch (state)
+        {
+            case STATE.IDLE:
+
+                break;
+            case STATE.MOVING:
+
+                break;
+            case STATE.FIGHTING:
+                if (nearbyEnemies.Count < 1)
+                {
+                    state = STATE.IDLE;
+                    unitAnimator.SetFighting(false);
+                    NewDestination(transform.position, false);
+                    return;
+                }
+
+                if (target)
+                {
+                    transform.LookAt(target.transform);
+                }
+                break;
+            case STATE.DEAD:
+
+                break;
         }
     }
 
     public void DamageTarget()
     {
-        target.GetComponent<Unit>().TakeDamage(weaponDamage);
+        if (target)
+        {
+            target.GetComponent<Unit>().TakeDamage(weaponDamage);
+        }
     }
 
-    private void NewTarget(GameObject _target)
+    private void NewTarget(Unit _target)
     {
         if (!manualOverride)
         {
@@ -136,8 +185,39 @@ public class Unit : MonoBehaviour
 
     private void NearestEnemy()
     {
+        if (target)
+        {
+            if (!target.enabled)
+            {
+                target = null;
+            }
+        }        
+
         if (nearbyEnemies.Count > 0)
         {
+            List<int> removeIDs = new List<int>();
+            for (int i = 0; i < nearbyEnemies.Count; i++)
+            {
+                if (!nearbyEnemies[i].enabled)
+                {
+                    removeIDs.Add(i);
+                }
+            }
+
+            foreach (int id in removeIDs)
+            {
+                if (nearbyEnemies[id])
+                {
+                    nearbyEnemies.RemoveAt(id);
+                }
+            }
+
+            if (nearbyEnemies.Count < 1)
+            {
+                unitAnimator.SetFighting(false);
+                return;
+            }
+
             if (!target)
             {
                 NewTarget(nearbyEnemies[0]);
@@ -145,21 +225,24 @@ public class Unit : MonoBehaviour
 
             float dist = Vector3.Distance(transform.position, target.transform.position);
 
-            foreach (GameObject enemy in nearbyEnemies)
+            foreach (Unit enemy in nearbyEnemies)
             {
-                if (enemy != target)
+                if (enemy.enabled)
                 {
-                    float newDist = Vector3.Distance(transform.position, target.transform.position);
-
-                    if (dist > newDist)
+                    if (enemy != target)
                     {
-                        dist = newDist;
-                        NewTarget(enemy);
+                        float newDist = Vector3.Distance(transform.position, enemy.transform.position);
+
+                        if (dist > newDist)
+                        {
+                            dist = newDist;
+                            NewTarget(enemy);
+                        }
                     }
                 }
             }
 
-            if (melee)
+            //if (melee)
             {
                 if (Vector3.Distance(transform.position, target.transform.position) > range)
                 {
@@ -183,13 +266,17 @@ public class Unit : MonoBehaviour
     public void TakeDamage(float _dam)
     {
         health -= _dam - armour;
+        unitAnimator.SetDamaged(1);
     }
 
     public void NewDestination(Vector3 _pos, bool manualOrder)
     {
         if (!manualOverride)
         {
-            navMeshAgent.SetDestination(_pos);
+            if (navMeshAgent.enabled)
+            {
+                navMeshAgent.SetDestination(_pos);
+            }
         }
 
         if (manualOrder)
@@ -203,15 +290,15 @@ public class Unit : MonoBehaviour
     {
         if (other.transform.tag == enemyTag)
         {
-            foreach (GameObject enemy in nearbyEnemies)
+            foreach (Unit enemy in nearbyEnemies)
             {
-                if (enemy == other.gameObject)
+                if (enemy.gameObject == other.gameObject)
                 {
                     return;
                 }
             }
 
-            nearbyEnemies.Add(other.gameObject);
+            nearbyEnemies.Add(other.gameObject.GetComponent<Unit>());
         }
     }
 
@@ -219,7 +306,7 @@ public class Unit : MonoBehaviour
     {
         if (other.transform.tag == enemyTag)
         {
-            nearbyEnemies.Remove(other.gameObject);
+            nearbyEnemies.Remove(other.gameObject.GetComponent<Unit>());
         }
     }
 
@@ -238,7 +325,7 @@ public class Unit : MonoBehaviour
         return state;
     }
 
-    public GameObject GetTarget()
+    public Unit GetTarget()
     {
         return target;
     }
