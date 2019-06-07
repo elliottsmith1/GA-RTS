@@ -34,6 +34,7 @@ public class Unit : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private UnitManager unitManager;
     private UnitAnimator unitAnimator;
+    private Outline outline;
 
     private string enemyTag = "Enemy";
 
@@ -51,6 +52,10 @@ public class Unit : MonoBehaviour
     [SerializeField] bool melee = true;
     [SerializeField] float range = 2.0f;
 
+    [SerializeField] GameObject projectile;
+    private Vector3 projectileStartPos;
+    private float projectileFlightTime = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +63,7 @@ public class Unit : MonoBehaviour
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         unitAnimator = GetComponent<UnitAnimator>();
+        outline = GetComponent<Outline>();
 
         if (transform.tag == "Enemy")
         {
@@ -86,13 +92,7 @@ public class Unit : MonoBehaviour
     {
         if (health < 1)
         {
-            state = STATE.DEAD;
-            unitAnimator.SetDamaged(0);
-            unitAnimator.SetFighting(false);
-            unitAnimator.SetDead(true);
-            GetComponent<CapsuleCollider>().enabled = false;
-            navMeshAgent.enabled = false;
-            this.enabled = false;
+            Die();
             return;
         }
 
@@ -117,6 +117,9 @@ public class Unit : MonoBehaviour
             {
                 if (state != STATE.IDLE)
                 {
+                    if (!melee)
+                        projectile.gameObject.SetActive(false);
+                    unitAnimator.SetFighting(false);
                     state = STATE.IDLE;
                 }
             }
@@ -135,6 +138,23 @@ public class Unit : MonoBehaviour
                 }                
             }
         }
+    }
+
+    private void Die()
+    {
+        if (!melee)
+            projectile.gameObject.SetActive(false);
+        state = STATE.DEAD;
+        unitAnimator.SetDamaged(0);
+        unitAnimator.SetFighting(false);
+        unitAnimator.SetDead(true);        
+        Destroy(outline);
+        GetComponent<CapsuleCollider>().enabled = false;
+        navMeshAgent.isStopped = true;
+        navMeshAgent.enabled = false;
+        unitManager.RemoveUnit(this.gameObject);
+        this.enabled = false;
+        Destroy(this);
     }
 
     private void StateBehaviour()
@@ -159,6 +179,13 @@ public class Unit : MonoBehaviour
                 if (target)
                 {
                     transform.LookAt(target.transform);
+
+                    if (!melee)
+                    {
+                        //projectileFlightTime += Time.deltaTime / 1;
+                        //projectile.transform.position = Vector3.Lerp(projectileStartPos, target.transform.position, projectileFlightTime);
+                        projectile.transform.position = projectile.transform.position + ((target.transform.position - projectile.transform.position).normalized) * Time.deltaTime * 15.0f;
+                    }
                 }
                 break;
             case STATE.DEAD:
@@ -171,8 +198,24 @@ public class Unit : MonoBehaviour
     {
         if (target)
         {
-            target.GetComponent<Unit>().TakeDamage(weaponDamage);
+            if (target.enabled)
+            {
+                target.GetComponent<Unit>().TakeDamage(weaponDamage);
+
+                if (!melee)
+                {
+                    FireProjectile();
+                }
+            }
         }
+    }
+
+    private void FireProjectile()
+    {
+        projectile.gameObject.SetActive(true);
+        projectileFlightTime = 0.0f;
+        projectileStartPos = transform.position;
+        projectile.transform.position = transform.position;
     }
 
     private void NewTarget(Unit _target)
@@ -190,27 +233,31 @@ public class Unit : MonoBehaviour
             if (!target.enabled)
             {
                 target = null;
+                unitAnimator.SetFighting(false);
             }
         }        
 
         if (nearbyEnemies.Count > 0)
         {
-            List<int> removeIDs = new List<int>();
-            for (int i = 0; i < nearbyEnemies.Count; i++)
-            {
-                if (!nearbyEnemies[i].enabled)
-                {
-                    removeIDs.Add(i);
-                }
-            }
+            //List<int> removeIDs = new List<int>();
+            //for (int i = 0; i < nearbyEnemies.Count; i++)
+            //{
+            //    if (!nearbyEnemies[i].enabled)
+            //    {
+            //        removeIDs.Add(i);
+            //    }
+            //}
 
-            foreach (int id in removeIDs)
-            {
-                if (nearbyEnemies[id])
-                {
-                    nearbyEnemies.RemoveAt(id);
-                }
-            }
+            //if (removeIDs.Count > 0)
+            //{
+            //    foreach (int id in removeIDs)
+            //    {
+            //        if (nearbyEnemies.Count >= id)
+            //        {
+            //            nearbyEnemies.RemoveAt(id);
+            //        }
+            //    }
+            //}
 
             if (nearbyEnemies.Count < 1)
             {
@@ -259,6 +306,7 @@ public class Unit : MonoBehaviour
             if (target)
             {
                 target = null;
+                unitAnimator.SetFighting(false);
             }
         }
     }
@@ -271,6 +319,9 @@ public class Unit : MonoBehaviour
 
     public void NewDestination(Vector3 _pos, bool manualOrder)
     {
+        unitAnimator.SetFighting(false);
+        unitAnimator.SetDamaged(0);
+
         if (!manualOverride)
         {
             if (navMeshAgent.enabled)

@@ -139,7 +139,7 @@ public class UnitManager : MonoBehaviour
 
                         if (h.transform.tag == "Terrain")
                         {
-                            float offset = 2.0f;
+                            float offset = 1.2f;
 
                             point.z -= (offset * (rowNum / 2));
                             point.x -= (offset * (rowNum / 2));
@@ -234,6 +234,22 @@ public class UnitManager : MonoBehaviour
     public void NewUnit(GameObject _unit)
     {
         allUnits.Add(_unit);
+    }
+
+    public void RemoveUnit(GameObject _unit)
+    {
+        allUnits.Remove(_unit);
+
+        if (selectedUnits.Count > 0)
+        {
+            foreach (Unit unit in selectedUnits)
+            {
+                if (unit.gameObject == _unit)
+                {
+                    selectedUnits.Remove(unit);
+                }
+            }
+        }
     }
 
     public void SelectUnit(Unit _unit)

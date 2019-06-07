@@ -9070,7 +9070,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &961793984
 MonoBehaviour:
@@ -9096,11 +9096,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e14d732809f32409202afe1308a65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  maxHealth: 100
+  weaponDamage: 40
+  armour: 15
   state: 0
   weapon: 2
   mounted: 1
   melee: 1
   range: 2
+  projectile: {fileID: 0}
 --- !u!114 &961793986
 MonoBehaviour:
   m_ObjectHideFlags: 0
