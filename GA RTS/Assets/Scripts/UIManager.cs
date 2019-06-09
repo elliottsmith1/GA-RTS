@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] BuildingManager buildingManager;
+
+    [SerializeField] BuildingUI barracksUI;
+    [SerializeField] BuildingUI archerRangeUI;
+
     [SerializeField] GameObject buildingsPane;
     [SerializeField] GameObject barracksPane;
     [SerializeField] GameObject archerRangePane;
@@ -21,7 +26,10 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (activePane == barracksPane)
+        {
+            barracksUI.UpdateSpawnQueue(buildingManager.GetActiveBuilding().GetSpawnQueue(), buildingManager.GetActiveBuilding().GetSpawnTimerP());
+        }
     }
 
     public void ActivatePane(string _pane)
@@ -48,5 +56,10 @@ public class UIManager : MonoBehaviour
         }
 
         activePane.SetActive(true);
+    }
+
+    public void CancelUnitSpawn(int _id)
+    {
+        buildingManager.GetActiveBuilding().CancelSpawnUnit(_id);
     }
 }

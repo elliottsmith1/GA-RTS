@@ -91,8 +91,6 @@ public class Building : MonoBehaviour
         {
             spawnTimer += Time.deltaTime;
 
-            Debug.Log(spawnTimer + " " + spawnQueue[0].GetSpawnTime());
-
             if (spawnTimer > spawnQueue[0].GetSpawnTime())
             {
                 spawnQueue[0].gameObject.SetActive(true);
@@ -110,6 +108,17 @@ public class Building : MonoBehaviour
     {
         spawnQueue.Add(_unit);
         spawning = true;
+    }
+
+    public void CancelSpawnUnit(int _id)
+    {
+        if (_id == 0)
+        {
+            spawnTimer = 0.0f;
+        }
+
+        Destroy(spawnQueue[_id].gameObject);
+        spawnQueue.RemoveAt(_id);
     }
 
     private void Construction()
@@ -217,6 +226,21 @@ public class Building : MonoBehaviour
     {
         Vector3 pos = transform.position + Vector3.forward;
         return pos;
+    }
+
+    public List<Unit> GetSpawnQueue()
+    {
+        return spawnQueue;
+    }
+
+    public float GetSpawnTimerP()
+    {
+        if (spawnQueue.Count > 0)
+        {
+            return spawnTimer / spawnQueue[0].GetSpawnTime();
+        }
+
+        return 0;
     }
 
     //private void OnMouseOver()

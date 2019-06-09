@@ -187,49 +187,52 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnUnit(string _unit)
     {
-        Vector3 pos = buildingManager.GetActiveBuilding().GetUnitSpawnPos();
-        GameObject prefab = infantryPrefab;
-
-        switch (_unit)
+        if (buildingManager.GetActiveBuilding().GetSpawnQueue().Count < 6)
         {
-            case "infantry":
-                prefab = infantryPrefab;
-                break;
-            case "archer":
-                prefab = archerPrefab;
-                break;
-            case "crossbowman":
-                prefab = crossbowmanPrefab;
-                break;
-            case "spearman":
-                prefab = spearmanPrefab;
-                break;
-            case "pikeman":
-                prefab = pikemanPrefab;
-                break;
-            case "mage":
-                prefab = magePrefab;
-                break;
-            case "heavyinfantry":
-                prefab = heavyInfantryPrefab;
-                break;
-            case "mountedinfantry":
-                prefab = mountedInfantryPrefab;
-                break;
-            case "mountedarcher":
-                prefab = mountedArcherPrefab;
-                break;
-            case "mountedmage":
-                prefab = mountedMagePrefab;
-                break;
-            case "mountedspearman":
-                prefab = mountedSpearmanPrefab;
-                break;
-        }
+            Vector3 pos = buildingManager.GetActiveBuilding().GetUnitSpawnPos();
+            GameObject prefab = infantryPrefab;
 
-        GameObject unit = Instantiate(prefab, pos, Quaternion.identity);        
-        unit.SetActive(false);
-        buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>());
+            switch (_unit)
+            {
+                case "infantry":
+                    prefab = infantryPrefab;
+                    break;
+                case "archer":
+                    prefab = archerPrefab;
+                    break;
+                case "crossbowman":
+                    prefab = crossbowmanPrefab;
+                    break;
+                case "spearman":
+                    prefab = spearmanPrefab;
+                    break;
+                case "pikeman":
+                    prefab = pikemanPrefab;
+                    break;
+                case "mage":
+                    prefab = magePrefab;
+                    break;
+                case "heavyinfantry":
+                    prefab = heavyInfantryPrefab;
+                    break;
+                case "mountedinfantry":
+                    prefab = mountedInfantryPrefab;
+                    break;
+                case "mountedarcher":
+                    prefab = mountedArcherPrefab;
+                    break;
+                case "mountedmage":
+                    prefab = mountedMagePrefab;
+                    break;
+                case "mountedspearman":
+                    prefab = mountedSpearmanPrefab;
+                    break;
+            }
+
+            GameObject unit = Instantiate(prefab, pos, Quaternion.identity);
+            unit.SetActive(false);
+            buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>());
+        }
     }
 
     public void NewUnit(GameObject _unit)
