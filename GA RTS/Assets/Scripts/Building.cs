@@ -31,6 +31,8 @@ public class Building : MonoBehaviour
 
     [SerializeField] float buildTime = 10.0f;
 
+    [SerializeField] bool increasePopulation = false;
+
     [SerializeField] bool spawner = false;
     [SerializeField] SPAWNERTYPE spawnerType = SPAWNERTYPE.MELEE;
 
@@ -157,6 +159,11 @@ public class Building : MonoBehaviour
 
                 if (buildTimer > buildTime)
                 {
+                    if (increasePopulation)
+                    {
+                        GameObject.Find("PlayerManager").GetComponent<PlayerManager>().NewHouse();
+                    }
+
                     buildState = BUILDSTATE.FINISHED;
                     if (meshFilter)
                     {

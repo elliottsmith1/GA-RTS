@@ -26,6 +26,7 @@ public class BuildingManager : MonoBehaviour
     [Header("Building prefabs")]
     [SerializeField] GameObject barracks;
     [SerializeField] GameObject archeryRange;
+    [SerializeField] GameObject house;
 
     // Start is called before the first frame update
     void Start()
@@ -142,9 +143,23 @@ public class BuildingManager : MonoBehaviour
             case "ARCHERY":
                 selectedBuilding = Instantiate(archeryRange, transform);
                 break;
+            case "HOUSE":
+                selectedBuilding = Instantiate(house, transform);
+                break;
         }
         outline = selectedBuilding.GetComponent<Outline>();
         outline.enabled = true;
+
+        BoxCollider box = selectedBuilding.GetComponent<BoxCollider>();
+
+        if (box.size.x > box.size.z)
+        {
+            distanceAllowance = box.size.x / 2;
+        }
+        else
+        {
+            distanceAllowance = box.size.z / 2;
+        }
     }
 
     public void SetActiveBuilding(Building _b)

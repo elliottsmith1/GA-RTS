@@ -7,9 +7,11 @@ using UnityEngine.AI;
 public class UnitManager : MonoBehaviour
 {
     public List<GameObject> allUnits = new List<GameObject>();
+    public List<Unit> allUnitsU = new List<Unit>();
     public List<Unit> selectedUnits = new List<Unit>();
 
     [SerializeField] BuildingManager buildingManager;
+    [SerializeField] PlayerManager playerManager;
 
     [SerializeField] GameObject archerPrefab;
     [SerializeField] GameObject crossbowmanPrefab;
@@ -111,6 +113,7 @@ public class UnitManager : MonoBehaviour
     void Update()
     {
         allUnits.RemoveAll(item => item == null);
+        allUnitsU.RemoveAll(item => item == null);
         selectedUnits.RemoveAll(item => item == null);
 
         DetectInput();
@@ -229,15 +232,20 @@ public class UnitManager : MonoBehaviour
                     break;
             }
 
-            GameObject unit = Instantiate(prefab, pos, Quaternion.identity);
-            unit.SetActive(false);
-            buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>());
+            if ((playerManager.GetPopulation() + prefab.GetComponent<Unit>().GetPopulationValue()) <= playerManager.GetPopulationLimit())
+            {
+                GameObject unit = Instantiate(prefab, pos, Quaternion.identity);
+                NewUnit(unit);
+                unit.SetActive(false);
+                buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>());
+            }
         }
     }
 
     public void NewUnit(GameObject _unit)
     {
         allUnits.Add(_unit);
+        allUnitsU.Add(_unit.GetComponent<Unit>());
     }
 
     public void RemoveUnit(GameObject _unit)
@@ -274,5 +282,17 @@ public class UnitManager : MonoBehaviour
         }
 
         selectedUnits.Clear();
+    }
+
+    public int GetArmyPopulation()
+    {
+        int pop = 0;
+
+        foreach (Unit unit in allUnitsU)
+        {
+            pop += unit.GetPopulationValue();
+        }
+
+        return pop;
     }
 }

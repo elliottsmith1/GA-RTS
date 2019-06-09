@@ -13446,11 +13446,13 @@ MonoBehaviour:
   maxHealth: 100
   weaponDamage: 60
   armour: 15
+  spawnTime: 10
+  populationValue: 3
   state: 0
   weapon: 3
   mounted: 0
   melee: 1
-  range: 2
+  range: 4
   projectile: {fileID: 0}
 --- !u!114 &1751721944
 MonoBehaviour:

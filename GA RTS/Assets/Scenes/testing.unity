@@ -1256,10 +1256,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mounted Spearman
       objectReference: {fileID: 0}
-    - target: {fileID: 1607292917, guid: 8d9b12a98133aea49b565a2e9df8b9a7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1607292918, guid: 8d9b12a98133aea49b565a2e9df8b9a7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.07
@@ -1316,10 +1312,6 @@ PrefabInstance:
     - target: {fileID: 765240504, guid: a85c69c2ff4443141ae2dac75e4e87f4, type: 3}
       propertyPath: m_Name
       value: Heavy Infantry
-      objectReference: {fileID: 0}
-    - target: {fileID: 765240504, guid: a85c69c2ff4443141ae2dac75e4e87f4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 765240505, guid: a85c69c2ff4443141ae2dac75e4e87f4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1540,6 +1532,48 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 155528433}
+    - target: {fileID: 803913054, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718319833939829377, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718319833939829377, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718319833939829377, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718319833939829377, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718319833939829377, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718319833939829377, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1156667844, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 951317855, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
 --- !u!224 &525858366 stripped
@@ -1752,10 +1786,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer
       objectReference: {fileID: 0}
-    - target: {fileID: 2084155023, guid: c0c1e763ae322024799c7d67ef7af6d5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2084155024, guid: c0c1e763ae322024799c7d67ef7af6d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.45
@@ -1815,7 +1845,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 880970824, guid: 1402a269d02fe924b8d861436deb8c3a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 880970825, guid: 1402a269d02fe924b8d861436deb8c3a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2500,10 +2530,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Infantry
       objectReference: {fileID: 0}
-    - target: {fileID: 2094045977, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2094045978, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.96
@@ -2547,10 +2573,6 @@ PrefabInstance:
     - target: {fileID: 2094045978, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2094045980, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
-      propertyPath: range
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
@@ -2862,10 +2884,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mounted Infantry
       objectReference: {fileID: 0}
-    - target: {fileID: 961793982, guid: de5e06ac5b73963429236980115186d2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 961793983, guid: de5e06ac5b73963429236980115186d2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.86
@@ -2922,10 +2940,6 @@ PrefabInstance:
     - target: {fileID: 1217246844, guid: fb6abb82c98fd944b974bae3e7fc9f6b, type: 3}
       propertyPath: m_Name
       value: Mounted Mage
-      objectReference: {fileID: 0}
-    - target: {fileID: 1217246844, guid: fb6abb82c98fd944b974bae3e7fc9f6b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1217246845, guid: fb6abb82c98fd944b974bae3e7fc9f6b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3064,10 +3078,6 @@ PrefabInstance:
     - target: {fileID: 339141250, guid: ab45b82ee2865c548bbdc9311470e03d, type: 3}
       propertyPath: m_Name
       value: Mage
-      objectReference: {fileID: 0}
-    - target: {fileID: 339141250, guid: ab45b82ee2865c548bbdc9311470e03d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 339141251, guid: ab45b82ee2865c548bbdc9311470e03d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4255,10 +4265,6 @@ PrefabInstance:
     - target: {fileID: 186122579, guid: b8a9c7b03ec3bd6499051ec55fda45a1, type: 3}
       propertyPath: m_Name
       value: Mounted Archer
-      objectReference: {fileID: 0}
-    - target: {fileID: 186122579, guid: b8a9c7b03ec3bd6499051ec55fda45a1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 186122580, guid: b8a9c7b03ec3bd6499051ec55fda45a1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5620,10 +5626,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crossbowman
       objectReference: {fileID: 0}
-    - target: {fileID: 1512005914, guid: 29d695af1c1193c45b33faca5df40d8b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1512005915, guid: 29d695af1c1193c45b33faca5df40d8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.48
@@ -5687,10 +5689,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pikeman
       objectReference: {fileID: 0}
-    - target: {fileID: 1751721940, guid: 41494f8c2a3c472438482daac181fd11, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1751721941, guid: 41494f8c2a3c472438482daac181fd11, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.46
@@ -5734,10 +5732,6 @@ PrefabInstance:
     - target: {fileID: 1751721941, guid: 41494f8c2a3c472438482daac181fd11, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1751721943, guid: 41494f8c2a3c472438482daac181fd11, type: 3}
-      propertyPath: range
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41494f8c2a3c472438482daac181fd11, type: 3}
@@ -6338,6 +6332,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17ca73895bbfee44bc97ffef6080422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingManager: {fileID: 0}
+  playerManager: {fileID: 0}
+  populationText: {fileID: 0}
+  barracksUI: {fileID: 0}
+  archerRangeUI: {fileID: 0}
   buildingsPane: {fileID: 803913053}
   barracksPane: {fileID: 1883160374}
   archerRangePane: {fileID: 1109140997}
@@ -6353,10 +6352,6 @@ PrefabInstance:
     - target: {fileID: 1599594009, guid: a26f9c1bacb593249935a6857f56111e, type: 3}
       propertyPath: m_Name
       value: Spearman
-      objectReference: {fileID: 0}
-    - target: {fileID: 1599594009, guid: a26f9c1bacb593249935a6857f56111e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599594010, guid: a26f9c1bacb593249935a6857f56111e, type: 3}
       propertyPath: m_LocalPosition.x

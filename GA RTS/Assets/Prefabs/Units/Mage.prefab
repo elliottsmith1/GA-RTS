@@ -2553,6 +2553,8 @@ MonoBehaviour:
   maxHealth: 20
   weaponDamage: 115
   armour: 0
+  spawnTime: 10
+  populationValue: 4
   state: 0
   weapon: 5
   mounted: 0

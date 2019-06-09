@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] BuildingManager buildingManager;
+    [SerializeField] PlayerManager playerManager;
+
+    [SerializeField] Text populationText;
 
     [SerializeField] BuildingUI barracksUI;
     [SerializeField] BuildingUI archerRangeUI;
@@ -26,9 +30,15 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        populationText.text = playerManager.GetPopulationString();
+
         if (activePane == barracksPane)
         {
             barracksUI.UpdateSpawnQueue(buildingManager.GetActiveBuilding().GetSpawnQueue(), buildingManager.GetActiveBuilding().GetSpawnTimerP());
+        }
+        else if (activePane == archerRangePane)
+        {
+            archerRangeUI.UpdateSpawnQueue(buildingManager.GetActiveBuilding().GetSpawnQueue(), buildingManager.GetActiveBuilding().GetSpawnTimerP());
         }
     }
 

@@ -46,6 +46,7 @@ public class Unit : MonoBehaviour
     [SerializeField] float armour = 15.0f;
 
     [SerializeField] float spawnTime = 10.0f;
+    [SerializeField] int populationValue = 1;
 
     [SerializeField] STATE state = STATE.IDLE;
 
@@ -66,15 +67,6 @@ public class Unit : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         unitAnimator = GetComponent<UnitAnimator>();
         outline = GetComponent<Outline>();
-
-        if (transform.tag == "Enemy")
-        {
-            enemyTag = "Friendly";
-        }
-        else if (transform.tag == "Friendly")
-        {
-            unitManager.NewUnit(this.gameObject);
-        }
     }
 
     // Update is called once per frame
@@ -386,5 +378,10 @@ public class Unit : MonoBehaviour
     public float GetSpawnTime()
     {
         return spawnTime;
+    }
+
+    public int GetPopulationValue()
+    {
+        return populationValue;
     }
 }

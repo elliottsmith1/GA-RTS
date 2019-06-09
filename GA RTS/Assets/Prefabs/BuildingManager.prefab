@@ -42,7 +42,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129538638965991700}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -68,9 +68,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedBuilding: {fileID: 2129538637931164231}
-  farm: {fileID: 100000, guid: 520e20395d1150a4c94174228bde0499, type: 3}
   distanceAllowance: 5
   holdingObject: 0
+  barracks: {fileID: 578884400, guid: 473beeb8f58a65c4c9ee4c417f156387, type: 3}
+  archeryRange: {fileID: 167486519, guid: 13dfbbb78e6c24b4e9af0d0cbef747f3, type: 3}
+  house: {fileID: 177632736, guid: 2ea57e5e04754714e91f0e1d549bcfc0, type: 3}
 --- !u!1001 &2129538637931132135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,11 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 520e20395d1150a4c94174228bde0499, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 520e20395d1150a4c94174228bde0499, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -69.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 520e20395d1150a4c94174228bde0499, type: 3}
       propertyPath: m_LocalPosition.y
@@ -96,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 520e20395d1150a4c94174228bde0499, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 520e20395d1150a4c94174228bde0499, type: 3}
       propertyPath: m_LocalRotation.x

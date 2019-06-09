@@ -86,17 +86,20 @@ public class CameraDragSelection : MonoBehaviour
                 {
                     GameObject currentUnit = allUnits[i];
 
-                    //Is this unit within the square
-                    if (IsWithinPolygon(currentUnit.transform.position))
+                    if (currentUnit.activeSelf)
                     {
-                        currentUnit.GetComponent<Outline>().enabled = true;
+                        //Is this unit within the square
+                        if (IsWithinPolygon(currentUnit.transform.position))
+                        {
+                            currentUnit.GetComponent<Outline>().enabled = true;
 
-                        unitManager.SelectUnit(currentUnit.GetComponent<Unit>());
-                    }
-                    //Otherwise deselect the unit if it's not in the square
-                    else
-                    {
-                        currentUnit.GetComponent<Outline>().enabled = false;
+                            unitManager.SelectUnit(currentUnit.GetComponent<Unit>());
+                        }
+                        //Otherwise deselect the unit if it's not in the square
+                        else
+                        {
+                            currentUnit.GetComponent<Outline>().enabled = false;
+                        }
                     }
                 }
             }
@@ -140,15 +143,18 @@ public class CameraDragSelection : MonoBehaviour
                 {
                     GameObject currentUnit = allUnits[i];
 
-                    //Is this unit within the square
-                    if (IsWithinPolygon(currentUnit.transform.position))
+                    if (currentUnit.activeSelf)
                     {
-                        currentUnit.GetComponent<Outline>().enabled = true;
-                    }
-                    //Otherwise deactivate
-                    else
-                    {
-                        currentUnit.GetComponent<Outline>().enabled = false;
+                        //Is this unit within the square
+                        if (IsWithinPolygon(currentUnit.transform.position))
+                        {
+                            currentUnit.GetComponent<Outline>().enabled = true;
+                        }
+                        //Otherwise deactivate
+                        else
+                        {
+                            currentUnit.GetComponent<Outline>().enabled = false;
+                        }
                     }
                 }
             }
@@ -282,29 +288,6 @@ public class CameraDragSelection : MonoBehaviour
                 break;
             }
         }
-
-
-        //Fire ray from camera
-        //if (Physics.Raycast(camMain.ScreenPointToRay(TL), out hit, 200f))
-        //{
-        //    TL = hit.point;
-        //    i++;
-        //}
-        //if (Physics.Raycast(camMain.ScreenPointToRay(TR), out hit, 200f))
-        //{
-        //    TR = hit.point;
-        //    i++;
-        //}
-        //if (Physics.Raycast(camMain.ScreenPointToRay(BL), out hit, 200f))
-        //{
-        //    BL = hit.point;
-        //    i++;
-        //}
-        //if (Physics.Raycast(camMain.ScreenPointToRay(BR), out hit, 200f))
-        //{
-        //    BR = hit.point;
-        //    i++;
-        //}
 
         //Could we create a square?
         hasCreatedSquare = false;
