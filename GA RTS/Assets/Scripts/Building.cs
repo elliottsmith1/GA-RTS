@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using System;
 
 public class Building : MonoBehaviour
 {
@@ -45,6 +46,10 @@ public class Building : MonoBehaviour
 
     private UIManager uiManager;
 
+    private List<Unit> spawnQueue = new List<Unit>();
+    private bool spawning = false;
+    private float spawnTimer = 0.0f;
+
     [SerializeField] BUILDSTATE buildState = BUILDSTATE.NOT_BUILT;    
 
     // Start is called before the first frame update
@@ -58,7 +63,10 @@ public class Building : MonoBehaviour
         uiManager = GameObject.Find("UI").GetComponent<UIManager>();
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
 
-        DeactivateObject();
+        if (buildState == BUILDSTATE.NOT_BUILT)
+        {
+            DeactivateObject();
+        }
     }
 
     // Update is called once per frame
@@ -68,6 +76,40 @@ public class Building : MonoBehaviour
         {
             Construction();
         }
+        else
+        {
+            if (spawning)
+            {
+                SpawnQueue();
+            }
+        }
+    }
+
+    private void SpawnQueue()
+    {
+        if (spawnQueue.Count > 0)
+        {
+            spawnTimer += Time.deltaTime;
+
+            Debug.Log(spawnTimer + " " + spawnQueue[0].GetSpawnTime());
+
+            if (spawnTimer > spawnQueue[0].GetSpawnTime())
+            {
+                spawnQueue[0].gameObject.SetActive(true);
+                spawnQueue[0].gameObject.GetComponent<NavMeshAgent>().SetDestination(transform.position + (Vector3.forward * 5));
+                spawnQueue.RemoveAt(0);
+                spawnTimer = 0.0f;
+            }
+        }
+        else
+        {
+            spawning = false;
+        }
+    }
+    public void NewSpawnUnit(Unit _unit)
+    {
+        spawnQueue.Add(_unit);
+        spawning = true;
     }
 
     private void Construction()

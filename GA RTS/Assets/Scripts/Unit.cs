@@ -45,6 +45,8 @@ public class Unit : MonoBehaviour
     [SerializeField] float weaponDamage = 40.0f;
     [SerializeField] float armour = 15.0f;
 
+    [SerializeField] float spawnTime = 10.0f;
+
     [SerializeField] STATE state = STATE.IDLE;
 
     [SerializeField] WEAPONTYPE weapon;
@@ -379,5 +381,10 @@ public class Unit : MonoBehaviour
     public Unit GetTarget()
     {
         return target;
+    }
+
+    public float GetSpawnTime()
+    {
+        return spawnTime;
     }
 }

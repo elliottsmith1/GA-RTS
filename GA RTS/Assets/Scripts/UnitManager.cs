@@ -227,8 +227,9 @@ public class UnitManager : MonoBehaviour
                 break;
         }
 
-        GameObject unit = Instantiate(prefab, pos, Quaternion.identity);
-        unit.GetComponent<NavMeshAgent>().SetDestination(pos + (Vector3.forward*5));
+        GameObject unit = Instantiate(prefab, pos, Quaternion.identity);        
+        unit.SetActive(false);
+        buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>());
     }
 
     public void NewUnit(GameObject _unit)
