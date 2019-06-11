@@ -18,6 +18,8 @@ public class BuildingManager : MonoBehaviour
 
     private Building activeBuilding;
 
+    [SerializeField] PlayerManager playerManager;
+
     public enum BUILDINGS
     {
         BARRACKS,
