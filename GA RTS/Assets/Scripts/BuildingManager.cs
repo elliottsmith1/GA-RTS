@@ -10,6 +10,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] float distanceAllowance = 5.0f;
 
     public bool holdingObject = false;
+    private bool rotatingObject = false;
     private bool canPlace = false;
 
     private Camera cam;
@@ -118,15 +119,39 @@ public class BuildingManager : MonoBehaviour
             {
                 if (canPlace)
                 {
-                    Building build = selectedBuilding.GetComponent<Building>();
-                    build.enabled = true;
-                    outline.OutlineColor = Color.white;
-                    build.ActivateObject();
-
-                    selectedBuilding = null;
+                    //selectedBuilding = null;
                     holdingObject = false;
                     canPlace = false;
+                    rotatingObject = true;
+                    return;
                 }
+            }
+        }
+
+        if (rotatingObject)
+        {
+            float rot = Input.GetAxis("Rotate");
+            float rotateSpeed = 3.0f;
+
+            if (rot > 0.1f)
+            {
+                selectedBuilding.transform.Rotate(0, rotateSpeed, 0, Space.World);
+            }
+            else if (rot < 0.0f)
+            {
+                selectedBuilding.transform.Rotate(0, -rotateSpeed, 0, Space.World);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Building build = selectedBuilding.GetComponent<Building>();
+                build.enabled = true;
+                outline.OutlineColor = Color.white;
+                build.ActivateObject();
+
+                selectedBuilding = null;
+                holdingObject = false;
+                rotatingObject = false;
             }
         }
     }

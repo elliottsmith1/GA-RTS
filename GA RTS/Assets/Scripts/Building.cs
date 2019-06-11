@@ -9,6 +9,7 @@ public class Building : MonoBehaviour
 {
     private enum BUILDSTATE
     {
+        PLACING,
         NOT_BUILT,
         BUILDING,
         FINISHED
@@ -52,7 +53,7 @@ public class Building : MonoBehaviour
     private bool spawning = false;
     private float spawnTimer = 0.0f;
 
-    [SerializeField] BUILDSTATE buildState = BUILDSTATE.NOT_BUILT;    
+    [SerializeField] BUILDSTATE buildState = BUILDSTATE.PLACING;    
 
     // Start is called before the first frame update
     void Start()
@@ -127,6 +128,8 @@ public class Building : MonoBehaviour
     {
         switch(buildState)
         {
+            case BUILDSTATE.PLACING:
+                break;
             case BUILDSTATE.NOT_BUILT:
 
                 if (meshFilter.mesh != foundationMesh)
@@ -190,6 +193,7 @@ public class Building : MonoBehaviour
         boxCollider.enabled = true;
         navMeshObstacle.enabled = true;
         interactable.enabled = true;
+        buildState = BUILDSTATE.NOT_BUILT;
     }
 
     private void DeactivateObject()
