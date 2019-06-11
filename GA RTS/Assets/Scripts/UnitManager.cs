@@ -10,6 +10,7 @@ public class UnitManager : MonoBehaviour
     public List<Unit> allUnitsU = new List<Unit>();
     public List<Unit> selectedUnits = new List<Unit>();
 
+    [SerializeField] Purchasables purchasables;
     [SerializeField] BuildingManager buildingManager;
     [SerializeField] PlayerManager playerManager;
 
@@ -198,36 +199,47 @@ public class UnitManager : MonoBehaviour
             switch (_unit)
             {
                 case "infantry":
+                    playerManager.AddGold(-purchasables.infantryGoldCost);
                     prefab = infantryPrefab;
                     break;
                 case "archer":
+                    playerManager.AddGold(-purchasables.archerGoldCost);
                     prefab = archerPrefab;
                     break;
                 case "crossbowman":
+                    playerManager.AddGold(-purchasables.crossbowmanGoldCost);
                     prefab = crossbowmanPrefab;
                     break;
                 case "spearman":
+                    playerManager.AddGold(-purchasables.spearmanGoldCost);
                     prefab = spearmanPrefab;
                     break;
                 case "pikeman":
+                    playerManager.AddGold(-purchasables.pikemanGoldCost);
                     prefab = pikemanPrefab;
                     break;
                 case "mage":
+                    playerManager.AddGold(-purchasables.infantryGoldCost);
                     prefab = magePrefab;
                     break;
                 case "heavyinfantry":
+                    playerManager.AddGold(-purchasables.heavyInfantryGoldCost);
                     prefab = heavyInfantryPrefab;
                     break;
                 case "mountedinfantry":
+                    playerManager.AddGold(-purchasables.infantryGoldCost);
                     prefab = mountedInfantryPrefab;
                     break;
                 case "mountedarcher":
+                    playerManager.AddGold(-purchasables.infantryGoldCost);
                     prefab = mountedArcherPrefab;
                     break;
                 case "mountedmage":
+                    playerManager.AddGold(-purchasables.infantryGoldCost);
                     prefab = mountedMagePrefab;
                     break;
                 case "mountedspearman":
+                    playerManager.AddGold(-purchasables.infantryGoldCost);
                     prefab = mountedSpearmanPrefab;
                     break;
             }

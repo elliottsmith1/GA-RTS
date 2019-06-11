@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class BuildingManager : MonoBehaviour
 {
+    [SerializeField] Purchasables purchasables;
+
     [SerializeField] GameObject selectedBuilding;   
 
     [SerializeField] float distanceAllowance = 5.0f;
@@ -167,18 +169,28 @@ public class BuildingManager : MonoBehaviour
         switch (_building)
         {
             case "BARRACKS":
+                playerManager.AddGold(-purchasables.barracksGoldCost);
+                playerManager.AddWood(-purchasables.barracksWoodCost);
                 selectedBuilding = Instantiate(barracks, transform);
                 break;
             case "ARCHERY":
+                playerManager.AddGold(-purchasables.archeryGoldCost);
+                playerManager.AddWood(-purchasables.archeryWoodCost);
                 selectedBuilding = Instantiate(archeryRange, transform);
                 break;
             case "HOUSE":
+                playerManager.AddGold(-purchasables.houseGoldCost);
+                playerManager.AddWood(-purchasables.houseWoodCost);
                 selectedBuilding = Instantiate(house, transform);
                 break;
             case "LUMBER":
+                playerManager.AddGold(-purchasables.lumberGoldCost);
+                playerManager.AddWood(-purchasables.lumberWoodCost);
                 selectedBuilding = Instantiate(lumberMill, transform);
                 break;
             case "MARKET":
+                playerManager.AddGold(-purchasables.marketGoldCost);
+                playerManager.AddWood(-purchasables.marketWoodCost);
                 selectedBuilding = Instantiate(market, transform);
                 break;
         }

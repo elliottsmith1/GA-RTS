@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] UnitManager unitManager;
+    [SerializeField] Purchasables purchasables;
 
     private int populationMax = 200;
     private int currentPopulationMax = 20;
     private int population = 0;
 
-    private int gold = 0;
-    private int wood = 0;
+    private int gold = 20;
+    private int wood = 20;
 
     // Start is called before the first frame update
     void Start()
@@ -71,10 +72,12 @@ public class PlayerManager : MonoBehaviour
     public void AddGold(int _val)
     {
         gold += _val;
+        purchasables.CheckWealth(gold, wood);
     }
 
     public void AddWood(int _val)
     {
         wood += _val;
+        purchasables.CheckWealth(gold, wood);
     }
 }
