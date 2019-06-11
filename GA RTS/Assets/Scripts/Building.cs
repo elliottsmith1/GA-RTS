@@ -34,6 +34,7 @@ public class Building : MonoBehaviour
 
     [SerializeField] bool increasePopulation = false;
 
+    [SerializeField] bool collector = false;
     [SerializeField] bool spawner = false;
     [SerializeField] SPAWNERTYPE spawnerType = SPAWNERTYPE.MELEE;
 
@@ -165,6 +166,11 @@ public class Building : MonoBehaviour
                     if (increasePopulation)
                     {
                         GameObject.Find("PlayerManager").GetComponent<PlayerManager>().NewHouse();
+                    }
+
+                    if (collector)
+                    {
+                        GetComponent<ResourceCollection>().enabled = true;
                     }
 
                     buildState = BUILDSTATE.FINISHED;

@@ -28,6 +28,8 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] GameObject barracks;
     [SerializeField] GameObject archeryRange;
     [SerializeField] GameObject house;
+    [SerializeField] GameObject lumberMill;
+    [SerializeField] GameObject market;
 
     // Start is called before the first frame update
     void Start()
@@ -170,6 +172,12 @@ public class BuildingManager : MonoBehaviour
                 break;
             case "HOUSE":
                 selectedBuilding = Instantiate(house, transform);
+                break;
+            case "LUMBER":
+                selectedBuilding = Instantiate(lumberMill, transform);
+                break;
+            case "MARKET":
+                selectedBuilding = Instantiate(market, transform);
                 break;
         }
         outline = selectedBuilding.GetComponent<Outline>();

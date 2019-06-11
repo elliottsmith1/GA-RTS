@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] PlayerManager playerManager;
 
     [SerializeField] Text populationText;
+    [SerializeField] Text goldText;
+    [SerializeField] Text woodText;
 
     [SerializeField] BuildingUI barracksUI;
     [SerializeField] BuildingUI archerRangeUI;
@@ -31,6 +33,8 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         populationText.text = playerManager.GetPopulationString();
+        goldText.text = playerManager.GetGold().ToString();
+        woodText.text = playerManager.GetWood().ToString();
 
         if (activePane == barracksPane)
         {
