@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource: 0
-  collectionSpeed: 5
+  collectionSpeed: 3
   popup: {fileID: 1832608828967370880}
 --- !u!1 &1832608828967370880
 GameObject:

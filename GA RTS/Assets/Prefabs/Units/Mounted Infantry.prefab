@@ -9108,6 +9108,8 @@ MonoBehaviour:
   melee: 1
   range: 2
   projectile: {fileID: 0}
+  redMaterial: {fileID: 2100000, guid: 98a7fdcb4ebb44344b4afe0424d44b82, type: 2}
+  blueMaterial: {fileID: 2100000, guid: 792a4bad9e08b8e41bfbd3f0b8aac1ab, type: 2}
 --- !u!114 &961793986
 MonoBehaviour:
   m_ObjectHideFlags: 0

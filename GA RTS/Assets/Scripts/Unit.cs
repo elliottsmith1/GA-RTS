@@ -36,7 +36,7 @@ public class Unit : MonoBehaviour
     private UnitAnimator unitAnimator;
     private Outline outline;
 
-    private string enemyTag = "Enemy";
+    private string enemyTag = "Friendly";
 
     private bool manualOverride = false;
 
@@ -59,6 +59,9 @@ public class Unit : MonoBehaviour
     private Vector3 projectileStartPos;
     private float projectileFlightTime = 0.0f;
 
+    [SerializeField] Material redMaterial;
+    [SerializeField] Material blueMaterial;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +70,11 @@ public class Unit : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         unitAnimator = GetComponent<UnitAnimator>();
         outline = GetComponent<Outline>();
+
+        if (gameObject.tag == "Friendly")
+        {
+            enemyTag = "Enemy";
+        }
     }
 
     // Update is called once per frame
@@ -313,9 +321,6 @@ public class Unit : MonoBehaviour
 
     public void NewDestination(Vector3 _pos, bool manualOrder)
     {
-        unitAnimator.SetFighting(false);
-        unitAnimator.SetDamaged(0);
-
         if (!manualOverride)
         {
             if (navMeshAgent.enabled)
@@ -331,15 +336,38 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void SetColour(string _col)
+    {
+        Material mat = blueMaterial;
+
+        switch(_col)
+        {
+            case "red":
+                mat = redMaterial;
+                break;
+        }
+
+        foreach(Transform child in transform)
+        {
+            if (child.GetComponent<SkinnedMeshRenderer>())
+            {
+                child.GetComponent<SkinnedMeshRenderer>().material = mat;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == enemyTag)
         {
             foreach (Unit enemy in nearbyEnemies)
             {
-                if (enemy.gameObject == other.gameObject)
+                if (enemy)
                 {
-                    return;
+                    if (enemy.gameObject == other.gameObject)
+                    {
+                        return;
+                    }
                 }
             }
 
