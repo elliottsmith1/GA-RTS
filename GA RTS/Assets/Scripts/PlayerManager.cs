@@ -11,8 +11,8 @@ public class PlayerManager : MonoBehaviour
     private int currentPopulationMax = 20;
     private int population = 0;
 
-    private int gold = 20;
-    private int wood = 20;
+    private int gold = 50;
+    private int wood = 50;
 
     // Start is called before the first frame update
     void Start()

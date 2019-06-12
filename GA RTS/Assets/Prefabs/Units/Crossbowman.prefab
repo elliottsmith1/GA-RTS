@@ -12663,7 +12663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   maxHealth: 30
-  weaponDamage: 75
+  weaponDamage: 50
   armour: 5
   spawnTime: 10
   populationValue: 2
@@ -12671,7 +12671,7 @@ MonoBehaviour:
   weapon: 1
   mounted: 0
   melee: 0
-  range: 15
+  range: 20
   projectile: {fileID: 9088259898688880044}
   redMaterial: {fileID: 2100000, guid: 98a7fdcb4ebb44344b4afe0424d44b82, type: 2}
   blueMaterial: {fileID: 2100000, guid: 792a4bad9e08b8e41bfbd3f0b8aac1ab, type: 2}

@@ -7,9 +7,10 @@ public class AIManager : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
 
-    private float spawnTimer = 0.0f;
-    private float spawnDelay = 80.0f;
-    private float groupSize = 5;
+    [SerializeField] float spawnTimer = 0.0f;
+    [SerializeField] float spawnDelay = 100.0f;
+    [SerializeField] float groupSize = 5;
+    [SerializeField] float spawnMultiplier = 1.25f;
 
     private Vector3 playerPos = new Vector3(10, 0, 10);
     // Start is called before the first frame update
@@ -29,10 +30,10 @@ public class AIManager : MonoBehaviour
 
             SpawnEnemy();
 
-            groupSize *= 1.5f;
+            groupSize *= spawnMultiplier;
 
             if (spawnDelay > 10.0f)
-            spawnDelay -= 10.0f;
+            spawnDelay -= 5.0f;
         }
     }
 
