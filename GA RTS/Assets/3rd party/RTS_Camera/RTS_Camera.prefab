@@ -137,22 +137,22 @@ MonoBehaviour:
   targetingSettingsFoldout: 1
   inputSettingsFoldout: 1
   useFixedUpdate: 0
-  keyboardMovementSpeed: 5
+  keyboardMovementSpeed: 20
   screenEdgeMovementSpeed: 3
   followingSpeed: 5
-  rotationSped: 3
+  rotationSped: 100
   panningSpeed: 25
   mouseRotationSpeed: 100
-  autoHeight: 1
+  autoHeight: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 55
   maxHeight: 15
-  minHeight: 5
+  minHeight: 3
   heightDampening: 5
   keyboardZoomingSensitivity: 2
-  scrollWheelZoomingSensitivity: 25
-  limitMap: 1
+  scrollWheelZoomingSensitivity: -25
+  limitMap: 0
   limitX: 10
   limitY: 10
   targetFollow: {fileID: 0}
@@ -164,14 +164,14 @@ MonoBehaviour:
   verticalAxis: Vertical
   usePanning: 1
   panningKey: 325
-  useKeyboardZooming: 1
+  useKeyboardZooming: 0
   zoomInKey: 101
   zoomOutKey: 113
   useScrollwheelZooming: 1
   zoomingAxis: Mouse ScrollWheel
   useKeyboardRotation: 1
-  rotateRightKey: 120
-  rotateLeftKey: 122
+  rotateRightKey: 101
+  rotateLeftKey: 113
   useMouseRotation: 1
   mouseRotationKey: 324
 --- !u!114 &1358542985
@@ -186,34 +186,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4f8703063aeb64f9827b3193f43d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allUnits:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  unitManager: {fileID: 0}
   selectionSquareTrans: {fileID: 0}
   normalMaterial: {fileID: 2100000, guid: 792a4bad9e08b8e41bfbd3f0b8aac1ab, type: 2}
   highlightMaterial: {fileID: 2100000, guid: 26fed0ad2288580409bf94257121cd0f, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 98a7fdcb4ebb44344b4afe0424d44b82, type: 2}
-  camMain: {fileID: 0}
-  selectedUnits: []
+  camMain: {fileID: 2056488}

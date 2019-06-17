@@ -41,7 +41,7 @@ public class ResourceCollection : MonoBehaviour
                 alphaVal = Color.yellow;
                 break;
             case RESOURCETYPE.WOOD:
-                alphaVal = new Color32(160, 82, 45, 255);
+                alphaVal = new Color32(244, 164, 96, 255);
                 break;
         }
     }

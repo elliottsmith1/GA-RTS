@@ -20,6 +20,9 @@ public class BuildingManager : MonoBehaviour
 
     private Building activeBuilding;
 
+    private int selectedBuildingGoldCost = 0;
+    private int selectedBuildingWoodCost = 0;
+
     [SerializeField] PlayerManager playerManager;
 
     public enum BUILDINGS
@@ -79,41 +82,6 @@ public class BuildingManager : MonoBehaviour
                 }
             }
 
-            //        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            //RaycastHit hit;
-            //if (Physics.Raycast(ray, out hit))
-            //{
-            //    point = hit.point;
-            //    //point.y = 0.0f;
-            //    //selectedBuilding.transform.position = point;
-                
-            //    NavMeshHit nHit;
-
-            //    if (NavMesh.FindClosestEdge(point, out nHit, NavMesh.AllAreas))
-            //    {
-            //        if (hit.transform.tag == "Terrain")
-            //        {
-            //            selectedBuilding.transform.position = point;
-
-            //            if (nHit.distance > distanceAllowance)
-            //            {
-            //                canPlace = true;
-            //                outline.OutlineColor = Color.green;
-            //            }
-            //            else
-            //            {
-            //                canPlace = false;
-            //                outline.OutlineColor = Color.red;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            canPlace = false;
-            //            outline.OutlineColor = Color.red;
-            //        }
-            //    }                
-            //}          
-            
             if (Input.GetMouseButtonDown(1))
             {
                 Destroy(selectedBuilding);
@@ -125,7 +93,9 @@ public class BuildingManager : MonoBehaviour
             {
                 if (canPlace)
                 {
-                    //selectedBuilding = null;
+                    playerManager.AddGold(-selectedBuildingGoldCost);
+                    playerManager.AddWood(-selectedBuildingWoodCost);
+
                     holdingObject = false;
                     canPlace = false;
                     rotatingObject = true;
@@ -169,28 +139,23 @@ public class BuildingManager : MonoBehaviour
         switch (_building)
         {
             case "BARRACKS":
-                playerManager.AddGold(-purchasables.barracksGoldCost);
-                playerManager.AddWood(-purchasables.barracksWoodCost);
+                SetSelectedBuildingCost(purchasables.barracksGoldCost, purchasables.barracksWoodCost);
                 selectedBuilding = Instantiate(barracks, transform);
                 break;
             case "ARCHERY":
-                playerManager.AddGold(-purchasables.archeryGoldCost);
-                playerManager.AddWood(-purchasables.archeryWoodCost);
+                SetSelectedBuildingCost(purchasables.archeryGoldCost, purchasables.archeryWoodCost);
                 selectedBuilding = Instantiate(archeryRange, transform);
                 break;
             case "HOUSE":
-                playerManager.AddGold(-purchasables.houseGoldCost);
-                playerManager.AddWood(-purchasables.houseWoodCost);
+                SetSelectedBuildingCost(purchasables.houseGoldCost, purchasables.houseWoodCost);
                 selectedBuilding = Instantiate(house, transform);
                 break;
             case "LUMBER":
-                playerManager.AddGold(-purchasables.lumberGoldCost);
-                playerManager.AddWood(-purchasables.lumberWoodCost);
+                SetSelectedBuildingCost(purchasables.lumberGoldCost, purchasables.lumberWoodCost);
                 selectedBuilding = Instantiate(lumberMill, transform);
                 break;
             case "MARKET":
-                playerManager.AddGold(-purchasables.marketGoldCost);
-                playerManager.AddWood(-purchasables.marketWoodCost);
+                SetSelectedBuildingCost(purchasables.marketGoldCost, purchasables.marketWoodCost);                
                 selectedBuilding = Instantiate(market, transform);
                 break;
         }
@@ -207,6 +172,12 @@ public class BuildingManager : MonoBehaviour
         {
             distanceAllowance = box.size.z / 2;
         }
+    }
+
+    private void SetSelectedBuildingCost(int _gold, int _wood)
+    {
+        selectedBuildingGoldCost = _gold;
+        selectedBuildingWoodCost = _wood;
     }
 
     public void SetActiveBuilding(Building _b)

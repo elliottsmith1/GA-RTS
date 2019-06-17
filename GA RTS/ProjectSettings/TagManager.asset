@@ -7,6 +7,8 @@ TagManager:
   - Friendly
   - Terrain
   - Enemy
+  - FriendlyBuilding
+  - EnemyBuilding
   layers:
   - Default
   - TransparentFX

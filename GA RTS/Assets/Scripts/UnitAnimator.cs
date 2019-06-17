@@ -126,4 +126,12 @@ public class UnitAnimator : MonoBehaviour
             anim.SetBool("dead", false);
         }
     }
+
+    public void DamageTarget()
+    {
+        if (unit)
+        {
+            unit.AttackTarget();
+        }
+    }
 }

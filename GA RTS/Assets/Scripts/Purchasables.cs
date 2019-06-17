@@ -31,6 +31,14 @@ public class Purchasables : MonoBehaviour
     public int archerGoldCost = 15;
     public int crossbowmanGoldCost = 25;
 
+    public int infantryPopCost = 1;
+    public int spearmanPopCost = 2;
+    public int pikemanPopCost = 2;
+    public int heavyInfantryPopCost = 3;
+
+    public int archerPopCost = 1;
+    public int crossbowmanPopCost = 3;
+
     [Header("Building text references")]
     [SerializeField] Text barracksWoodCostText;
     [SerializeField] Text barracksGoldCostText;
@@ -52,6 +60,14 @@ public class Purchasables : MonoBehaviour
     [SerializeField] Text archerGoldCostText;
     [SerializeField] Text crossbowmanGoldCostText;
 
+    [SerializeField] Text infantryPopCostText;
+    [SerializeField] Text spearmanPopCostText;
+    [SerializeField] Text pikemanPopCostText;
+    [SerializeField] Text heavyInfantryPopCostText;
+
+    [SerializeField] Text archerPopCostText;
+    [SerializeField] Text crossbowmanPopCostText;
+
     [Header("Building button references")]
     [SerializeField] Button barracksButton;
     [SerializeField] Button archeryButton;
@@ -72,7 +88,7 @@ public class Purchasables : MonoBehaviour
     void Start()
     {
         SetCost();
-        CheckWealth(playerManager.GetGold(), playerManager.GetWood());
+        CheckWealth(playerManager.GetGold(), playerManager.GetWood(), playerManager.GetPopulation(), playerManager.GetPopulationLimit());
     }
 
     private void SetCost()
@@ -95,6 +111,14 @@ public class Purchasables : MonoBehaviour
 
         archerGoldCostText.text = archerGoldCost.ToString();
         crossbowmanGoldCostText.text = crossbowmanGoldCost.ToString();
+
+        infantryPopCostText.text = infantryPopCost.ToString();
+        spearmanPopCostText.text = spearmanPopCost.ToString();
+        pikemanPopCostText.text = pikemanPopCost.ToString();
+        heavyInfantryPopCostText.text = heavyInfantryPopCost.ToString();
+
+        archerPopCostText.text = archerPopCost.ToString();
+        crossbowmanPopCostText.text = crossbowmanPopCost.ToString();
     }
 
     // Update is called once per frame
@@ -103,7 +127,7 @@ public class Purchasables : MonoBehaviour
         
     }
 
-    public void CheckWealth(int _gold, int _wood)
+    public void CheckWealth(int _gold, int _wood, int _pop, int _maxPop)
     {
         if (_gold >= barracksGoldCost && _wood >= barracksWoodCost)
             barracksButton.interactable = true;
@@ -126,28 +150,28 @@ public class Purchasables : MonoBehaviour
         else
             marketButton.interactable = false;
 
-        if (_gold >= infantryGoldCost)
+        if (_gold >= infantryGoldCost && infantryPopCost + _pop <= _maxPop)
             infantryButton.interactable = true;
         else
             infantryButton.interactable = false;
-        if (_gold >= spearmanGoldCost)
+        if (_gold >= spearmanGoldCost && spearmanPopCost + _pop <= _maxPop)
             spearmanButton.interactable = true;
         else
             spearmanButton.interactable = false;
-        if (_gold >= pikemanGoldCost)
+        if (_gold >= pikemanGoldCost && pikemanPopCost + _pop <= _maxPop)
             pikemanButton.interactable = true;
         else
             pikemanButton.interactable = false;
-        if (_gold >= heavyInfantryGoldCost)
+        if (_gold >= heavyInfantryGoldCost && heavyInfantryPopCost + _pop <= _maxPop)
             heavyInfantryButton.interactable = true;
         else
             heavyInfantryButton.interactable = false;
 
-        if (_gold >= archerGoldCost)
+        if (_gold >= archerGoldCost && archerPopCost + _pop <= _maxPop)
             archerButton.interactable = true;
         else
             archerButton.interactable = false;
-        if (_gold >= crossbowmanGoldCost)
+        if (_gold >= crossbowmanGoldCost && crossbowmanPopCost + _pop <= _maxPop)
             crossbowmanButton.interactable = true;
         else
             crossbowmanButton.interactable = false;

@@ -26,6 +26,9 @@ public class UnitManager : MonoBehaviour
     [SerializeField] GameObject mountedSpearmanPrefab;
     [SerializeField] GameObject mountedMagePrefab;
 
+    private int selectedUnitPopCost = 0;
+    private int selectedUnitGoldCost = 0;
+
     public enum SPEARS
     {
         SPEAR,
@@ -177,14 +180,7 @@ public class UnitManager : MonoBehaviour
 
                         break;
                     }
-                }
-
-                //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                //RaycastHit hit;
-                //if (Physics.Raycast(ray, out hit))
-                //{
-                //    point = hit.point;
-                //}                
+                }        
             }
         }
     }
@@ -200,56 +196,80 @@ public class UnitManager : MonoBehaviour
             {
                 case "infantry":
                     playerManager.AddGold(-purchasables.infantryGoldCost);
+                    selectedUnitPopCost = purchasables.infantryPopCost;
+                    selectedUnitGoldCost = purchasables.infantryGoldCost;
                     prefab = infantryPrefab;
                     break;
                 case "archer":
                     playerManager.AddGold(-purchasables.archerGoldCost);
+                    selectedUnitPopCost = purchasables.archerPopCost;
+                    selectedUnitGoldCost = purchasables.archerGoldCost;
                     prefab = archerPrefab;
                     break;
                 case "crossbowman":
                     playerManager.AddGold(-purchasables.crossbowmanGoldCost);
+                    selectedUnitPopCost = purchasables.crossbowmanPopCost;
+                    selectedUnitGoldCost = purchasables.crossbowmanGoldCost;
                     prefab = crossbowmanPrefab;
                     break;
                 case "spearman":
                     playerManager.AddGold(-purchasables.spearmanGoldCost);
+                    selectedUnitPopCost = purchasables.spearmanPopCost;
+                    selectedUnitGoldCost = purchasables.spearmanGoldCost;
                     prefab = spearmanPrefab;
                     break;
                 case "pikeman":
                     playerManager.AddGold(-purchasables.pikemanGoldCost);
+                    selectedUnitPopCost = purchasables.pikemanPopCost;
+                    selectedUnitGoldCost = purchasables.pikemanGoldCost;
                     prefab = pikemanPrefab;
                     break;
                 case "mage":
                     playerManager.AddGold(-purchasables.infantryGoldCost);
+                    selectedUnitPopCost = purchasables.infantryPopCost;
+                    selectedUnitGoldCost = purchasables.infantryGoldCost;
                     prefab = magePrefab;
                     break;
                 case "heavyinfantry":
                     playerManager.AddGold(-purchasables.heavyInfantryGoldCost);
+                    selectedUnitPopCost = purchasables.heavyInfantryPopCost;
+                    selectedUnitGoldCost = purchasables.heavyInfantryGoldCost;
                     prefab = heavyInfantryPrefab;
                     break;
                 case "mountedinfantry":
                     playerManager.AddGold(-purchasables.infantryGoldCost);
+                    selectedUnitPopCost = purchasables.infantryPopCost;
+                    selectedUnitGoldCost = purchasables.infantryGoldCost;
                     prefab = mountedInfantryPrefab;
                     break;
                 case "mountedarcher":
                     playerManager.AddGold(-purchasables.infantryGoldCost);
+                    selectedUnitPopCost = purchasables.infantryPopCost;
+                    selectedUnitGoldCost = purchasables.infantryGoldCost;
                     prefab = mountedArcherPrefab;
                     break;
                 case "mountedmage":
                     playerManager.AddGold(-purchasables.infantryGoldCost);
+                    selectedUnitPopCost = purchasables.infantryPopCost;
+                    selectedUnitGoldCost = purchasables.infantryGoldCost;
                     prefab = mountedMagePrefab;
                     break;
                 case "mountedspearman":
                     playerManager.AddGold(-purchasables.infantryGoldCost);
+                    selectedUnitPopCost = purchasables.infantryPopCost;
+                    selectedUnitGoldCost = purchasables.infantryGoldCost;
                     prefab = mountedSpearmanPrefab;
                     break;
             }
 
-            if ((playerManager.GetPopulation() + prefab.GetComponent<Unit>().GetPopulationValue()) <= playerManager.GetPopulationLimit())
+            if ((playerManager.GetPopulation() + selectedUnitPopCost) <= playerManager.GetPopulationLimit())
             {
                 GameObject unit = Instantiate(prefab, pos, Quaternion.identity);
+                playerManager.AddPopulation(selectedUnitPopCost);
                 NewUnit(unit);
                 unit.SetActive(false);
-                buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>());
+                unit.GetComponent<Unit>().SetPopulationValue(selectedUnitPopCost);
+                buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>(), selectedUnitGoldCost);
             }
         }
     }

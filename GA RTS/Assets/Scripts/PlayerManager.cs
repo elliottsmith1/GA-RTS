@@ -30,6 +30,8 @@ public class PlayerManager : MonoBehaviour
     {
         population = unitManager.GetArmyPopulation();
 
+        purchasables.CheckWealth(gold, wood, population, currentPopulationMax);
+
         string pop = population.ToString() + "/" + currentPopulationMax.ToString();
         return pop;
     }
@@ -72,12 +74,17 @@ public class PlayerManager : MonoBehaviour
     public void AddGold(int _val)
     {
         gold += _val;
-        purchasables.CheckWealth(gold, wood);
+        purchasables.CheckWealth(gold, wood, population, currentPopulationMax);
     }
 
     public void AddWood(int _val)
     {
         wood += _val;
-        purchasables.CheckWealth(gold, wood);
+        purchasables.CheckWealth(gold, wood, population, currentPopulationMax);
+    }
+
+    public void AddPopulation(int _pop)
+    {
+        population += _pop;
     }
 }

@@ -46,13 +46,21 @@ public class Building : MonoBehaviour
     private Interactable interactable;
     private BoxCollider boxCollider;
     private NavMeshObstacle navMeshObstacle;
+
+    private PlayerManager playerManager;
     private BuildingManager buildingManager;
 
     private UIManager uiManager;
 
     private List<Unit> spawnQueue = new List<Unit>();
+    private List<int> spawnQueueCosts = new List<int>();
     private bool spawning = false;
     private float spawnTimer = 0.0f;
+
+    private float health = 300;
+
+    private int goldCost = 0;
+    private int woodCost = 0;
 
     [SerializeField] BUILDSTATE buildState = BUILDSTATE.PLACING;    
 
@@ -66,6 +74,7 @@ public class Building : MonoBehaviour
 
         uiManager = GameObject.Find("UI").GetComponent<UIManager>();
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
+        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
 
         if (buildState == BUILDSTATE.NOT_BUILT)
         {
@@ -75,7 +84,7 @@ public class Building : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {        
         if (!built)
         {
             Construction();
@@ -108,9 +117,10 @@ public class Building : MonoBehaviour
             spawning = false;
         }
     }
-    public void NewSpawnUnit(Unit _unit)
+    public void NewSpawnUnit(Unit _unit, int _cost)
     {
         spawnQueue.Add(_unit);
+        spawnQueueCosts.Add(_cost);
         spawning = true;
     }
 
@@ -121,8 +131,11 @@ public class Building : MonoBehaviour
             spawnTimer = 0.0f;
         }
 
+        playerManager.AddGold(spawnQueueCosts[_id]);
+
         Destroy(spawnQueue[_id].gameObject);
         spawnQueue.RemoveAt(_id);
+        spawnQueueCosts.RemoveAt(_id);
     }
 
     private void Construction()
@@ -165,7 +178,7 @@ public class Building : MonoBehaviour
                 {
                     if (increasePopulation)
                     {
-                        GameObject.Find("PlayerManager").GetComponent<PlayerManager>().NewHouse();
+                        playerManager.NewHouse();
                     }
 
                     if (collector)
@@ -192,6 +205,17 @@ public class Building : MonoBehaviour
                 }
                 return;
         }
+    }
+
+    private void DestroyBuilding(bool _refund)
+    {
+        if (_refund)
+        {
+            playerManager.AddGold(goldCost);
+            playerManager.AddWood(woodCost);
+        }
+
+        Destroy(this.gameObject);
     }
 
     public void ActivateObject()
@@ -236,6 +260,22 @@ public class Building : MonoBehaviour
 
                 uiManager.ActivatePane(spawn);
             }
+        }
+    }
+
+    public void SetBuildingCost(int _gold, int _wood)
+    {
+        goldCost = _gold;
+        woodCost = _wood;
+    }
+
+    public void TakeDamage(float _dam)
+    {
+        health -= _dam;
+
+        if (health < 0)
+        {
+            DestroyBuilding(false);
         }
     }
 

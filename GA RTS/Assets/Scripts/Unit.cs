@@ -28,8 +28,10 @@ public class Unit : MonoBehaviour
     private Vector3 targetPosition;
 
     private List<Unit> nearbyEnemies = new List<Unit>();
+    private List<Building> nearbyEnemyBuildings = new List<Building>();
 
-    public Unit target;
+    private Unit target;
+    private Building targetBuilding;
 
     private NavMeshAgent navMeshAgent;
     private UnitManager unitManager;
@@ -37,6 +39,7 @@ public class Unit : MonoBehaviour
     private Outline outline;
 
     private string enemyTag = "Friendly";
+    private string enemyBuildingTag = "FriendlyBuilding";
 
     private bool manualOverride = false;
 
@@ -74,6 +77,7 @@ public class Unit : MonoBehaviour
         if (gameObject.tag == "Friendly")
         {
             enemyTag = "Enemy";
+            enemyBuildingTag = "EnemyBuilding";
         }
     }
 
@@ -81,6 +85,7 @@ public class Unit : MonoBehaviour
     void Update()
     {
         nearbyEnemies.RemoveAll(item => item == null);
+        nearbyEnemyBuildings.RemoveAll(item => item == null);
 
         if (state != STATE.DEAD)
         {
@@ -115,7 +120,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            if (nearbyEnemies.Count < 1)
+            if (nearbyEnemies.Count < 1 && nearbyEnemyBuildings.Count < 1)
             {
                 if (state != STATE.IDLE)
                 {
@@ -137,7 +142,21 @@ public class Unit : MonoBehaviour
                             unitAnimator.SetFighting(true);
                         }
                     }
-                }                
+                }   
+                else if (targetBuilding)
+                {
+                    NavMeshHit hit;
+                    NavMesh.Raycast(transform.position, targetBuilding.transform.position, out hit, NavMesh.AllAreas);
+
+                    if (Vector3.Distance(transform.position, hit.position) < range)
+                    {
+                        if (state != STATE.FIGHTING)
+                        {
+                            state = STATE.FIGHTING;
+                            unitAnimator.SetFighting(true);
+                        }
+                    }
+                }
             }
         }
     }
@@ -170,7 +189,7 @@ public class Unit : MonoBehaviour
 
                 break;
             case STATE.FIGHTING:
-                if (nearbyEnemies.Count < 1)
+                if (nearbyEnemies.Count < 1 && nearbyEnemyBuildings.Count < 1)
                 {
                     state = STATE.IDLE;
                     unitAnimator.SetFighting(false);
@@ -184,9 +203,16 @@ public class Unit : MonoBehaviour
 
                     if (!melee)
                     {
-                        //projectileFlightTime += Time.deltaTime / 1;
-                        //projectile.transform.position = Vector3.Lerp(projectileStartPos, target.transform.position, projectileFlightTime);
                         projectile.transform.position = projectile.transform.position + ((target.transform.position - projectile.transform.position).normalized) * Time.deltaTime * 15.0f;
+                    }
+                }
+                else if (targetBuilding)
+                {
+                    transform.LookAt(targetBuilding.transform);
+
+                    if (!melee)
+                    {
+                        projectile.transform.position = projectile.transform.position + ((targetBuilding.transform.position - projectile.transform.position).normalized) * Time.deltaTime * 15.0f;
                     }
                 }
                 break;
@@ -196,13 +222,25 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void DamageTarget()
+    public void AttackTarget()
     {
         if (target)
         {
             if (target.enabled)
             {
                 target.GetComponent<Unit>().TakeDamage(weaponDamage);
+
+                if (!melee)
+                {
+                    FireProjectile();
+                }
+            }
+        }
+        else if (targetBuilding)
+        {
+            if (targetBuilding.enabled)
+            {
+                targetBuilding.GetComponent<Building>().TakeDamage(weaponDamage);
 
                 if (!melee)
                 {
@@ -228,6 +266,14 @@ public class Unit : MonoBehaviour
         }
     }
 
+    private void NewTargetBuilding(Building _target)
+    {
+        if (!manualOverride)
+        {
+            targetBuilding = _target;
+        }
+    }
+
     private void NearestEnemy()
     {
         if (target)
@@ -241,26 +287,6 @@ public class Unit : MonoBehaviour
 
         if (nearbyEnemies.Count > 0)
         {
-            //List<int> removeIDs = new List<int>();
-            //for (int i = 0; i < nearbyEnemies.Count; i++)
-            //{
-            //    if (!nearbyEnemies[i].enabled)
-            //    {
-            //        removeIDs.Add(i);
-            //    }
-            //}
-
-            //if (removeIDs.Count > 0)
-            //{
-            //    foreach (int id in removeIDs)
-            //    {
-            //        if (nearbyEnemies.Count >= id)
-            //        {
-            //            nearbyEnemies.RemoveAt(id);
-            //        }
-            //    }
-            //}
-
             if (nearbyEnemies.Count < 1)
             {
                 unitAnimator.SetFighting(false);
@@ -291,23 +317,68 @@ public class Unit : MonoBehaviour
                 }
             }
 
-            //if (melee)
+            if (Vector3.Distance(transform.position, target.transform.position) > range)
             {
-                if (Vector3.Distance(transform.position, target.transform.position) > range)
-                {
-                    NewDestination(target.transform.position + target.transform.forward, false);
-                }
-                else
-                {
-                    NewDestination(transform.position, false);
-                }
+                NewDestination(target.transform.position + target.transform.forward, false);
+            }
+            else
+            {
+                NewDestination(transform.position, false);
             }
         }
-        else
+
+        else if (nearbyEnemyBuildings.Count > 0)
+        {
+            if (nearbyEnemyBuildings.Count < 1)
+            {
+                unitAnimator.SetFighting(false);
+                return;
+            }
+
+            if (!targetBuilding)
+            {
+                NewTargetBuilding(nearbyEnemyBuildings[0]);
+            }
+
+            float dist = Vector3.Distance(transform.position, targetBuilding.transform.position);
+
+            foreach (Building enemy in nearbyEnemyBuildings)
+            {
+                if (enemy.enabled)
+                {
+                    if (enemy != targetBuilding)
+                    {
+                        float newDist = Vector3.Distance(transform.position, enemy.transform.position);
+
+                        if (dist > newDist)
+                        {
+                            dist = newDist;
+                            NewTargetBuilding(enemy);
+                        }
+                    }
+                }
+            }
+
+            NavMeshHit hit;
+            NavMesh.Raycast(transform.position, targetBuilding.transform.position, out hit, NavMesh.AllAreas);
+
+            if (Vector3.Distance(transform.position, hit.position) > range)
+            {
+                NewDestination(hit.position, false);
+            }
+        }
+
+        else 
         {
             if (target)
             {
                 target = null;
+                unitAnimator.SetFighting(false);
+            }
+
+            if (targetBuilding)
+            {
+                targetBuilding = null;
                 unitAnimator.SetFighting(false);
             }
         }
@@ -333,6 +404,7 @@ public class Unit : MonoBehaviour
         {
             manualOverride = true;
             target = null;
+            targetBuilding = null;
         }
     }
 
@@ -373,6 +445,22 @@ public class Unit : MonoBehaviour
 
             nearbyEnemies.Add(other.gameObject.GetComponent<Unit>());
         }
+
+        if (other.transform.tag == enemyBuildingTag)
+        {
+            foreach (Building enemy in nearbyEnemyBuildings)
+            {
+                if (enemy)
+                {
+                    if (enemy.gameObject == other.gameObject)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            nearbyEnemyBuildings.Add(other.gameObject.GetComponent<Building>());
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -380,6 +468,11 @@ public class Unit : MonoBehaviour
         if (other.transform.tag == enemyTag)
         {
             nearbyEnemies.Remove(other.gameObject.GetComponent<Unit>());
+        }
+
+        if (other.transform.tag == enemyBuildingTag)
+        {
+            nearbyEnemyBuildings.Remove(other.gameObject.GetComponent<Building>());
         }
     }
 
@@ -406,6 +499,11 @@ public class Unit : MonoBehaviour
     public float GetSpawnTime()
     {
         return spawnTime;
+    }
+
+    public void SetPopulationValue(int _val)
+    {
+        populationValue = _val;
     }
 
     public int GetPopulationValue()
