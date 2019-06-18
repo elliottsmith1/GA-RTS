@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 578884407}
   m_Layer: 0
   m_Name: Barracks
-  m_TagString: Untagged
+  m_TagString: FriendlyBuilding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -114,6 +114,8 @@ MonoBehaviour:
   constructionMesh: {fileID: 4300000, guid: a2bc843dcc7a5be45993257d22444585, type: 3}
   finishedMesh: {fileID: 4300004, guid: e2f28d7d7478cb64597ebb9077abfe6e, type: 3}
   buildTime: 50
+  increasePopulation: 0
+  collector: 0
   spawner: 1
   spawnerType: 0
   buildTimer: 0

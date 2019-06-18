@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1064548029}
   m_Layer: 0
   m_Name: Granary
-  m_TagString: Untagged
+  m_TagString: FriendlyBuilding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -114,6 +114,10 @@ MonoBehaviour:
   constructionMesh: {fileID: 4300000, guid: 25ef05172876b8742b290e10ba4393cf, type: 3}
   finishedMesh: {fileID: 4300002, guid: aec20226064bbcc4d850e8da90e49a4b, type: 3}
   buildTime: 60
+  increasePopulation: 0
+  collector: 0
+  spawner: 0
+  spawnerType: 0
   buildTimer: 0
   buildState: 0
 --- !u!114 &1064548026
@@ -284,16 +288,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6839238895667957330, guid: 975722af43d616b4ea036eb01337d1fb,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6839238895667957330, guid: 975722af43d616b4ea036eb01337d1fb,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 4.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6839238895170078625, guid: 975722af43d616b4ea036eb01337d1fb,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -304,12 +298,22 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 4.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6839238895667957331, guid: 975722af43d616b4ea036eb01337d1fb,
+    - target: {fileID: 6839238895667957330, guid: 975722af43d616b4ea036eb01337d1fb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839238895667957330, guid: 975722af43d616b4ea036eb01337d1fb,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839238895170078626, guid: 975722af43d616b4ea036eb01337d1fb,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6839238895170078626, guid: 975722af43d616b4ea036eb01337d1fb,
+    - target: {fileID: 6839238895667957331, guid: 975722af43d616b4ea036eb01337d1fb,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1

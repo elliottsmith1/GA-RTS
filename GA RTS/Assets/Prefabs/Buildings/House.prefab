@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 177632743}
   m_Layer: 0
   m_Name: House
-  m_TagString: Untagged
+  m_TagString: FriendlyBuilding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -115,6 +115,7 @@ MonoBehaviour:
   finishedMesh: {fileID: 4300000, guid: 05035b78d90b21f43854dfe010ccd289, type: 3}
   buildTime: 40
   increasePopulation: 1
+  collector: 0
   spawner: 0
   spawnerType: 0
   buildTimer: 0

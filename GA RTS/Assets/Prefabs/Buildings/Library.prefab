@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1156054489}
   m_Layer: 0
   m_Name: Library
-  m_TagString: Untagged
+  m_TagString: FriendlyBuilding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
@@ -114,6 +114,10 @@ MonoBehaviour:
   constructionMesh: {fileID: 4300000, guid: 2969cfa0fe7f35d4c94a50c9fb1d9f8c, type: 3}
   finishedMesh: {fileID: 4300000, guid: a219455911288e84da9a9c5f55fd95c6, type: 3}
   buildTime: 60
+  increasePopulation: 0
+  collector: 0
+  spawner: 0
+  spawnerType: 0
   buildTimer: 0
   buildState: 0
 --- !u!114 &1156054486
@@ -284,12 +288,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6839238895667957331, guid: 975722af43d616b4ea036eb01337d1fb,
+    - target: {fileID: 6839238895170078626, guid: 975722af43d616b4ea036eb01337d1fb,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6839238895170078626, guid: 975722af43d616b4ea036eb01337d1fb,
+    - target: {fileID: 6839238895667957331, guid: 975722af43d616b4ea036eb01337d1fb,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1

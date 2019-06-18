@@ -118,47 +118,59 @@ public class Unit : MonoBehaviour
                 state = STATE.MOVING;
             }
         }
-        else
-        {
-            if (nearbyEnemies.Count < 1 && nearbyEnemyBuildings.Count < 1)
-            {
-                if (state != STATE.IDLE)
-                {
-                    if (!melee)
-                        projectile.gameObject.SetActive(false);
-                    unitAnimator.SetFighting(false);
-                    state = STATE.IDLE;
-                }
-            }
-            else
-            {
-                if (target)
-                {
-                    if (Vector3.Distance(transform.position, target.transform.position) < range)
-                    {
-                        if (state != STATE.FIGHTING)
-                        {
-                            state = STATE.FIGHTING;
-                            unitAnimator.SetFighting(true);
-                        }
-                    }
-                }   
-                else if (targetBuilding)
-                {
-                    NavMeshHit hit;
-                    NavMesh.Raycast(transform.position, targetBuilding.transform.position, out hit, NavMesh.AllAreas);
 
-                    if (Vector3.Distance(transform.position, hit.position) < range)
-                    {
-                        if (state != STATE.FIGHTING)
-                        {
-                            state = STATE.FIGHTING;
-                            unitAnimator.SetFighting(true);
-                        }
-                    }
+        if (target)
+        {
+            if (Vector3.Distance(transform.position, target.transform.position) < range)
+            {
+                if (state != STATE.FIGHTING)
+                {
+                    state = STATE.FIGHTING;
+                    unitAnimator.SetFighting(true);
                 }
             }
         }
+
+        //else if (targetBuilding)
+        //{
+        //    if (Vector3.Distance(transform.position, hit.position) < range)
+        //    {
+        //        if (state != STATE.FIGHTING)
+        //        {
+        //            state = STATE.FIGHTING;
+        //            unitAnimator.SetFighting(true);
+        //        }
+        //    }
+        //}
+        //else if (targetBuilding)
+        //{
+        //    RaycastHit hit1;
+        //    Debug.DrawLine(transform.position, targetBuilding.transform.position);
+        //    if (Physics.Raycast(transform.position, targetBuilding.transform.position - transform.position, out hit1, Mathf.Infinity))
+        //    {
+        //        if (hit1.collider.gameObject == targetBuilding.gameObject)
+        //        {
+        //            NavMeshHit hit;
+        //            NavMesh.Raycast(transform.position, targetBuilding.transform.position, out hit, NavMesh.AllAreas);
+        //            NavMesh.SamplePosition(hit.position, out hit, 20.0f, NavMesh.AllAreas);
+
+        //            Debug.DrawRay(hit.position, Vector3.up, Color.red);
+
+        //            if (Vector3.Distance(transform.position, hit.position) < range)
+        //            {
+        //                if (state != STATE.FIGHTING)
+        //                {
+        //                    state = STATE.FIGHTING;
+        //                    unitAnimator.SetFighting(true);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            NewDestination(targetBuilding.transform.position, false);
+        //        }
+        //    }            
+        //}
     }
 
     private void Die()
@@ -191,6 +203,9 @@ public class Unit : MonoBehaviour
             case STATE.FIGHTING:
                 if (nearbyEnemies.Count < 1 && nearbyEnemyBuildings.Count < 1)
                 {
+                    target = null;
+                    targetBuilding = null;
+
                     state = STATE.IDLE;
                     unitAnimator.SetFighting(false);
                     NewDestination(transform.position, false);
@@ -359,13 +374,55 @@ public class Unit : MonoBehaviour
                 }
             }
 
-            NavMeshHit hit;
-            NavMesh.Raycast(transform.position, targetBuilding.transform.position, out hit, NavMesh.AllAreas);
 
-            if (Vector3.Distance(transform.position, hit.position) > range)
+            RaycastHit hit1;
+            if (Physics.Raycast(transform.position, targetBuilding.transform.position - transform.position, out hit1, Mathf.Infinity))
             {
-                NewDestination(hit.position, false);
-            }
+                if (hit1.collider.gameObject == targetBuilding.gameObject)
+                {
+                    if (melee)
+                    {
+                        NavMeshHit hit;
+                        NavMesh.SamplePosition(hit1.point, out hit, 20.0f, NavMesh.AllAreas);
+
+                        if (Vector3.Distance(transform.position, hit.position) > 1)
+                        {
+                            NewDestination(hit.position, false);
+                        }
+                        else
+                        {
+                            NewDestination(transform.position, false);
+
+                            if (state != STATE.FIGHTING)
+                            {
+                                state = STATE.FIGHTING;
+                                unitAnimator.SetFighting(true);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Vector3.Distance(transform.position, targetBuilding.transform.position) > range)
+                        {
+                            NewDestination(targetBuilding.transform.position, false);
+                        }
+                        else
+                        {
+                            NewDestination(transform.position, false);
+
+                            if (state != STATE.FIGHTING)
+                            {
+                                state = STATE.FIGHTING;
+                                unitAnimator.SetFighting(true);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    NewDestination(targetBuilding.transform.position, false);
+                }
+            }           
         }
 
         else 

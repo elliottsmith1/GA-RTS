@@ -8,7 +8,10 @@ public class UnitAnimator : MonoBehaviour
     private Animator anim;
     private NavMeshAgent agent;
     private Unit unit;
-    
+
+    private bool dead = false;
+    private float deathTimer = 0.0f;
+    private float deathDelay = 10.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -87,6 +90,16 @@ public class UnitAnimator : MonoBehaviour
             if (unit.GetState() == Unit.STATE.FIGHTING)
             {
                 anim.SetBool("fighting", true);
+            }
+        }
+
+        if (dead)
+        {
+            deathTimer += Time.deltaTime;
+
+            if (deathTimer > deathDelay)
+            {
+                Destroy(this.gameObject);
             }
         }
     }
