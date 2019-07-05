@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [SerializeField] BuildingManager buildingManager;
     [SerializeField] UnitManager unitManager;
     [SerializeField] Purchasables purchasables;
 
@@ -86,5 +87,10 @@ public class PlayerManager : MonoBehaviour
     public void AddPopulation(int _pop)
     {
         population += _pop;
+    }
+
+    public BuildingManager GetBuildingManager()
+    {
+        return buildingManager;
     }
 }

@@ -23,6 +23,8 @@ public class BuildingManager : MonoBehaviour
     private int selectedBuildingGoldCost = 0;
     private int selectedBuildingWoodCost = 0;
 
+    private List<GameObject> playerBuildings = new List<GameObject>();
+
     [SerializeField] PlayerManager playerManager;
 
     public enum BUILDINGS
@@ -41,12 +43,16 @@ public class BuildingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main;        
+        cam = Camera.main;
+
+        playerBuildings.Add(GameObject.Find("Player TownHall"));
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerBuildings.RemoveAll(item => item == null);
+
         if (holdingObject)
         {
             Vector3 point = new Vector3(0, 0, 0);
@@ -125,6 +131,8 @@ public class BuildingManager : MonoBehaviour
                 outline.OutlineColor = Color.white;
                 build.ActivateObject();
 
+                playerBuildings.Add(selectedBuilding);
+
                 selectedBuilding = null;
                 holdingObject = false;
                 rotatingObject = false;
@@ -188,6 +196,11 @@ public class BuildingManager : MonoBehaviour
     public Building GetActiveBuilding()
     {
         return activeBuilding;
+    }
+
+    public List<GameObject> GetPlayerBuildings()
+    {
+        return playerBuildings;
     }
 }
 

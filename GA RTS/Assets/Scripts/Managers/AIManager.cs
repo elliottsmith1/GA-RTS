@@ -13,15 +13,19 @@ public class AIManager : MonoBehaviour
     [SerializeField] float spawnMultiplier = 1.25f;
 
     private Vector3 playerPos = new Vector3(10, 0, 10);
+
+    private List<GameObject> enemyBuildings = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
-        
+        enemyBuildings.Add(GameObject.Find("Enemy TownHall"));
     }
 
     // Update is called once per frame
     void Update()
     {
+        enemyBuildings.RemoveAll(item => item == null);
+
         spawnTimer += Time.deltaTime;
 
         if (spawnTimer > spawnDelay)
@@ -48,5 +52,10 @@ public class AIManager : MonoBehaviour
             enemy.GetComponent<Unit>().SetColour("red");
             enemy.gameObject.tag = "Enemy";
         }
+    }
+
+    public List<GameObject> GetEnemyBuildings()
+    {
+        return enemyBuildings;
     }
 }

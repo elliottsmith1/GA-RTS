@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] Text goldText;
     [SerializeField] Text woodText;
 
+    [SerializeField] GameObject gameOverUI;
+    [SerializeField] Text gameOverText;
+    [SerializeField] Text timeElapsedText;
+
     [SerializeField] BuildingUI barracksUI;
     [SerializeField] BuildingUI archerRangeUI;
 
@@ -75,5 +79,28 @@ public class UIManager : MonoBehaviour
     public void CancelUnitSpawn(int _id)
     {
         buildingManager.GetActiveBuilding().CancelSpawnUnit(_id);
+    }
+
+    public void GameOver(bool _won, float _time)
+    {
+        gameOverUI.SetActive(true);
+
+        string minutes = Mathf.Floor(_time / 60).ToString("00");
+        string seconds = (_time % 60).ToString("00");
+
+        print(string.Format("{0}:{1}", minutes, seconds));
+
+        timeElapsedText.text = "Time: " + string.Format("{0}:{1}", minutes, seconds);
+
+        //timeElapsedText.text = "Time: " + _time.ToString("F2");
+
+        if (_won)
+        {
+            gameOverText.text = "You win!";
+        }
+        else
+        {
+            gameOverText.text = "Game Over!";
+        }
     }
 }
