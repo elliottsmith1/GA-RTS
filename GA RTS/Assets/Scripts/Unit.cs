@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
     private float health = 100.0f;
     [SerializeField] float maxHealth = 100.0f;
     [SerializeField] float weaponDamage = 40.0f;
-    [SerializeField] float armour = 15.0f;
+    [SerializeField] float armour = 15.0f;    
 
     [SerializeField] float spawnTime = 10.0f;
     [SerializeField] int populationValue = 1;
@@ -60,7 +60,10 @@ public class Unit : MonoBehaviour
     [SerializeField] bool melee = true;
     [SerializeField] float range = 2.0f;
 
-    [SerializeField] GameObject projectile;
+    [SerializeField] GameObject projectilePrefab;
+    private GameObject activeProjectile;
+    private List<Projectile> quiver = new List<Projectile>();
+
     private Vector3 projectileStartPos;
     private float projectileFlightTime = 0.0f;
 
@@ -80,6 +83,20 @@ public class Unit : MonoBehaviour
         {
             enemyTag = "Enemy";
             enemyBuildingTag = "EnemyBuilding";
+        }
+
+        if (!melee)
+        {
+            if (projectilePrefab)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    GameObject projec = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                    quiver.Add(projec.GetComponent<Projectile>());
+                    projec.gameObject.SetActive(false);
+                    projec.transform.SetParent(this.gameObject.transform);
+                }
+            }
         }
     }
 
@@ -190,8 +207,6 @@ public class Unit : MonoBehaviour
 
     private void Die()
     {
-        if (!melee)
-            projectile.gameObject.SetActive(false);
         state = STATE.DEAD;
         unitAnimator.SetDamaged(0);
         unitAnimator.SetFighting(false);
@@ -233,17 +248,29 @@ public class Unit : MonoBehaviour
 
                     if (!melee)
                     {
-                        projectile.transform.position = projectile.transform.position + ((target.transform.position - projectile.transform.position).normalized) * Time.deltaTime * 15.0f;
+                        Vector3 targetPos = target.transform.position;
+                        targetPos.y += 1.0f;
+
+                        //projectile.transform.position = projectile.transform.position + ((targetPos - projectile.transform.position).normalized) * Time.deltaTime * 15.0f;
+
+                        //if (Vector3.Distance(targetPos, projectile.transform.position) < 0.2f)
+                        //{
+                        //    projectile.SetActive(false);
+                        //}
                     }
                 }
                 else if (targetBuilding)
                 {
                     transform.LookAt(targetBuilding.transform);
 
-                    if (!melee)
-                    {
-                        projectile.transform.position = projectile.transform.position + ((targetBuilding.transform.position - projectile.transform.position).normalized) * Time.deltaTime * 15.0f;
-                    }
+                    //if (!melee)
+                    //{
+                    //    projectile.transform.position = projectile.transform.position + ((targetBuilding.transform.position - projectile.transform.position).normalized) * Time.deltaTime * 15.0f;
+                    //    if (Vector3.Distance(targetBuilding.transform.position, projectile.transform.position) < 0.2f)
+                    //    {
+                    //        projectile.SetActive(false);
+                    //    }
+                    //}
                 }
                 break;
             case STATE.DEAD:
@@ -262,7 +289,7 @@ public class Unit : MonoBehaviour
 
                 if (!melee)
                 {
-                    FireProjectile();
+                    FireProjectile(target.gameObject);
                 }
             }
         }
@@ -274,18 +301,35 @@ public class Unit : MonoBehaviour
 
                 if (!melee)
                 {
-                    FireProjectile();
+                    FireProjectile(targetBuilding.gameObject);
                 }
             }
         }
     }
 
-    private void FireProjectile()
+    private void FireProjectile(GameObject _target)
     {
-        projectile.gameObject.SetActive(true);
-        projectileFlightTime = 0.0f;
-        projectileStartPos = transform.position;
-        projectile.transform.position = transform.position;
+        if (quiver.Count > 0)
+        {
+            foreach (Projectile projec in quiver)
+            {
+                if (!projec.gameObject.activeInHierarchy)
+                {
+                    projec.Shoot(_target.transform);
+                    activeProjectile = projec.gameObject;
+                    activeProjectile.SetActive(true);
+
+                    break;
+                }
+            }
+
+            projectileFlightTime = 0.0f;
+
+            Vector3 proSpawnPos = transform.position;
+            proSpawnPos.y += 1.0f;
+            projectileStartPos = proSpawnPos;
+            activeProjectile.gameObject.transform.position = proSpawnPos;
+        }
     }
 
     private void NewTarget(Unit _target)
