@@ -2549,7 +2549,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e14d732809f32409202afe1308a65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  healthBarPrefab: {fileID: 3281908294729117128, guid: 22a140eb5b88cc645b82e47cff85aa28,
+    type: 3}
   maxHealth: 20
   weaponDamage: 115
   armour: 0
@@ -2560,7 +2561,7 @@ MonoBehaviour:
   mounted: 0
   melee: 0
   range: 20
-  projectile: {fileID: 919401686}
+  projectilePrefab: {fileID: 0}
   redMaterial: {fileID: 2100000, guid: 98a7fdcb4ebb44344b4afe0424d44b82, type: 2}
   blueMaterial: {fileID: 2100000, guid: 792a4bad9e08b8e41bfbd3f0b8aac1ab, type: 2}
 --- !u!114 &339141254
@@ -17093,12 +17094,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65bfa6f47c5978347bd1a2956a0a2750, type: 3}
---- !u!1 &919401686 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1586901735, guid: 65bfa6f47c5978347bd1a2956a0a2750,
-    type: 3}
-  m_PrefabInstance: {fileID: 1750779441}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &919401691 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1586901738, guid: 65bfa6f47c5978347bd1a2956a0a2750,

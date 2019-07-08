@@ -2406,7 +2406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e14d732809f32409202afe1308a65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  healthBarPrefab: {fileID: 3281908294729117128, guid: 22a140eb5b88cc645b82e47cff85aa28,
+    type: 3}
   maxHealth: 100
   weaponDamage: 40
   armour: 15
@@ -2417,7 +2418,7 @@ MonoBehaviour:
   mounted: 1
   melee: 0
   range: 15
-  projectile: {fileID: 0}
+  projectilePrefab: {fileID: 0}
   redMaterial: {fileID: 2100000, guid: 98a7fdcb4ebb44344b4afe0424d44b82, type: 2}
   blueMaterial: {fileID: 2100000, guid: 792a4bad9e08b8e41bfbd3f0b8aac1ab, type: 2}
 --- !u!114 &186122583

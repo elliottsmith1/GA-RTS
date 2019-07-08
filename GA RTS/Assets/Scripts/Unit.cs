@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
@@ -46,6 +47,7 @@ public class Unit : MonoBehaviour
     private float manualTimerDelay = 1.0f;
 
     private float health = 100.0f;
+    [SerializeField] GameObject healthBarPrefab;
     [SerializeField] float maxHealth = 100.0f;
     [SerializeField] float weaponDamage = 40.0f;
     [SerializeField] float armour = 15.0f;    
@@ -67,6 +69,9 @@ public class Unit : MonoBehaviour
     private Vector3 projectileStartPos;
     private float projectileFlightTime = 0.0f;
 
+    private GameObject healthUI;
+    private Image healthBar;
+
     [SerializeField] Material redMaterial;
     [SerializeField] Material blueMaterial;
 
@@ -84,6 +89,13 @@ public class Unit : MonoBehaviour
             enemyTag = "Enemy";
             enemyBuildingTag = "EnemyBuilding";
         }
+
+        Vector3 pos = transform.position;
+        pos.y += (transform.localScale.y * 2);
+        healthUI = Instantiate(healthBarPrefab, pos, Quaternion.identity);
+        healthUI.transform.SetParent(transform);
+        healthBar = healthUI.transform.Find("foreground").GetComponent<Image>();
+        healthUI.SetActive(false);
 
         if (!melee)
         {
@@ -207,6 +219,7 @@ public class Unit : MonoBehaviour
 
     private void Die()
     {
+        healthUI.SetActive(false);
         state = STATE.DEAD;
         unitAnimator.SetDamaged(0);
         unitAnimator.SetFighting(false);
@@ -504,6 +517,9 @@ public class Unit : MonoBehaviour
     {
         health -= _dam - armour;
         unitAnimator.SetDamaged(1);
+
+        healthUI.SetActive(true);
+        healthBar.fillAmount = health / maxHealth;
     }
 
     public void NewDestination(Vector3 _pos, bool manualOrder)

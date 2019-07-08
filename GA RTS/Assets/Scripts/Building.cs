@@ -26,11 +26,15 @@ public class Building : MonoBehaviour
     [SerializeField] Image buildtimerBackground;
     [SerializeField] Image buildtimerForeground;
 
+    [SerializeField] GameObject healthBarPrefab;
+
     [SerializeField] Mesh foundationMesh;
     [SerializeField] Mesh constructionMesh;
     [SerializeField] Mesh finishedMesh;
 
     [SerializeField] float buildTime = 10.0f;
+
+    [SerializeField] float maxHealth = 1000;
 
     [SerializeField] bool increasePopulation = false;
 
@@ -62,11 +66,16 @@ public class Building : MonoBehaviour
     private int goldCost = 0;
     private int woodCost = 0;
 
+    private GameObject healthUI;
+    private Image healthBar;
+
     [SerializeField] BUILDSTATE buildState = BUILDSTATE.PLACING;    
 
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth;
+
         meshFilter = GetComponent<MeshFilter>();
         interactable = GetComponent<Interactable>();
         boxCollider = GetComponent<BoxCollider>();
@@ -80,6 +89,16 @@ public class Building : MonoBehaviour
         {
             DeactivateObject();
         }
+
+        Vector3 pos = transform.position;
+        pos.y += (transform.localScale.y * 5);
+        healthUI = Instantiate(healthBarPrefab, pos, Quaternion.identity);
+        healthUI.transform.SetParent(transform);
+        Vector3 sca = healthUI.transform.localScale;
+        sca *= 5;
+        healthUI.transform.localScale = sca;
+        healthBar = healthUI.transform.Find("foreground").GetComponent<Image>();
+        healthUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -272,6 +291,9 @@ public class Building : MonoBehaviour
     public void TakeDamage(float _dam)
     {
         health -= _dam;
+
+        healthUI.SetActive(true);
+        healthBar.fillAmount = health / maxHealth;
 
         if (health < 0)
         {

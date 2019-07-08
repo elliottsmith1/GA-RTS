@@ -110,10 +110,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildtimerBackground: {fileID: 6839238895556815713}
   buildtimerForeground: {fileID: 6839238895314789008}
+  healthBarPrefab: {fileID: 3281908294729117128, guid: 22a140eb5b88cc645b82e47cff85aa28,
+    type: 3}
   foundationMesh: {fileID: 4300000, guid: 2c19f74705f3b6b44af06171a67178a1, type: 3}
   constructionMesh: {fileID: 4300000, guid: b40bcd86f471a554696e16e6e41c7e0b, type: 3}
   finishedMesh: {fileID: 4300002, guid: 9bf280570cf5dce45a29b84470a52c7e, type: 3}
   buildTime: 80
+  maxHealth: 1000
   increasePopulation: 0
   collector: 0
   spawner: 0
