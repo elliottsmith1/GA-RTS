@@ -158,10 +158,10 @@ public class UnitManager : MonoBehaviour
                             {
                                 bool manual = false;
 
-                                //if (unit.GetTarget())
-                                //{
-                                //    manual = true;
-                                //}
+                                if (unit.GetTarget())
+                                {
+                                    manual = true;
+                                }
 
                                 unit.NewDestination(newPos, manual);
 

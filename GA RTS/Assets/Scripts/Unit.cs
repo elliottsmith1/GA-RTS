@@ -42,6 +42,8 @@ public class Unit : MonoBehaviour
     private string enemyBuildingTag = "FriendlyBuilding";
 
     private bool manualOverride = false;
+    private float manualTimer = 0.0f;
+    private float manualTimerDelay = 1.0f;
 
     private float health = 100.0f;
     [SerializeField] float maxHealth = 100.0f;
@@ -91,7 +93,11 @@ public class Unit : MonoBehaviour
         {
             State();
             StateBehaviour();
-            NearestEnemy();
+
+            if (!manualOverride)
+            {
+                NearestEnemy();
+            }
         }
     }
 
@@ -103,11 +109,20 @@ public class Unit : MonoBehaviour
             return;
         }
 
-        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
+        if (manualOverride)
         {
-            if (manualOverride)
+            manualTimer += Time.deltaTime;
+
+            if (manualTimer > manualTimerDelay)
             {
-                //manualOverride = false;
+                if (!navMeshAgent.pathPending)
+                {
+                    if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+                    {
+                        manualOverride = false;
+                        manualTimer = 0.0f;
+                    }
+                }
             }
         }
 
@@ -208,7 +223,7 @@ public class Unit : MonoBehaviour
 
                     state = STATE.IDLE;
                     unitAnimator.SetFighting(false);
-                    NewDestination(transform.position, false);
+                    //NewDestination(transform.position, false);
                     return;
                 }
 
@@ -478,9 +493,16 @@ public class Unit : MonoBehaviour
 
         foreach(Transform child in transform)
         {
-            if (child.GetComponent<SkinnedMeshRenderer>())
+            if (child.gameObject.activeInHierarchy)
             {
-                child.GetComponent<SkinnedMeshRenderer>().material = mat;
+                if (child.GetComponent<SkinnedMeshRenderer>())
+                {
+                    child.GetComponent<SkinnedMeshRenderer>().material = mat;
+                }
+                if (child.GetComponent<MeshRenderer>())
+                {
+                    child.GetComponent<MeshRenderer>().material = mat;
+                }
             }
         }
     }

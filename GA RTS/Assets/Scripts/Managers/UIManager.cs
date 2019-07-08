@@ -88,11 +88,7 @@ public class UIManager : MonoBehaviour
         string minutes = Mathf.Floor(_time / 60).ToString("00");
         string seconds = (_time % 60).ToString("00");
 
-        print(string.Format("{0}:{1}", minutes, seconds));
-
         timeElapsedText.text = "Time: " + string.Format("{0}:{1}", minutes, seconds);
-
-        //timeElapsedText.text = "Time: " + _time.ToString("F2");
 
         if (_won)
         {

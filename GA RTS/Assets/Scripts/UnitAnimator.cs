@@ -11,7 +11,9 @@ public class UnitAnimator : MonoBehaviour
 
     private bool dead = false;
     private float deathTimer = 0.0f;
-    private float deathDelay = 10.0f;
+    private float deathDelay = 1.0f;
+
+    private SkinnedMeshRenderer body;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,18 @@ public class UnitAnimator : MonoBehaviour
         unit = GetComponent<Unit>();
 
         SetWeapon(unit.GetWeapon(), unit.GetMounted());
+
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.activeInHierarchy)
+            {
+                if (child.GetComponent<SkinnedMeshRenderer>())
+                {
+                    body = child.GetComponent<SkinnedMeshRenderer>();
+                    return;
+                }
+            }
+        }
     }
 
     private void SetWeapon(Unit.WEAPONTYPE _wep, bool _mount)
@@ -97,9 +111,13 @@ public class UnitAnimator : MonoBehaviour
         {
             deathTimer += Time.deltaTime;
 
+            
             if (deathTimer > deathDelay)
             {
-                Destroy(this.gameObject);
+                if (!body.isVisible)
+                {
+                    Destroy(this.gameObject);
+                }
             }
         }
     }
@@ -132,6 +150,7 @@ public class UnitAnimator : MonoBehaviour
     {
         if (_dead)
         {
+            dead = true;
             anim.SetBool("dead", true);
         }
         else
