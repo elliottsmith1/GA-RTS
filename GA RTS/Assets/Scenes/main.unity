@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4474184, g: 0.49736142, b: 0.57526904, a: 1}
+  m_IndirectSpecularColor: {r: 0.44741875, g: 0.49736184, b: 0.5752699, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -297,11 +297,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f10f81534a1ce46ab78fad53ee5ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barracks: {fileID: 578884400, guid: 473beeb8f58a65c4c9ee4c417f156387, type: 3}
+  archeryRange: {fileID: 0}
+  house: {fileID: 0}
+  lumberMill: {fileID: 0}
+  market: {fileID: 0}
   enemyPrefab: {fileID: 2094045977, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
-  spawnTimer: 0
-  spawnDelay: 100
   groupSize: 5
-  spawnMultiplier: 1.25
 --- !u!1 &513786200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,6 +1080,48 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 61841281176498465, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.07495117
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657090124834121044, guid: 4f9540e36a04bda4d9231539af2e7226,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.07495117
+      objectReference: {fileID: 0}
+    - target: {fileID: 803913054, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.010986328
+      objectReference: {fileID: 0}
+    - target: {fileID: 1156667844, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.010986328
+      objectReference: {fileID: 0}
+    - target: {fileID: 951317855, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.010986328
+      objectReference: {fileID: 0}
+    - target: {fileID: 147476734, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 6.2564697
+      objectReference: {fileID: 0}
+    - target: {fileID: 584300886, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 7.3563232
+      objectReference: {fileID: 0}
+    - target: {fileID: 574983715, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 4.6314697
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268710189, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 5.7313232
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557391641, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 6.831421
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
 --- !u!224 &1287243532 stripped
@@ -1602,7 +1646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189a4ba3ca59cd047803196aea828e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpace: 20
+  baseSpace: 40
   numTrees: 150
   numPlants: 200
   corner1: {fileID: 410476532}
