@@ -28,10 +28,14 @@ public class ResourceCollection : MonoBehaviour
     private Color alphaVal = Color.yellow;
 
     private PlayerManager playerManager;
+    private AIManager aIManager;
+
+    private bool enemyBuilding = false;
 
     void Start()
     {
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        aIManager = GameObject.Find("AI Manager").GetComponent<AIManager>();
 
         popupText = popup.GetComponent<Text>();
 
@@ -55,20 +59,36 @@ public class ResourceCollection : MonoBehaviour
         {
             collectionTimer = 0.0f;
 
-            TextPop();
+            if (!enemyBuilding)
+                TextPop();
 
             switch(resource)
             {
                 case RESOURCETYPE.WOOD:
-                    playerManager.AddWood(resourceValue);
+                    if (!enemyBuilding)
+                    {
+                        playerManager.AddWood(resourceValue);
+                    }
+                    else
+                    {
+                        aIManager.AddWood(resourceValue);
+                    }
                     break;
                 case RESOURCETYPE.GOLD:
-                    playerManager.AddGold(resourceValue);
+                    if (!enemyBuilding)
+                    {
+                        playerManager.AddGold(resourceValue);
+                    }
+                    else
+                    {
+                        aIManager.AddGold(resourceValue);
+                    }
                     break;
             }
         }
 
-        AnimateText();
+        if (!enemyBuilding)
+            AnimateText();
     }
 
     private void AnimateText()
@@ -92,5 +112,10 @@ public class ResourceCollection : MonoBehaviour
         popupText.text = text;
         
         popup.SetActive(true);
+    }
+
+    public void SetEnemyBuilding()
+    {
+        enemyBuilding = true;
     }
 }

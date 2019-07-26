@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &513039789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513039790}
+  - component: {fileID: 513039791}
+  m_Layer: 0
+  m_Name: AI Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513039790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513039789}
+  m_LocalRotation: {x: -0.27059805, y: 0.6532815, z: 0.6532815, w: 0.27059805}
+  m_LocalPosition: {x: 140, y: 0, z: 140}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7467340911095445385}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &513039791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513039789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f10f81534a1ce46ab78fad53ee5ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barracks: {fileID: 578884400, guid: 473beeb8f58a65c4c9ee4c417f156387, type: 3}
+  archeryRange: {fileID: 0}
+  house: {fileID: 0}
+  lumberMill: {fileID: 0}
+  market: {fileID: 0}
+  enemyPrefab: {fileID: 2094045977, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
+  groupSize: 5
+  enemyMaterial: {fileID: 2100000, guid: b06e94e520620604e820eac67dd18db0, type: 2}
 --- !u!1 &748629795
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 7467340911054027533}
-  aiManager: {fileID: 0}
+  aiManager: {fileID: 513039791}
   uiManager: {fileID: 0}
 --- !u!1 &7467340911054027535
 GameObject:
@@ -123,6 +174,7 @@ Transform:
   - {fileID: 7467340912024083126}
   - {fileID: 7467340911054027532}
   - {fileID: 748629797}
+  - {fileID: 513039790}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

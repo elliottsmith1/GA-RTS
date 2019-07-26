@@ -170,6 +170,8 @@ public class BuildingManager : MonoBehaviour
         outline = selectedBuilding.GetComponent<Outline>();
         outline.enabled = true;
 
+        //selectedBuilding.GetComponent<Building>().DeactivateObject();
+
         BoxCollider box = selectedBuilding.GetComponent<BoxCollider>();
 
         if (box.size.x > box.size.z)

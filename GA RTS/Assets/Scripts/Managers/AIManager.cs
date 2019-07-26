@@ -17,15 +17,26 @@ public class AIManager : MonoBehaviour
 
     [SerializeField] float groupSize = 5;
 
+    [SerializeField] Material enemyMaterial;
+
     private Vector3 playerPos = new Vector3(10, 0, 10);
 
     private List<GameObject> enemyBuildings = new List<GameObject>();
 
+    //resources
+    private int gold = 50;
+    private int wood = 50;
+
+    private float maxFactorValue = 100.0f;
+
     //base building
     private float expansionFactor = 10.0f;
-    private float compactFactor = 10.0f;
+    private float compactFactor = 1.0f;
     private float economicFactor = 10.0f;
     private float militaryFactor = 10.0f;
+
+    //army expansion
+    private float armyExpansionFactor = 10.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +48,43 @@ public class AIManager : MonoBehaviour
     void Update()
     {
         enemyBuildings.RemoveAll(item => item == null);
+    }
+
+    private void MakeDecision()
+    {
+        bool newUnit = false;
+        bool newBuilding = false;
+
+        float rand = Random.Range(0, 100);
+
+        if (rand < expansionFactor)
+            newBuilding = true;
+
+        if (rand < armyExpansionFactor)
+            newUnit = true;
+
+        if (newBuilding && newUnit)
+        {
+            int randNum = Random.Range(0, 2);
+
+            switch(randNum)
+            {
+                case 0:
+                    ConstructNewBuilding(barracks);
+                    break;
+                case 1:
+
+                    break;
+            }
+        }
+        else if (newBuilding)
+        {
+            ConstructNewBuilding(barracks);
+        }
+        else if (newUnit)
+        {
+
+        }
     }
 
     private void SpawnEnemy()
@@ -55,6 +103,72 @@ public class AIManager : MonoBehaviour
     public List<GameObject> GetEnemyBuildings()
     {
         return enemyBuildings;
+    }
+
+    private void ChooseNewBuilding()
+    {
+        float rand = Random.Range(0, 100);
+        bool military = false;
+        bool economic = true;
+
+        if (rand < militaryFactor)
+            military = true;
+
+        if (rand < economicFactor)
+            economic = true;
+
+        if (military && economic)
+        {
+            int randNum = Random.Range(0, 2);
+
+            switch (randNum)
+            {
+                case 0:
+                    ConstructNewBuilding(NewMilitaryBuilding());
+                    break;
+                case 1:
+                    ConstructNewBuilding(NewEconomicBuilding());
+                    break;
+            }
+        }
+        else if (military)
+        {
+            ConstructNewBuilding(NewMilitaryBuilding());
+        }
+        else if (economic)
+        {
+            ConstructNewBuilding(NewEconomicBuilding());
+        }
+    }
+
+    private GameObject NewEconomicBuilding()
+    {
+        int rand = Random.Range(0, 2);
+
+        switch (rand)
+        {
+            case 0:
+                return lumberMill;
+            case 1:
+                return market;
+        }
+
+        return market;
+    }
+
+    private GameObject NewMilitaryBuilding()
+    {
+        int rand = Random.Range(0, 2);
+
+        switch (rand)
+        {
+            case 0:
+                return barracks;
+            case 1:
+                return archeryRange;
+        }
+
+        return barracks;
     }
 
     private void ConstructNewBuilding(GameObject _buildingPrefab)
@@ -77,6 +191,8 @@ public class AIManager : MonoBehaviour
         {
             distanceAllowed = box.size.z / 2;
         }
+
+        distanceAllowed += compactFactor;
 
         Vector3 newPosition = enemyBuildings[0].transform.position;
 
@@ -102,7 +218,7 @@ public class AIManager : MonoBehaviour
             if (counter > 100)
                 break;
 
-        } while (Vector3.Distance(newPosition, enemyBuildings[0].transform.position) < 10 || nHit.distance < distanceAllowed || nHit.distance == Mathf.Infinity);//(nHit.distance < 10 || nHit.distance > 1000));
+        } while (Vector3.Distance(newPosition, enemyBuildings[0].transform.position) < 10 || nHit.distance < distanceAllowed || nHit.distance == Mathf.Infinity);
 
         if (counter < 100)
         {
@@ -110,11 +226,29 @@ public class AIManager : MonoBehaviour
 
             Building build = newBuilding.GetComponent<Building>();
             build.enabled = true;
-            build.ActivateObject();
+            //build.ActivateObject();
             newBuilding.tag = "EnemyBuilding";
+
+            build.SetMaterial(enemyMaterial);
+
+            build.SetBuildState(Building.BUILDSTATE.NOT_BUILT);
+
+            Outline outl = newBuilding.GetComponent<Outline>();
+            outl.OutlineColor = Color.red;
+            outl.enabled = false;
 
             enemyBuildings.Add(newBuilding);
         }
+    }
+
+    public void AddGold(int _val)
+    {
+        gold += _val;
+    }
+
+    public void AddWood(int _val)
+    {
+        wood += _val;
     }
 
 #if UNITY_EDITOR

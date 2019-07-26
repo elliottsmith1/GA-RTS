@@ -7,7 +7,7 @@ using System;
 
 public class Building : MonoBehaviour
 {
-    private enum BUILDSTATE
+    public enum BUILDSTATE
     {
         PLACING,
         NOT_BUILT,
@@ -40,7 +40,7 @@ public class Building : MonoBehaviour
 
     [SerializeField] bool collector = false;
     [SerializeField] bool spawner = false;
-    [SerializeField] SPAWNERTYPE spawnerType = SPAWNERTYPE.MELEE;
+    [SerializeField] SPAWNERTYPE spawnerType = SPAWNERTYPE.MELEE;    
 
     public float buildTimer = 0.0f;
 
@@ -85,10 +85,10 @@ public class Building : MonoBehaviour
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
 
-        if (buildState == BUILDSTATE.NOT_BUILT)
-        {
-            DeactivateObject();
-        }
+        //if (buildState == BUILDSTATE.NOT_BUILT)
+        //{
+        //    DeactivateObject();
+        //}
 
         Vector3 pos = transform.position;
         pos.y += (transform.localScale.y * 5);
@@ -245,9 +245,9 @@ public class Building : MonoBehaviour
         buildState = BUILDSTATE.NOT_BUILT;
     }
 
-    private void DeactivateObject()
+    public void DeactivateObject()
     {
-        boxCollider.enabled = false;
+        //boxCollider.enabled = false;
         navMeshObstacle.enabled = false;
         interactable.enabled = false;
     }
@@ -320,6 +320,26 @@ public class Building : MonoBehaviour
         }
 
         return 0;
+    }
+
+    public void SetBuildState(BUILDSTATE _state)
+    {
+        buildState = _state;
+    }
+
+    public void SetMaterial(Material _mat)
+    {
+        GetComponent<MeshRenderer>().material = _mat;
+    }
+
+    public void SetEnemyBuilding()
+    {
+        gameObject.tag = "EnemyBuilding";
+
+        if(GetComponent<ResourceCollection>())
+        {
+            GetComponent<ResourceCollection>().
+        }
     }
 
     //private void OnMouseOver()
