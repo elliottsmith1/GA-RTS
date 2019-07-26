@@ -1858,5 +1858,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1441239984, guid: 7a519f757d8a68f48a418f0a1dda7ecd,
         type: 3}
+    - target: {fileID: 513039791, guid: 63e917e9bd0389a4eaaaca533574c137, type: 3}
+      propertyPath: decisionTimerDelay
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63e917e9bd0389a4eaaaca533574c137, type: 3}

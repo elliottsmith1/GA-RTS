@@ -19,6 +19,9 @@ public class AIManager : MonoBehaviour
 
     [SerializeField] Material enemyMaterial;
 
+    [SerializeField] float decisionTimerDelay = 15.0f;
+    private float decisionTimer = 0.0f;
+
     private Purchasables purchasables;
 
     private Vector3 playerPos = new Vector3(10, 0, 10);
@@ -52,6 +55,15 @@ public class AIManager : MonoBehaviour
     void Update()
     {
         enemyBuildings.RemoveAll(item => item == null);
+
+        decisionTimer += Time.deltaTime;
+
+        if (decisionTimer > decisionTimerDelay)
+        {
+            decisionTimer = 0.0f;
+
+            MakeDecision();
+        }
     }
 
     private void MakeDecision()
@@ -74,33 +86,38 @@ public class AIManager : MonoBehaviour
             switch(randNum)
             {
                 case 0:
-                    ConstructNewBuilding(barracks);
+                    ChooseNewBuilding();
                     break;
                 case 1:
-
+                    SpawnEnemy();
                     break;
             }
         }
         else if (newBuilding)
         {
-            ConstructNewBuilding(barracks);
+            ChooseNewBuilding();
         }
         else if (newUnit)
         {
-
+            SpawnEnemy();
         }
     }
 
     private void SpawnEnemy()
     {
         float num = Random.Range(0, groupSize);
+        int goldCost = 1;
 
         for (int i = 0; i < num; i++)
         {
-            GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-            enemy.GetComponent<NavMeshAgent>().destination = playerPos;
-            enemy.GetComponent<Unit>().SetColour("red");
-            enemy.gameObject.tag = "Enemy";
+            if (gold > goldCost)
+            {
+                GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+                enemy.GetComponent<NavMeshAgent>().destination = playerPos;
+                enemy.GetComponent<Unit>().SetColour("red");
+                enemy.gameObject.tag = "Enemy";
+                gold -= goldCost;
+            }
         }
     }
 

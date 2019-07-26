@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33a937e41d8496f4fbdb7ae99f5514a1, type: 2}
+  - {fileID: 2100000, guid: b06e94e520620604e820eac67dd18db0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   spawner: 0
   spawnerType: 0
   buildTimer: 0
-  buildState: 0
+  buildState: 1
 --- !u!114 &887727771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,12 +486,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6839238895170078626, guid: 975722af43d616b4ea036eb01337d1fb,
+    - target: {fileID: 6839238895667957331, guid: 975722af43d616b4ea036eb01337d1fb,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6839238895667957331, guid: 975722af43d616b4ea036eb01337d1fb,
+    - target: {fileID: 6839238895170078626, guid: 975722af43d616b4ea036eb01337d1fb,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
