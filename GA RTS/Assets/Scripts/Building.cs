@@ -90,6 +90,8 @@ public class Building : MonoBehaviour
         //    DeactivateObject();
         //}
 
+        SetCosts(GameObject.Find("UI").GetComponent<Purchasables>().GetBuildingCost(gameObject.name));
+
         Vector3 pos = transform.position;
         pos.y += (transform.localScale.y * 5);
         healthUI = Instantiate(healthBarPrefab, pos, Quaternion.identity);
@@ -338,22 +340,23 @@ public class Building : MonoBehaviour
 
         if(GetComponent<ResourceCollection>())
         {
-            GetComponent<ResourceCollection>().
+            GetComponent<ResourceCollection>().SetEnemyBuilding();
         }
     }
 
-    //private void OnMouseOver()
-    //{
-    //    if (buildState != BUILDSTATE.FINISHED)
-    //    {
-    //        buildtimerBackground.enabled = true;
-    //        buildtimerForeground.enabled = true;
-    //    }
-    //}
+    public void SetCosts(List<int> _costs)
+    {
+        goldCost = _costs[0];
+        woodCost = _costs[1];
+    }
 
-    //private void OnMouseExit()
-    //{
-    //    buildtimerBackground.enabled = false;
-    //    buildtimerForeground.enabled = false;
-    //}
+    public int GetGoldCost()
+    {
+        return goldCost;
+    }
+
+    public int GetWoodCost()
+    {
+        return woodCost;
+    }
 }

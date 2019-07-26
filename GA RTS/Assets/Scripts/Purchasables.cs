@@ -177,4 +177,39 @@ public class Purchasables : MonoBehaviour
             crossbowmanButton.interactable = false;
 
     }
+
+    public List<int> GetBuildingCost(string _building)
+    {
+        List<int> costs = new List<int>();
+        int gold = 0;
+        int wood = 0;
+
+        switch (_building)
+        {
+            case "Barracks(Clone)":
+                gold = barracksGoldCost;
+                wood = barracksWoodCost;
+                break;
+            case "Archery(Clone)":
+                gold = archeryGoldCost;
+                wood = archeryWoodCost;
+                break;
+            case "House(Clone)":
+                gold = houseGoldCost;
+                wood = houseWoodCost;
+                break;
+            case "LumberMill(Clone)":
+                gold = lumberGoldCost;
+                wood = lumberWoodCost;
+                break;
+            case "Market(Clone)":
+                gold = marketGoldCost;
+                wood = marketWoodCost;
+                break;
+        }
+
+        costs.Add(gold);
+        costs.Add(wood);
+        return costs;
+    }
 }

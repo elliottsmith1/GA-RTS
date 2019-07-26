@@ -19,6 +19,8 @@ public class AIManager : MonoBehaviour
 
     [SerializeField] Material enemyMaterial;
 
+    private Purchasables purchasables;
+
     private Vector3 playerPos = new Vector3(10, 0, 10);
 
     private List<GameObject> enemyBuildings = new List<GameObject>();
@@ -42,6 +44,8 @@ public class AIManager : MonoBehaviour
     void Start()
     {
         enemyBuildings.Add(GameObject.Find("Enemy TownHall"));
+
+        purchasables = GameObject.Find("UI").GetComponent<Purchasables>();
     }
 
     // Update is called once per frame
@@ -173,8 +177,8 @@ public class AIManager : MonoBehaviour
 
     private void ConstructNewBuilding(GameObject _buildingPrefab)
     {
-        GameObject building = _buildingPrefab;
-        
+        GameObject building = _buildingPrefab;        
+
         if (!_buildingPrefab)
         {
             building = barracks;
@@ -202,6 +206,7 @@ public class AIManager : MonoBehaviour
 
         int counter = 0;
 
+        //generate new building pos until it's far enough away and not close to any edges
         do
         {
             newPosition = enemyBuildings[0].transform.position;
@@ -224,8 +229,23 @@ public class AIManager : MonoBehaviour
         {
             GameObject newBuilding = Instantiate(building, newPosition, Quaternion.Euler(new Vector3(-90, 0, Random.Range(0, 359))));
 
-            Building build = newBuilding.GetComponent<Building>();
+            Building build = building.GetComponent<Building>();
             build.enabled = true;
+
+            List<int> costs = purchasables.GetBuildingCost(newBuilding.name);
+
+            int goldCost = costs[0];
+            int woodCost = costs[1];         
+
+            if (gold < goldCost || wood < woodCost)
+            {
+                Destroy(newBuilding);
+                return;
+            }
+
+            gold -= goldCost;
+            wood -= woodCost;
+            
             //build.ActivateObject();
             newBuilding.tag = "EnemyBuilding";
 
