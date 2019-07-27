@@ -17,6 +17,8 @@ public class ResourceCollection : MonoBehaviour
     [SerializeField] RESOURCETYPE resource = RESOURCETYPE.GOLD;
     [SerializeField] float collectionSpeed = 5.0f;
 
+    [SerializeField] bool enemyBuilding = false;
+
     [SerializeField] GameObject popup;
     private Text popupText;
 
@@ -30,7 +32,7 @@ public class ResourceCollection : MonoBehaviour
     private PlayerManager playerManager;
     private AIManager aIManager;
 
-    private bool enemyBuilding = false;
+    
 
     void Start()
     {

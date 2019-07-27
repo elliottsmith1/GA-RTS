@@ -27,6 +27,7 @@ public class AIManager : MonoBehaviour
     private Vector3 playerPos = new Vector3(10, 0, 10);
 
     private List<GameObject> enemyBuildings = new List<GameObject>();
+    private List<Building> buildings = new List<Building>();
 
     //resources
     private int gold = 50;
@@ -35,10 +36,16 @@ public class AIManager : MonoBehaviour
     private float maxFactorValue = 100.0f;
 
     //base building
-    private float expansionFactor = 10.0f;
+    private float expansionFactor = 80.0f;
     private float compactFactor = 1.0f;
-    private float economicFactor = 10.0f;
-    private float militaryFactor = 10.0f;
+    private float economicFactor = 60.0f;
+    private float militaryFactor = 20.0f;
+    private float populationFactor = 10.0f;
+
+    //population
+    private int populationMax = 200;
+    private int currentPopulationMax = 20;
+    private int population = 0;
 
     //army expansion
     private float armyExpansionFactor = 10.0f;
@@ -55,6 +62,7 @@ public class AIManager : MonoBehaviour
     void Update()
     {
         enemyBuildings.RemoveAll(item => item == null);
+        buildings.RemoveAll(item => item == null);
 
         decisionTimer += Time.deltaTime;
 
@@ -64,6 +72,51 @@ public class AIManager : MonoBehaviour
 
             MakeDecision();
         }
+
+        ModifyDecisionFactors();
+    }
+
+    private void ModifyDecisionFactors()
+    {
+        float increase = Time.deltaTime;
+
+        if (expansionFactor < 0)
+            expansionFactor = 0;
+
+        if (economicFactor < 0)
+            economicFactor = 0;
+
+        if (militaryFactor < 0)
+            militaryFactor = 0;
+
+        if (populationFactor < 0)
+            populationFactor = 0;
+
+        if (armyExpansionFactor < 0)
+            armyExpansionFactor = 0;
+
+
+        //base building
+        if (expansionFactor < 100)
+            expansionFactor += increase;
+
+        if (economicFactor < 100)
+            economicFactor += increase;
+
+        if (militaryFactor < 100)
+            militaryFactor += increase;
+
+        if (populationFactor < 100)
+        {
+            if (population > (currentPopulationMax * 0.75f))
+            {
+                populationFactor += increase;
+            }
+        }
+
+        //army expansion
+        if (armyExpansionFactor < 100)
+            armyExpansionFactor += increase;
     }
 
     private void MakeDecision()
@@ -81,23 +134,35 @@ public class AIManager : MonoBehaviour
 
         if (newBuilding && newUnit)
         {
-            int randNum = Random.Range(0, 2);
+            //int randNum = Random.Range(0, 2);
 
-            switch(randNum)
+            //switch(randNum)
+            //{
+            //    case 0:
+            //        ChooseNewBuilding();
+            //        break;
+            //    case 1:
+            //        SpawnEnemy();
+            //        break;
+            //}
+
+            if (armyExpansionFactor > expansionFactor)
             {
-                case 0:
-                    ChooseNewBuilding();
-                    break;
-                case 1:
-                    SpawnEnemy();
-                    break;
+                SpawnEnemy();
             }
+            else
+            {
+                ChooseNewBuilding();
+            }
+            return;
         }
-        else if (newBuilding)
+
+        if (newBuilding)
         {
             ChooseNewBuilding();
         }
-        else if (newUnit)
+
+        if (newUnit)
         {
             SpawnEnemy();
         }
@@ -107,16 +172,40 @@ public class AIManager : MonoBehaviour
     {
         float num = Random.Range(0, groupSize);
         int goldCost = 1;
+        int populationCost = 1;
 
         for (int i = 0; i < num; i++)
         {
-            if (gold > goldCost)
+            if (gold > goldCost && (population + populationCost) <= currentPopulationMax)
             {
-                GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-                enemy.GetComponent<NavMeshAgent>().destination = playerPos;
-                enemy.GetComponent<Unit>().SetColour("red");
-                enemy.gameObject.tag = "Enemy";
-                gold -= goldCost;
+                foreach (Building build in buildings)
+                {
+                    if (build.GetBuilt())
+                    {
+                        if (build.GetSpawner())
+                        {
+                            //if (build.GetSpawnerType() == Building.SPAWNERTYPE.MELEE)
+                            {
+                                if (build.GetSpawnQueue().Count < 6)
+                                {
+                                    GameObject enemy = Instantiate(enemyPrefab, build.transform.position, Quaternion.identity);
+                                    enemy.GetComponent<NavMeshAgent>().destination = playerPos;
+                                    enemy.gameObject.tag = "Enemy";
+                                    enemy.GetComponent<Unit>().SetColour("red");
+                                    AddPopulation(populationCost);
+                                    enemy.SetActive(false);
+                                    enemy.GetComponent<Unit>().SetPopulationValue(populationCost);
+                                    build.NewSpawnUnit(enemy.GetComponent<Unit>(), goldCost);
+
+                                    gold -= goldCost;
+
+                                    if (armyExpansionFactor > 10)
+                                        armyExpansionFactor -= 10;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -130,7 +219,8 @@ public class AIManager : MonoBehaviour
     {
         float rand = Random.Range(0, 100);
         bool military = false;
-        bool economic = true;
+        bool economic = false;
+        bool population = false;
 
         if (rand < militaryFactor)
             military = true;
@@ -138,40 +228,147 @@ public class AIManager : MonoBehaviour
         if (rand < economicFactor)
             economic = true;
 
+        if (rand < populationFactor)
+            population = true;
+
+        if (military && economic && population)
+        {
+            //int randNum = Random.Range(0, 3);
+
+            //switch (randNum)
+            //{
+            //    case 0:
+            //        ConstructNewBuilding(NewMilitaryBuilding());
+            //        return;
+            //    case 1:
+            //        ConstructNewBuilding(NewEconomicBuilding());
+            //        return;
+            //    case 2:
+            //        ConstructNewBuilding(house);
+            //        return;
+            //}
+
+            if (populationFactor > economicFactor && populationFactor > militaryFactor)
+            {
+                ConstructNewBuilding(house);
+            }
+            else if (economicFactor > populationFactor && economicFactor > militaryFactor)
+            {
+                ConstructNewBuilding(NewEconomicBuilding());
+            }
+
+            else if (militaryFactor > populationFactor && militaryFactor > economicFactor)
+            {
+                ConstructNewBuilding(NewMilitaryBuilding());
+            }
+            return;
+        }
+
         if (military && economic)
         {
-            int randNum = Random.Range(0, 2);
+            //int randNum = Random.Range(0, 2);
 
-            switch (randNum)
+            //switch (randNum)
+            //{
+            //    case 0:
+            //        ConstructNewBuilding(NewMilitaryBuilding());
+            //        return;
+            //    case 1:
+            //        ConstructNewBuilding(NewEconomicBuilding());
+            //        return;
+            //}
+
+            if (militaryFactor > economicFactor)
             {
-                case 0:
-                    ConstructNewBuilding(NewMilitaryBuilding());
-                    break;
-                case 1:
-                    ConstructNewBuilding(NewEconomicBuilding());
-                    break;
+                ConstructNewBuilding(NewMilitaryBuilding());
             }
+            else
+            {
+                ConstructNewBuilding(NewEconomicBuilding());
+            }
+            return;
         }
-        else if (military)
+
+        if (military && population)
+        {
+            //int randNum = Random.Range(0, 2);
+
+            //switch (randNum)
+            //{
+            //    case 0:
+            //        ConstructNewBuilding(NewMilitaryBuilding());
+            //        return;
+            //    case 1:
+            //        ConstructNewBuilding(house);
+            //        return;
+            //}
+
+            if (populationFactor > militaryFactor)
+            {
+                ConstructNewBuilding(house);
+            }
+            else
+            {
+                ConstructNewBuilding(NewMilitaryBuilding());
+            }
+            return;
+        }
+
+        if (population && economic)
+        {
+            //int randNum = Random.Range(0, 2);
+
+            //switch (randNum)
+            //{
+            //    case 0:
+            //        ConstructNewBuilding(house);
+            //        return;
+            //    case 1:
+            //        ConstructNewBuilding(NewEconomicBuilding());
+            //        return;
+            //}
+            if (populationFactor > economicFactor)
+            {
+                ConstructNewBuilding(house);
+            }
+            else
+            {
+                ConstructNewBuilding(NewEconomicBuilding());
+            }
+            return;
+        }
+
+        if (military)
         {
             ConstructNewBuilding(NewMilitaryBuilding());
+            return;
         }
-        else if (economic)
+
+        if (economic)
         {
             ConstructNewBuilding(NewEconomicBuilding());
+            return;
+        }
+
+        if (population)
+        {
+            ConstructNewBuilding(house);
+            return;
         }
     }
 
     private GameObject NewEconomicBuilding()
     {
+        economicFactor -= 50;
+
         int rand = Random.Range(0, 2);
 
         switch (rand)
         {
             case 0:
-                return lumberMill;
-            case 1:
                 return market;
+            case 1:
+                return lumberMill;
         }
 
         return market;
@@ -179,6 +376,8 @@ public class AIManager : MonoBehaviour
 
     private GameObject NewMilitaryBuilding()
     {
+        militaryFactor -= 50;
+
         int rand = Random.Range(0, 2);
 
         switch (rand)
@@ -223,7 +422,7 @@ public class AIManager : MonoBehaviour
 
         int counter = 0;
 
-        //generate new building pos until it's far enough away and not close to any edges
+        //generate new building spawn pos until it's far enough away and not close to any edges
         do
         {
             newPosition = enemyBuildings[0].transform.position;
@@ -246,8 +445,13 @@ public class AIManager : MonoBehaviour
         {
             GameObject newBuilding = Instantiate(building, newPosition, Quaternion.Euler(new Vector3(-90, 0, Random.Range(0, 359))));
 
-            Building build = building.GetComponent<Building>();
+            Building build = newBuilding.GetComponent<Building>();
             build.enabled = true;
+
+            if (build.GetCollector())
+            {
+                newBuilding.GetComponent<ResourceCollection>().SetEnemyBuilding();
+            }
 
             List<int> costs = purchasables.GetBuildingCost(newBuilding.name);
 
@@ -262,20 +466,44 @@ public class AIManager : MonoBehaviour
 
             gold -= goldCost;
             wood -= woodCost;
+
+            expansionFactor -= 25;
             
-            //build.ActivateObject();
             newBuilding.tag = "EnemyBuilding";
 
             build.SetMaterial(enemyMaterial);
 
-            build.SetBuildState(Building.BUILDSTATE.NOT_BUILT);
+            //build.SetBuildState(Building.BUILDSTATE.NOT_BUILT);
 
             Outline outl = newBuilding.GetComponent<Outline>();
             outl.OutlineColor = Color.red;
             outl.enabled = false;
 
             enemyBuildings.Add(newBuilding);
+            buildings.Add(build);
         }
+    }
+    
+    private void AddPopulation(int _pop)
+    {
+        population += _pop;
+    }
+
+    public void NewHouse()
+    {
+        populationFactor -= 90;
+
+        currentPopulationMax += 10;
+
+        if (currentPopulationMax > populationMax)
+        {
+            currentPopulationMax = populationMax;
+        }
+    }
+
+    public void DestroyedHouse()
+    {
+        currentPopulationMax -= 10;
     }
 
     public void AddGold(int _val)

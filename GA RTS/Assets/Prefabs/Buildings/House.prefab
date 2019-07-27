@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 33a937e41d8496f4fbdb7ae99f5514a1, type: 2}
+  - {fileID: 2100000, guid: b06e94e520620604e820eac67dd18db0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -116,13 +116,13 @@ MonoBehaviour:
   constructionMesh: {fileID: 4300000, guid: b1ff534b3931e674e8e475faa59eb659, type: 3}
   finishedMesh: {fileID: 4300000, guid: 05035b78d90b21f43854dfe010ccd289, type: 3}
   buildTime: 40
-  maxHealth: 1000
+  maxHealth: 500
   increasePopulation: 1
   collector: 0
   spawner: 0
   spawnerType: 0
   buildTimer: 0
-  buildState: 0
+  buildState: 1
 --- !u!114 &177632740
 MonoBehaviour:
   m_ObjectHideFlags: 0

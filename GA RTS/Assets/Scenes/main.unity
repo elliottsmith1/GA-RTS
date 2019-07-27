@@ -1175,6 +1175,10 @@ PrefabInstance:
       propertyPath: buildState
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 264513970, guid: b151fc63ead3c124fb9df7e9089aa0a4, type: 3}
+      propertyPath: maxHealth
+      value: 3000
+      objectReference: {fileID: 0}
     - target: {fileID: 8569950228211210216, guid: b151fc63ead3c124fb9df7e9089aa0a4,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -1424,10 +1428,24 @@ PrefabInstance:
       propertyPath: buildState
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 264513970, guid: b151fc63ead3c124fb9df7e9089aa0a4, type: 3}
+      propertyPath: maxHealth
+      value: 3000
+      objectReference: {fileID: 0}
     - target: {fileID: 8569950228211210216, guid: b151fc63ead3c124fb9df7e9089aa0a4,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446560189657619317, guid: b151fc63ead3c124fb9df7e9089aa0a4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446560189657619317, guid: b151fc63ead3c124fb9df7e9089aa0a4,
+        type: 3}
+      propertyPath: enemyBuilding
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 264513973, guid: b151fc63ead3c124fb9df7e9089aa0a4, type: 3}
       propertyPath: m_Enabled
@@ -1860,7 +1878,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 513039791, guid: 63e917e9bd0389a4eaaaca533574c137, type: 3}
       propertyPath: decisionTimerDelay
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63e917e9bd0389a4eaaaca533574c137, type: 3}

@@ -15,7 +15,7 @@ public class Building : MonoBehaviour
         FINISHED
     }
 
-    private enum SPAWNERTYPE
+    public enum SPAWNERTYPE
     {
         MELEE,
         RANGED,
@@ -53,6 +53,7 @@ public class Building : MonoBehaviour
 
     private PlayerManager playerManager;
     private BuildingManager buildingManager;
+    private AIManager aiManager;
 
     private UIManager uiManager;
 
@@ -69,6 +70,8 @@ public class Building : MonoBehaviour
     private GameObject healthUI;
     private Image healthBar;
 
+    private bool enemyBuilding = false;
+
     [SerializeField] BUILDSTATE buildState = BUILDSTATE.PLACING;    
 
     // Start is called before the first frame update
@@ -84,6 +87,7 @@ public class Building : MonoBehaviour
         uiManager = GameObject.Find("UI").GetComponent<UIManager>();
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
         playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        aiManager = GameObject.Find("AI Manager").GetComponent<AIManager>();
 
         //if (buildState == BUILDSTATE.NOT_BUILT)
         //{
@@ -199,7 +203,14 @@ public class Building : MonoBehaviour
                 {
                     if (increasePopulation)
                     {
-                        playerManager.NewHouse();
+                        if (!enemyBuilding)
+                        {
+                            playerManager.NewHouse();
+                        }
+                        else
+                        {
+                            aiManager.NewHouse();
+                        }
                     }
 
                     if (collector)
@@ -208,6 +219,7 @@ public class Building : MonoBehaviour
                     }
 
                     buildState = BUILDSTATE.FINISHED;
+
                     if (meshFilter)
                     {
                         meshFilter.mesh = finishedMesh;
@@ -236,6 +248,18 @@ public class Building : MonoBehaviour
             playerManager.AddWood(woodCost);
         }
 
+        if (increasePopulation)
+        {
+            if (!enemyBuilding)
+            {
+                playerManager.DestroyedHouse();
+            }
+            else
+            {
+                aiManager.DestroyedHouse();
+            }
+        }
+
         Destroy(this.gameObject);
     }
 
@@ -256,30 +280,33 @@ public class Building : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (buildState == BUILDSTATE.FINISHED)
+        if (!enemyBuilding)
         {
-            buildingManager.SetActiveBuilding(this);
-            if (spawner)
+            if (buildState == BUILDSTATE.FINISHED)
             {
-                string spawn = "buildings";
-
-                switch (spawnerType)
+                buildingManager.SetActiveBuilding(this);
+                if (spawner)
                 {
-                    case SPAWNERTYPE.MELEE:
-                        spawn = "barracks";
-                        break;
-                    case SPAWNERTYPE.MAGIC:
-                        spawn = "magetower";
-                        break;
-                    case SPAWNERTYPE.MOUNTED:
-                        spawn = "stables";
-                        break;
-                    case SPAWNERTYPE.RANGED:
-                        spawn = "archery";
-                        break;
-                }
+                    string spawn = "buildings";
 
-                uiManager.ActivatePane(spawn);
+                    switch (spawnerType)
+                    {
+                        case SPAWNERTYPE.MELEE:
+                            spawn = "barracks";
+                            break;
+                        case SPAWNERTYPE.MAGIC:
+                            spawn = "magetower";
+                            break;
+                        case SPAWNERTYPE.MOUNTED:
+                            spawn = "stables";
+                            break;
+                        case SPAWNERTYPE.RANGED:
+                            spawn = "archery";
+                            break;
+                    }
+
+                    uiManager.ActivatePane(spawn);
+                }
             }
         }
     }
@@ -342,6 +369,8 @@ public class Building : MonoBehaviour
         {
             GetComponent<ResourceCollection>().SetEnemyBuilding();
         }
+
+        enemyBuilding = true;
     }
 
     public void SetCosts(List<int> _costs)
@@ -358,5 +387,30 @@ public class Building : MonoBehaviour
     public int GetWoodCost()
     {
         return woodCost;
+    }
+
+    public bool GetSpawner()
+    {
+        return spawner;
+    }
+
+    public SPAWNERTYPE GetSpawnerType()
+    {
+        return spawnerType;
+    }
+
+    public BUILDSTATE GetBuildState()
+    {
+        return buildState;
+    }
+
+    public bool GetBuilt()
+    {
+        return built;
+    }
+
+    public bool GetCollector()
+    {
+        return collector;
     }
 }
