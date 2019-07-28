@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1840610632}
   - component: {fileID: 1840610633}
   - component: {fileID: 1840610635}
+  - component: {fileID: 4629410352224120795}
   m_Layer: 0
   m_Name: Tower_A
   m_TagString: FriendlyBuilding
@@ -169,6 +170,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0.14}
   m_TimeToStationary: 0.5
+--- !u!135 &4629410352224120795
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840610628}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: -0.000000072137865, y: 0.00000046848183, z: 0.14018121}
 --- !u!1001 &1447028185
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -189,12 +189,14 @@ public class AIManager : MonoBehaviour
                                 if (build.GetSpawnQueue().Count < 6)
                                 {
                                     GameObject enemy = Instantiate(enemyPrefab, build.transform.position, Quaternion.identity);
+                                    Unit unit = enemy.GetComponent<Unit>();
+                                    unit.SetLayer(enemy.transform, LayerMask.NameToLayer("Enemy"));
                                     enemy.GetComponent<NavMeshAgent>().destination = playerPos;
                                     enemy.gameObject.tag = "Enemy";
-                                    enemy.GetComponent<Unit>().SetColour("red");
+                                    unit.SetColour("red");
                                     AddPopulation(populationCost);
                                     enemy.SetActive(false);
-                                    enemy.GetComponent<Unit>().SetPopulationValue(populationCost);
+                                    unit.SetPopulationValue(populationCost);
                                     build.NewSpawnUnit(enemy.GetComponent<Unit>(), goldCost);
 
                                     gold -= goldCost;
@@ -448,10 +450,12 @@ public class AIManager : MonoBehaviour
             Building build = newBuilding.GetComponent<Building>();
             build.enabled = true;
 
-            if (build.GetCollector())
-            {
-                newBuilding.GetComponent<ResourceCollection>().SetEnemyBuilding();
-            }
+            build.SetEnemyBuilding();
+
+            //if (build.GetCollector())
+            //{
+            //    newBuilding.GetComponent<ResourceCollection>().SetEnemyBuilding();
+            //}
 
             List<int> costs = purchasables.GetBuildingCost(newBuilding.name);
 
@@ -469,7 +473,7 @@ public class AIManager : MonoBehaviour
 
             expansionFactor -= 25;
             
-            newBuilding.tag = "EnemyBuilding";
+            //newBuilding.tag = "EnemyBuilding";
 
             build.SetMaterial(enemyMaterial);
 

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 887727772}
   - component: {fileID: 887727774}
   - component: {fileID: 8927777287463934257}
+  - component: {fileID: 963256903923646206}
   m_Layer: 0
   m_Name: LumberMill
   m_TagString: FriendlyBuilding
@@ -187,6 +188,19 @@ MonoBehaviour:
   collectionSpeed: 3
   enemyBuilding: 0
   popup: {fileID: 6751253529463217001}
+--- !u!135 &963256903923646206
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887727767}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: -0.00000005988914, y: -0.036565114, z: 0.7064139}
 --- !u!1 &1048030793169834849
 GameObject:
   m_ObjectHideFlags: 0

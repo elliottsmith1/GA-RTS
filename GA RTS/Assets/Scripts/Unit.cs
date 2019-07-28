@@ -61,6 +61,7 @@ public class Unit : MonoBehaviour
     [SerializeField] bool mounted = false;
     [SerializeField] bool melee = true;
     [SerializeField] float range = 2.0f;
+    private float attackRange = 20.0f;
 
     [SerializeField] GameObject projectilePrefab;
     private GameObject activeProjectile;
@@ -228,7 +229,10 @@ public class Unit : MonoBehaviour
         GetComponent<CapsuleCollider>().enabled = false;
         navMeshAgent.isStopped = true;
         navMeshAgent.enabled = false;
-        unitManager.RemoveUnit(this.gameObject);
+
+        //if (gameObject.tag == "Friendly")
+        //    unitManager.RemoveUnit(this.gameObject);
+
         this.enabled = false;
         Destroy(this);
     }
@@ -446,7 +450,6 @@ public class Unit : MonoBehaviour
                 }
             }
 
-
             RaycastHit hit1;
             if (Physics.Raycast(transform.position, targetBuilding.transform.position - transform.position, out hit1, Mathf.Infinity))
             {
@@ -499,6 +502,14 @@ public class Unit : MonoBehaviour
 
         else 
         {
+            if (gameObject.tag == "Enemy")
+            {
+                if (nearbyEnemies.Count < 1 && nearbyEnemyBuildings.Count < 1)
+                {
+                    SetLayer(transform, LayerMask.NameToLayer("Enemy"));
+                }
+            }
+
             if (target)
             {
                 target = null;
@@ -583,6 +594,14 @@ public class Unit : MonoBehaviour
             }
 
             nearbyEnemies.Add(other.gameObject.GetComponent<Unit>());
+
+            if (gameObject.tag == "Enemy")
+            {
+                if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                {
+                    SetLayer(transform, LayerMask.NameToLayer("Default"));
+                }
+            }
         }
 
         if (other.transform.tag == enemyBuildingTag)
@@ -598,6 +617,14 @@ public class Unit : MonoBehaviour
                 }
             }
 
+            if (other.transform.tag == "EnemyBuilding")
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                {
+                    other.gameObject.layer = LayerMask.NameToLayer("Default");
+                }
+            }
+
             nearbyEnemyBuildings.Add(other.gameObject.GetComponent<Building>());
         }
     }
@@ -606,13 +633,20 @@ public class Unit : MonoBehaviour
     {
         if (other.transform.tag == enemyTag)
         {
-            nearbyEnemies.Remove(other.gameObject.GetComponent<Unit>());
+            nearbyEnemies.Remove(other.gameObject.GetComponent<Unit>());            
         }
 
         if (other.transform.tag == enemyBuildingTag)
         {
             nearbyEnemyBuildings.Remove(other.gameObject.GetComponent<Building>());
-        }
+        }        
+    }
+
+    public void SetLayer(Transform root, int layer)
+    {
+        root.gameObject.layer = layer;
+        foreach (Transform child in root)
+            SetLayer(child, layer);
     }
 
     public WEAPONTYPE GetWeapon()

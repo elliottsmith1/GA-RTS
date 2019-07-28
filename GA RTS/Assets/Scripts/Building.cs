@@ -365,12 +365,17 @@ public class Building : MonoBehaviour
     {
         gameObject.tag = "EnemyBuilding";
 
-        if(GetComponent<ResourceCollection>())
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+
+        if (GetComponent<ResourceCollection>())
         {
             GetComponent<ResourceCollection>().SetEnemyBuilding();
         }
 
         enemyBuilding = true;
+
+        buildtimerBackground.enabled = false;
+        buildtimerForeground.enabled = false;
     }
 
     public void SetCosts(List<int> _costs)

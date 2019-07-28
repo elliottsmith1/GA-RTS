@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1728739309}
   - component: {fileID: 1728739310}
   - component: {fileID: 1728739312}
+  - component: {fileID: 8831836614223194560}
   m_Layer: 0
   m_Name: Temple
   m_TagString: FriendlyBuilding
@@ -169,6 +170,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.047000002, y: 0, z: 0.634}
   m_TimeToStationary: 0.5
+--- !u!135 &8831836614223194560
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728739305}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: 0.046875063, y: -0.000000041981263, z: 0.6340162}
 --- !u!1001 &165684528
 PrefabInstance:
   m_ObjectHideFlags: 0

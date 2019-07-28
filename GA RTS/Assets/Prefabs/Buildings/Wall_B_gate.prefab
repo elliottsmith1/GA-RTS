@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 806186140}
   - component: {fileID: 806186141}
   - component: {fileID: 806186143}
+  - component: {fileID: 8788258839533447407}
   m_Layer: 0
   m_Name: Wall_B_gate
   m_TagString: FriendlyBuilding
@@ -176,6 +177,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!135 &8788258839533447407
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806186137}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &859720092
 GameObject:
   m_ObjectHideFlags: 0

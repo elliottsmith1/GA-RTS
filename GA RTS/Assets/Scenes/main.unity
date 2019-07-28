@@ -727,6 +727,10 @@ PrefabInstance:
       propertyPath: selectionSquareTrans
       value: 
       objectReference: {fileID: 1287243532}
+    - target: {fileID: 2056488, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 311
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 3}
 --- !u!4 &1105213859 stripped

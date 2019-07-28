@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 129387715}
   - component: {fileID: 129387716}
   - component: {fileID: 129387718}
+  - component: {fileID: 6849197899149728177}
   m_Layer: 0
   m_Name: Wall_B_corner
   m_TagString: FriendlyBuilding
@@ -169,6 +170,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: -0.024, z: 1.4770001}
   m_TimeToStationary: 0.5
+--- !u!135 &6849197899149728177
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129387711}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: -0.00000012991406, y: -0.023903463, z: 1.4769678}
 --- !u!1001 &1608043875
 PrefabInstance:
   m_ObjectHideFlags: 0

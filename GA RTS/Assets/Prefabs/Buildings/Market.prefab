@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1441239989}
   - component: {fileID: 1441239991}
   - component: {fileID: 4769737363932436411}
+  - component: {fileID: 1621372224754303384}
   m_Layer: 0
   m_Name: Market
   m_TagString: FriendlyBuilding
@@ -187,6 +188,19 @@ MonoBehaviour:
   collectionSpeed: 3
   enemyBuilding: 0
   popup: {fileID: 1832608828967370880}
+--- !u!135 &1621372224754303384
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441239984}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: -0.007974236, y: 0.021095939, z: 0.9728242}
 --- !u!1 &1832608828967370880
 GameObject:
   m_ObjectHideFlags: 0

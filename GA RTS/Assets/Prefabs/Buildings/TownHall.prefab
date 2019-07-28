@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 264513974}
   - component: {fileID: 264513976}
   - component: {fileID: 1446560189657619317}
+  - component: {fileID: 3907032185608126285}
   m_Layer: 0
   m_Name: TownHall
   m_TagString: FriendlyBuilding
@@ -187,6 +188,19 @@ MonoBehaviour:
   collectionSpeed: 5
   enemyBuilding: 0
   popup: {fileID: 7281673274027444918}
+--- !u!135 &3907032185608126285
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264513969}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: 0.01876443, y: -0.00000004554955, z: 0.73604816}
 --- !u!1 &4488482640839727451
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1123086701}
   - component: {fileID: 1123086702}
   - component: {fileID: 1123086704}
+  - component: {fileID: 5523304555414039952}
   m_Layer: 0
   m_Name: Farm
   m_TagString: FriendlyBuilding
@@ -169,6 +170,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.007, y: -0.020000001, z: 0.49}
   m_TimeToStationary: 0.5
+--- !u!135 &5523304555414039952
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123086697}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: -0.0069715204, y: -0.01995734, z: 0.49024498}
 --- !u!1001 &1454424361
 PrefabInstance:
   m_ObjectHideFlags: 0

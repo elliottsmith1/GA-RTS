@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 177632740}
   - component: {fileID: 177632741}
   - component: {fileID: 177632743}
+  - component: {fileID: 1760629822059783173}
   m_Layer: 0
   m_Name: House
   m_TagString: FriendlyBuilding
@@ -169,6 +170,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.038000003, y: 0.012, z: 0.485}
   m_TimeToStationary: 0.5
+--- !u!135 &1760629822059783173
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177632736}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 30
+  m_Center: {x: -0.03839557, y: 0.012146689, z: 0.48536146}
 --- !u!1001 &1968684347
 PrefabInstance:
   m_ObjectHideFlags: 0
