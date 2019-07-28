@@ -185,6 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resource: 0
   collectionSpeed: 5
+  enemyBuilding: 0
   popup: {fileID: 7281673274027444918}
 --- !u!1 &4488482640839727451
 GameObject:
