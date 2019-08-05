@@ -29,6 +29,10 @@ public class AIManager : MonoBehaviour
     private List<GameObject> enemyBuildings = new List<GameObject>();
     private List<Building> buildings = new List<Building>();
 
+    private List<GameObject> playerBuildings = new List<GameObject>();
+
+    private AIUnitManager unitManager;    
+
     //resources
     private int gold = 50;
     private int wood = 50;
@@ -53,9 +57,13 @@ public class AIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerBuildings.Add(GameObject.Find("Player TownHall"));
+
         enemyBuildings.Add(GameObject.Find("Enemy TownHall"));
 
         purchasables = GameObject.Find("UI").GetComponent<Purchasables>();
+
+        unitManager = GetComponent<AIUnitManager>();
     }
 
     // Update is called once per frame
@@ -63,6 +71,8 @@ public class AIManager : MonoBehaviour
     {
         enemyBuildings.RemoveAll(item => item == null);
         buildings.RemoveAll(item => item == null);
+
+        playerBuildings.RemoveAll(item => item == null);
 
         decisionTimer += Time.deltaTime;
 
@@ -184,26 +194,34 @@ public class AIManager : MonoBehaviour
                     {
                         if (build.GetSpawner())
                         {
-                            //if (build.GetSpawnerType() == Building.SPAWNERTYPE.MELEE)
+                            if (build.GetSpawnQueue().Count < 6)
                             {
-                                if (build.GetSpawnQueue().Count < 6)
+                                if (unitManager.GetUnits().Count >= unitManager.GetMaxUnitPrep())
                                 {
-                                    GameObject enemy = Instantiate(enemyPrefab, build.transform.position, Quaternion.identity);
-                                    Unit unit = enemy.GetComponent<Unit>();
-                                    unit.SetLayer(enemy.transform, LayerMask.NameToLayer("Enemy"));
-                                    enemy.GetComponent<NavMeshAgent>().destination = playerPos;
-                                    enemy.gameObject.tag = "Enemy";
-                                    unit.SetColour("red");
-                                    AddPopulation(populationCost);
-                                    enemy.SetActive(false);
-                                    unit.SetPopulationValue(populationCost);
-                                    build.NewSpawnUnit(enemy.GetComponent<Unit>(), goldCost);
-
-                                    gold -= goldCost;
-
-                                    if (armyExpansionFactor > 10)
-                                        armyExpansionFactor -= 10;
+                                    Debug.Log(unitManager.GetUnits().Count + " / " + unitManager.GetMaxUnitPrep() + " Failed");
+                                    return;
                                 }
+
+                                Debug.Log(unitManager.GetUnits().Count + " / " + unitManager.GetMaxUnitPrep() + " Passed");
+
+                                GameObject enemy = Instantiate(enemyPrefab, build.transform.position, Quaternion.identity);
+                                Unit unit = enemy.GetComponent<Unit>();
+                                unit.SetLayer(enemy.transform, LayerMask.NameToLayer("Enemy"));
+                                enemy.gameObject.tag = "Enemy";
+                                unit.SetColour("red");
+                                AddPopulation(populationCost);
+                                enemy.SetActive(false);
+                                unit.SetPopulationValue(populationCost);
+                                build.NewSpawnUnit(enemy.GetComponent<Unit>(), goldCost);
+
+                                unitManager.NewUnit(enemy, unit);
+
+                                Debug.Log(unitManager.GetUnits().Count);
+
+                                gold -= goldCost;
+
+                                if (armyExpansionFactor > 10)
+                                    armyExpansionFactor -= 10;
                             }
                         }
                     }
@@ -518,6 +536,16 @@ public class AIManager : MonoBehaviour
     public void AddWood(int _val)
     {
         wood += _val;
+    }
+
+    public List<GameObject> GetPlayerBuildings()
+    {
+        return playerBuildings;
+    }
+
+    public void NewPlayerBuilding(GameObject _building)
+    {
+        playerBuildings.Add(_building);
     }
 
 #if UNITY_EDITOR

@@ -27,6 +27,7 @@ public class Unit : MonoBehaviour
     }
 
     private Vector3 targetPosition;
+    private Vector3 finalDestination;
 
     private List<Unit> nearbyEnemies = new List<Unit>();
     private List<Building> nearbyEnemyBuildings = new List<Building>();
@@ -243,6 +244,17 @@ public class Unit : MonoBehaviour
         {
             case STATE.IDLE:
 
+                if (finalDestination != new Vector3(0, 0, 0))
+                {
+                    if (Vector3.Distance(transform.position, finalDestination) < 1)
+                    {
+                        finalDestination = new Vector3(0, 0, 0);
+                    }
+                    else
+                    {
+                        NewDestination(finalDestination, false);
+                    }
+                }
                 break;
             case STATE.MOVING:
 
@@ -549,6 +561,11 @@ public class Unit : MonoBehaviour
             target = null;
             targetBuilding = null;
         }
+    }
+
+    public void NewFinalDestination(Vector3 _pos)
+    {
+        finalDestination = _pos;
     }
 
     public void SetColour(string _col)
