@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class AIUnitManager : MonoBehaviour
 {
+    private enum ATTACKWAVEBEHAVIOUR
+    {
+        WAITING,
+        ATTACKING,
+        RECRUITING
+    }
+
     private AIManager aiManager;
 
     private List<GameObject> allUnits = new List<GameObject>();
@@ -11,10 +18,14 @@ public class AIUnitManager : MonoBehaviour
     private List<Unit> selectedUnits = new List<Unit>();
 
     private List<List<GameObject>> attackWaves = new List<List<GameObject>>();
+    private List<ATTACKWAVEBEHAVIOUR> attackWavesBehaviours = new List<ATTACKWAVEBEHAVIOUR>();
 
     //army control
     private int maxWaveUnitNum = 2;
     private int maxWaves = 2;
+    private float waveTimeDelay = 10.0f;
+    private float waveAttackTimer = 0.0f;
+    private bool canSendWave = true;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +35,10 @@ public class AIUnitManager : MonoBehaviour
         for (int i = 0; i < maxWaves; i++)
         {
             List<GameObject> wave = new List<GameObject>();
+            ATTACKWAVEBEHAVIOUR behaviour = ATTACKWAVEBEHAVIOUR.RECRUITING;
+
             attackWaves.Add(wave);
+            attackWavesBehaviours.Add(behaviour);
         }
     }
 
@@ -35,20 +49,80 @@ public class AIUnitManager : MonoBehaviour
         allUnitsU.RemoveAll(item => item == null);
         selectedUnits.RemoveAll(item => item == null);
 
-        foreach(List<GameObject> wave in attackWaves)
+        for(int i = 0; i < attackWaves.Count; i++)
         {
-            if (wave.Count > 0)
+            if (attackWaves[i].Count > 0)
             {
-                wave.RemoveAll(item => item == null);
+                attackWaves[i].RemoveAll(item => item == null);
+
+                if (attackWaves[i].Count < 1)
+                {
+                    attackWavesBehaviours[i] = ATTACKWAVEBEHAVIOUR.RECRUITING;
+                }
             }
         }
+
+        SendAttackWave();
     }
 
     private void SendAttackWave()
     {
+        if (!canSendWave)
+        {
+            waveAttackTimer += Time.deltaTime;
+
+            if (waveAttackTimer > waveTimeDelay)
+            {
+                waveAttackTimer = 0.0f;
+                canSendWave = true;
+            }
+            return;
+        }
+
         Vector3 attackPos = aiManager.GetPlayerBuildings()[0].transform.position;
 
-        List<GameObject> remainingUnits = allUnits;
+        if (attackWaves.Count > 0)
+        {
+            for (int i = 0; i < attackWaves.Count; i++)
+            {
+                bool sendWave = true;
+
+                if (attackWaves[i].Count > 0)
+                {
+                    if (attackWavesBehaviours[i] == ATTACKWAVEBEHAVIOUR.RECRUITING)
+                    {
+                        foreach(GameObject unit in attackWaves[i])
+                        {
+                            if (!unit.activeInHierarchy || unit.GetComponent<Unit>().GetState() != Unit.STATE.IDLE)
+                            {
+                                sendWave = false;
+                                break;
+                            }
+                        }
+
+                        if (sendWave)
+                        {
+                            attackWavesBehaviours[i] = ATTACKWAVEBEHAVIOUR.ATTACKING;
+
+                            canSendWave = false;
+
+                            foreach (GameObject unit in attackWaves[i])
+                            {
+                                Unit soldier = unit.GetComponent<Unit>();
+                                soldier.NewFinalDestination(attackPos);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void SetupAttackWave()
+    {
+        //Vector3 attackPos = aiManager.GetPlayerBuildings()[0].transform.position;
+
+        List<GameObject> remainingUnits = new List<GameObject>(allUnits);
 
         foreach (List<GameObject> wave in attackWaves)
         {
@@ -68,13 +142,13 @@ public class AIUnitManager : MonoBehaviour
                 for (int i = 0; i < maxWaveUnitNum; i++)
                 {
                     Unit soldier = remainingUnits[i].GetComponent<Unit>();
-                    soldier.NewFinalDestination(attackPos);
+                    //soldier.NewFinalDestination(attackPos);
                     wave.Add(soldier.gameObject);
                 }
 
                 break;
             }
-        }        
+        }
     }
 
     public void NewUnit(GameObject _soldier, Unit _unit)
@@ -94,8 +168,8 @@ public class AIUnitManager : MonoBehaviour
 
         if (remainingUnits >= maxWaveUnitNum)
         {
-            SendAttackWave();
-        }
+            SetupAttackWave();
+        }        
     }
 
     public int GetMaxWaveNum()

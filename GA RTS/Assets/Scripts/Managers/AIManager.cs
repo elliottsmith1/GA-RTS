@@ -198,11 +198,11 @@ public class AIManager : MonoBehaviour
                             {
                                 if (unitManager.GetUnits().Count >= unitManager.GetMaxUnitPrep())
                                 {
-                                    Debug.Log(unitManager.GetUnits().Count + " / " + unitManager.GetMaxUnitPrep() + " Failed");
+                                    //Debug.Log(unitManager.GetUnits().Count + " / " + unitManager.GetMaxUnitPrep() + " Failed");
                                     return;
                                 }
 
-                                Debug.Log(unitManager.GetUnits().Count + " / " + unitManager.GetMaxUnitPrep() + " Passed");
+                                //Debug.Log(unitManager.GetUnits().Count + " / " + unitManager.GetMaxUnitPrep() + " Passed");
 
                                 GameObject enemy = Instantiate(enemyPrefab, build.transform.position, Quaternion.identity);
                                 Unit unit = enemy.GetComponent<Unit>();
@@ -216,7 +216,7 @@ public class AIManager : MonoBehaviour
 
                                 unitManager.NewUnit(enemy, unit);
 
-                                Debug.Log(unitManager.GetUnits().Count);
+                                //Debug.Log(unitManager.GetUnits().Count);
 
                                 gold -= goldCost;
 

@@ -110,7 +110,6 @@ public class UnitAnimator : MonoBehaviour
         if (dead)
         {
             deathTimer += Time.deltaTime;
-
             
             if (deathTimer > deathDelay)
             {

@@ -77,6 +77,9 @@ public class Unit : MonoBehaviour
     [SerializeField] Material redMaterial;
     [SerializeField] Material blueMaterial;
 
+    private float stuckTimer = 0.0f;
+    private float stuckTimerDelay = 1.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -257,7 +260,29 @@ public class Unit : MonoBehaviour
                 }
                 break;
             case STATE.MOVING:
+                if (nearbyEnemies.Count < 1 && nearbyEnemyBuildings.Count < 1)
+                {
+                    if (navMeshAgent.remainingDistance < 2)
+                    {
+                        stuckTimer += Time.deltaTime;
 
+                        if (stuckTimer > stuckTimerDelay)
+                        {
+                            stuckTimer = 0.0f;
+
+                            //Debug.Log(navMeshAgent.velocity.magnitude);
+
+                            //Vector3 pos = transform.position - transform.forward;
+                            //pos.Normalize();
+
+                            //Debug.Log(transform.position + " / " + pos);
+
+                            NewDestination(transform.position, false);
+
+                            state = STATE.IDLE;
+                        }
+                    }
+                }
                 break;
             case STATE.FIGHTING:
                 if (nearbyEnemies.Count < 1 && nearbyEnemyBuildings.Count < 1)
