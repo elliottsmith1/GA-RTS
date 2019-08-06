@@ -115,6 +115,9 @@ public class Unit : MonoBehaviour
                 }
             }
         }
+
+        NewDestination(new Vector3(transform.position.x + UnityEngine.Random.Range(-5, 5), transform.position.y, transform.position.z + UnityEngine.Random.Range(-5, 5)), false);
+
     }
 
     // Update is called once per frame

@@ -79,7 +79,28 @@ public class AIUnitManager : MonoBehaviour
             return;
         }
 
-        Vector3 attackPos = aiManager.GetPlayerBuildings()[0].transform.position;
+        GameObject target = aiManager.GetPlayerBuildings()[0];
+
+        if (aiManager.GetPlayerBuildings().Count > 0)
+        {
+            foreach(GameObject building in aiManager.GetPlayerBuildings())
+            {
+                if (building != target)
+                {
+                    if (Vector3.Distance(aiManager.GetEnemyBuildings()[0].transform.position, building.transform.position) < 
+                        Vector3.Distance(aiManager.GetEnemyBuildings()[0].transform.position, target.transform.position))
+                    {
+                        target = building;
+                    }
+                }
+            }
+        }
+        else
+        {
+            return;
+        }
+
+        Vector3 attackPos = target.transform.position;
 
         if (attackWaves.Count > 0)
         {
@@ -89,7 +110,7 @@ public class AIUnitManager : MonoBehaviour
 
                 if (attackWaves[i].Count > 0)
                 {
-                    if (attackWavesBehaviours[i] == ATTACKWAVEBEHAVIOUR.RECRUITING)
+                    if (attackWavesBehaviours[i] != ATTACKWAVEBEHAVIOUR.ATTACKING)
                     {
                         foreach(GameObject unit in attackWaves[i])
                         {
@@ -111,6 +132,23 @@ public class AIUnitManager : MonoBehaviour
                                 Unit soldier = unit.GetComponent<Unit>();
                                 soldier.NewFinalDestination(attackPos);
                             }
+                        }
+                    }
+                    else
+                    {
+                        bool finishedAttacking = true;
+                        foreach (GameObject unit in attackWaves[i])
+                        {
+                            if (unit.GetComponent<Unit>().GetState() != Unit.STATE.IDLE)
+                            {
+                                finishedAttacking = false;
+                                break;
+                            }
+                        }
+
+                        if (finishedAttacking)
+                        {
+                            attackWavesBehaviours[i] = ATTACKWAVEBEHAVIOUR.WAITING;
                         }
                     }
                 }
@@ -206,7 +244,10 @@ public class AIUnitManager : MonoBehaviour
             for (int i = attackWaves.Count; i < maxWaves; i++)
             {
                 List<GameObject> wave = new List<GameObject>();
+                ATTACKWAVEBEHAVIOUR behaviour = ATTACKWAVEBEHAVIOUR.RECRUITING;
+
                 attackWaves.Add(wave);
+                attackWavesBehaviours.Add(behaviour);
             }
         }
     }

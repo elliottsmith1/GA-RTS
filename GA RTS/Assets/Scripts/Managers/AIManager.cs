@@ -54,6 +54,10 @@ public class AIManager : MonoBehaviour
     //army expansion
     private float armyExpansionFactor = 10.0f;
 
+    //difficulty
+    [Range(0.0f, 200.0f)]
+    [SerializeField] float difficulty = 10.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +78,8 @@ public class AIManager : MonoBehaviour
 
         playerBuildings.RemoveAll(item => item == null);
 
+        SetDifficulty();
+
         decisionTimer += Time.deltaTime;
 
         if (decisionTimer > decisionTimerDelay)
@@ -84,6 +90,26 @@ public class AIManager : MonoBehaviour
         }
 
         ModifyDecisionFactors();
+    }
+
+    private void SetDifficulty()
+    {
+        if (unitManager.GetMaxWaves() != Mathf.RoundToInt(difficulty / 10))
+        {
+            unitManager.SetMaxWaves(Mathf.RoundToInt(difficulty / 10));
+        }
+
+        if (unitManager.GetMaxWaveNum() != Mathf.RoundToInt(difficulty / 10))
+        {
+            unitManager.SetMaxWaveNum(Mathf.RoundToInt(difficulty / 10));
+        }
+
+        float decision = 10.0f - ((difficulty / 10) / 2);
+
+        if (decisionTimerDelay != decision)
+        {
+            decisionTimerDelay = decision;
+        }
     }
 
     private void ModifyDecisionFactors()
@@ -228,11 +254,6 @@ public class AIManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    public List<GameObject> GetEnemyBuildings()
-    {
-        return enemyBuildings;
     }
 
     private void ChooseNewBuilding()
@@ -543,39 +564,44 @@ public class AIManager : MonoBehaviour
         return playerBuildings;
     }
 
+    public List<GameObject> GetEnemyBuildings()
+    {
+        return enemyBuildings;
+    }
+
     public void NewPlayerBuilding(GameObject _building)
     {
         playerBuildings.Add(_building);
     }
 
-#if UNITY_EDITOR
-    [UnityEditor.CanEditMultipleObjects]
-    [UnityEditor.CustomEditor(typeof(AIManager))]
-    public class MachineEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            DrawDefaultInspector();
+//#if UNITY_EDITOR
+//    [UnityEditor.CanEditMultipleObjects]
+//    [UnityEditor.CustomEditor(typeof(AIManager))]
+//    public class MachineEditor : Editor
+//    {
+//        public override void OnInspectorGUI()
+//        {
+//            base.OnInspectorGUI();
+//            DrawDefaultInspector();
 
-            AIManager myScript = (AIManager)target;
+//            AIManager myScript = (AIManager)target;
 
-            if (GUILayout.Button("Spawn enemies"))
-            {
-                if (Application.isPlaying)
-                {
-                    myScript.SpawnEnemy();
-                }
-            }
+//            if (GUILayout.Button("Spawn enemies"))
+//            {
+//                if (Application.isPlaying)
+//                {
+//                    myScript.SpawnEnemy();
+//                }
+//            }
 
-            if (GUILayout.Button("Spawn building"))
-            {
-                if (Application.isPlaying)
-                {
-                    myScript.ConstructNewBuilding(null);
-                }
-            }
-        }
-    }
-#endif
+//            if (GUILayout.Button("Spawn building"))
+//            {
+//                if (Application.isPlaying)
+//                {
+//                    myScript.ConstructNewBuilding(null);
+//                }
+//            }
+//        }
+//    }
+//#endif
 }
