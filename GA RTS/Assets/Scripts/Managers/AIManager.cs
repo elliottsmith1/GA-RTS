@@ -28,6 +28,7 @@ public class AIManager : MonoBehaviour
 
     private List<GameObject> enemyBuildings = new List<GameObject>();
     private List<Building> buildings = new List<Building>();
+    private GameObject townHall;
 
     private List<GameObject> playerBuildings = new List<GameObject>();
 
@@ -63,7 +64,8 @@ public class AIManager : MonoBehaviour
     {
         playerBuildings.Add(GameObject.Find("Player TownHall"));
 
-        enemyBuildings.Add(GameObject.Find("Enemy TownHall"));
+        townHall = GameObject.Find("Enemy TownHall");
+        enemyBuildings.Add(townHall);
 
         purchasables = GameObject.Find("UI").GetComponent<Purchasables>();
 
@@ -455,7 +457,10 @@ public class AIManager : MonoBehaviour
 
         distanceAllowed += compactFactor;
 
-        Vector3 newPosition = enemyBuildings[0].transform.position;
+        if (!townHall)
+            return;
+
+        Vector3 newPosition = townHall.transform.position;
 
         float expansionDistance = 10.0f;
 

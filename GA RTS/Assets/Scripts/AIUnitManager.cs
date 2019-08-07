@@ -114,10 +114,14 @@ public class AIUnitManager : MonoBehaviour
                     {
                         foreach(GameObject unit in attackWaves[i])
                         {
-                            if (!unit.activeInHierarchy || unit.GetComponent<Unit>().GetState() != Unit.STATE.IDLE)
+                            Unit script = unit.GetComponent<Unit>();
+                            if (script.enabled)
                             {
-                                sendWave = false;
-                                break;
+                                if (!unit.activeInHierarchy || script.GetState() != Unit.STATE.IDLE)
+                                {
+                                    sendWave = false;
+                                    break;
+                                }
                             }
                         }
 
