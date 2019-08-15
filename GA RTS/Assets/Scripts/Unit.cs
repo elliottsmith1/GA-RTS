@@ -342,11 +342,14 @@ public class Unit : MonoBehaviour
         {
             if (target.enabled)
             {
-                target.GetComponent<Unit>().TakeDamage(weaponDamage);
-
-                if (!melee)
+                if (Vector3.Distance(target.transform.position, transform.position) < range)
                 {
-                    FireProjectile(target.gameObject);
+                    target.GetComponent<Unit>().TakeDamage(weaponDamage);
+
+                    if (!melee)
+                    {
+                        FireProjectile(target.gameObject);
+                    }
                 }
             }
         }
@@ -354,11 +357,14 @@ public class Unit : MonoBehaviour
         {
             if (targetBuilding.enabled)
             {
-                targetBuilding.GetComponent<Building>().TakeDamage(weaponDamage);
-
-                if (!melee)
+                //if (Vector3.Distance(targetBuilding.transform.position, transform.position) < range)
                 {
-                    FireProjectile(targetBuilding.gameObject);
+                    targetBuilding.GetComponent<Building>().TakeDamage(weaponDamage);
+
+                    if (!melee)
+                    {
+                        FireProjectile(targetBuilding.gameObject);
+                    }
                 }
             }
         }

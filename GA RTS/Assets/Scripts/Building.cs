@@ -163,6 +163,14 @@ public class Building : MonoBehaviour
         spawnQueueCosts.RemoveAt(_id);
     }
 
+    private void CancelSpawnQueue()
+    {
+        for (int i = 0; i < spawnQueue.Count; i++)
+        {
+            CancelSpawnUnit(i);
+        }
+    }
+
     private void Construction()
     {
         switch(buildState)
@@ -259,6 +267,8 @@ public class Building : MonoBehaviour
                 aiManager.DestroyedHouse();
             }
         }
+
+        CancelSpawnQueue();
 
         Destroy(this.gameObject);
     }

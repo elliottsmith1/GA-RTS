@@ -55,6 +55,14 @@ public class AIUnitManager : MonoBehaviour
             {
                 attackWaves[i].RemoveAll(item => item == null);
 
+                for (int j = 0; j < attackWaves[i].Count; j++)
+                {
+                    if (!attackWaves[i][j].GetComponent<Unit>())
+                    {
+                        attackWaves[i].RemoveAt(j);
+                    }
+                }
+
                 if (attackWaves[i].Count < 1)
                 {
                     attackWavesBehaviours[i] = ATTACKWAVEBEHAVIOUR.RECRUITING;
@@ -78,6 +86,9 @@ public class AIUnitManager : MonoBehaviour
             }
             return;
         }
+
+        if (aiManager.GetPlayerBuildings().Count < 1)
+            return;
 
         GameObject target = aiManager.GetPlayerBuildings()[0];
 
@@ -115,12 +126,15 @@ public class AIUnitManager : MonoBehaviour
                         foreach(GameObject unit in attackWaves[i])
                         {
                             Unit script = unit.GetComponent<Unit>();
-                            if (script.enabled)
+                            if (script)
                             {
-                                if (!unit.activeInHierarchy || script.GetState() != Unit.STATE.IDLE)
+                                if (script.enabled)
                                 {
-                                    sendWave = false;
-                                    break;
+                                    if (!unit.activeInHierarchy || script.GetState() != Unit.STATE.IDLE)
+                                    {
+                                        sendWave = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -134,7 +148,9 @@ public class AIUnitManager : MonoBehaviour
                             foreach (GameObject unit in attackWaves[i])
                             {
                                 Unit soldier = unit.GetComponent<Unit>();
-                                soldier.NewFinalDestination(attackPos);
+
+                                if (soldier)
+                                    soldier.NewFinalDestination(attackPos);
                             }
                         }
                     }
@@ -143,10 +159,13 @@ public class AIUnitManager : MonoBehaviour
                         bool finishedAttacking = true;
                         foreach (GameObject unit in attackWaves[i])
                         {
-                            if (unit.GetComponent<Unit>().GetState() != Unit.STATE.IDLE)
+                            if (unit.GetComponent<Unit>())
                             {
-                                finishedAttacking = false;
-                                break;
+                                if (unit.GetComponent<Unit>().GetState() != Unit.STATE.IDLE)
+                                {
+                                    finishedAttacking = false;
+                                    break;
+                                }
                             }
                         }
 
@@ -185,7 +204,9 @@ public class AIUnitManager : MonoBehaviour
                 {
                     Unit soldier = remainingUnits[i].GetComponent<Unit>();
                     //soldier.NewFinalDestination(attackPos);
-                    wave.Add(soldier.gameObject);
+
+                    if (soldier)
+                        wave.Add(soldier.gameObject);
                 }
 
                 break;
