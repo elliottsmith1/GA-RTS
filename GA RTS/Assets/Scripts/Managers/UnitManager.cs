@@ -176,6 +176,8 @@ public class UnitManager : MonoBehaviour
                                     newPos.z += offset;
                                 }
                             }
+
+                            PlayerSkillManager.instance.NewAction(PlayerSkillManager.ACTION_TYPES.MOVE_UNITS);
                         }
 
                         break;
@@ -269,7 +271,7 @@ public class UnitManager : MonoBehaviour
                 NewUnit(unit);
                 unit.SetActive(false);
                 unit.GetComponent<Unit>().SetPopulationValue(selectedUnitPopCost);
-                buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>(), selectedUnitGoldCost);
+                buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>(), selectedUnitGoldCost);                
             }
         }
     }

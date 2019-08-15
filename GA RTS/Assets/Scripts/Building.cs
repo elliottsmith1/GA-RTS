@@ -135,6 +135,9 @@ public class Building : MonoBehaviour
                 spawnQueue[0].gameObject.GetComponent<NavMeshAgent>().SetDestination(transform.position + (Vector3.forward * 5));
                 spawnQueue.RemoveAt(0);
                 spawnTimer = 0.0f;
+
+                if (!enemyBuilding)
+                    PlayerSkillManager.instance.NewAction(PlayerSkillManager.ACTION_TYPES.NEW_UNIT);
             }
         }
         else

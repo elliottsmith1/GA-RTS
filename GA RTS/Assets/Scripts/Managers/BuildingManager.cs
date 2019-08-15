@@ -73,7 +73,18 @@ public class BuildingManager : MonoBehaviour
                     {
                         selectedBuilding.transform.position = point;
 
-                        if (nHit.distance > distanceAllowance)
+                        bool nearPlacedBuilding = false;
+
+                        foreach(GameObject building in playerBuildings)
+                        {
+                            if (Vector3.Distance(building.transform.position, point) < 30)
+                            {
+                                nearPlacedBuilding = true;
+                                break;
+                            }
+                        }
+
+                        if (nHit.distance > distanceAllowance && nearPlacedBuilding)
                         {
                             canPlace = true;
                             outline.OutlineColor = Color.green;
@@ -132,6 +143,8 @@ public class BuildingManager : MonoBehaviour
                 build.ActivateObject();
 
                 playerBuildings.Add(selectedBuilding);
+
+                PlayerSkillManager.instance.NewAction(PlayerSkillManager.ACTION_TYPES.NEW_BUILDING);
 
                 selectedBuilding = null;
                 holdingObject = false;

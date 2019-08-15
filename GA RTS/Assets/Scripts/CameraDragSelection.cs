@@ -81,6 +81,8 @@ public class CameraDragSelection : MonoBehaviour
 
                 allUnits = unitManager.GetAllUnits();
 
+                bool selectedUnits = false;
+
                 //Select the units
                 for (int i = 0; i < allUnits.Count; i++)
                 {
@@ -91,9 +93,12 @@ public class CameraDragSelection : MonoBehaviour
                         //Is this unit within the square
                         if (IsWithinPolygon(currentUnit.transform.position))
                         {
-                            currentUnit.GetComponent<Outline>().enabled = true;
+                            if (currentUnit.GetComponent<Outline>())
+                                currentUnit.GetComponent<Outline>().enabled = true;
 
                             unitManager.SelectUnit(currentUnit.GetComponent<Unit>());
+
+                            selectedUnits = true;
                         }
                         //Otherwise deselect the unit if it's not in the square
                         else
@@ -102,6 +107,9 @@ public class CameraDragSelection : MonoBehaviour
                         }
                     }
                 }
+
+                if (selectedUnits)
+                    PlayerSkillManager.instance.NewAction(PlayerSkillManager.ACTION_TYPES.SELECT_UNITS);
             }
 
         }
@@ -148,7 +156,8 @@ public class CameraDragSelection : MonoBehaviour
                         //Is this unit within the square
                         if (IsWithinPolygon(currentUnit.transform.position))
                         {
-                            currentUnit.GetComponent<Outline>().enabled = true;
+                            if (currentUnit.GetComponent<Outline>())
+                                currentUnit.GetComponent<Outline>().enabled = true;
                         }
                         //Otherwise deactivate
                         else

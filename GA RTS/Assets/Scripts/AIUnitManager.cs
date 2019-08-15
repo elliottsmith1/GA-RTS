@@ -70,7 +70,7 @@ public class AIUnitManager : MonoBehaviour
             }
         }
 
-        SendAttackWave();
+        //SendAttackWave();
     }
 
     private void SendAttackWave()

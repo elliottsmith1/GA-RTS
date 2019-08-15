@@ -56,7 +56,7 @@ public class AIManager : MonoBehaviour
     private float armyExpansionFactor = 10.0f;
 
     //difficulty
-    [Range(0.0f, 200.0f)]
+    [Range(10.0f, 200.0f)]
     [SerializeField] float difficulty = 10.0f;
 
     // Start is called before the first frame update
@@ -96,6 +96,14 @@ public class AIManager : MonoBehaviour
 
     private void SetDifficulty()
     {
+        difficulty = PlayerSkillManager.instance.GetAPM() * 10.0f;
+
+        if (difficulty < 10)
+            difficulty = 10;
+
+        if (difficulty > 200)
+            difficulty = 200;
+
         if (unitManager.GetMaxWaves() != Mathf.RoundToInt(difficulty / 10))
         {
             unitManager.SetMaxWaves(Mathf.RoundToInt(difficulty / 10));
@@ -468,6 +476,8 @@ public class AIManager : MonoBehaviour
 
         int counter = 0;
 
+        bool nearPlacedBuilding = false;
+
         //generate new building spawn pos until it's far enough away and not close to any edges
         do
         {
@@ -478,16 +488,25 @@ public class AIManager : MonoBehaviour
 
             NavMesh.FindClosestEdge(newPosition, out nHit, NavMesh.AllAreas);
 
-            expansionDistance *= 1.1f;
+            expansionDistance *= 1.1f;            
+
+            foreach (GameObject build in enemyBuildings)
+            {
+                if (Vector3.Distance(build.transform.position, newPosition) < 30)
+                {
+                    nearPlacedBuilding = true;
+                    break;
+                }
+            }
 
             counter++;
 
             if (counter > 100)
                 break;
 
-        } while (Vector3.Distance(newPosition, enemyBuildings[0].transform.position) < 10 || nHit.distance < distanceAllowed || nHit.distance == Mathf.Infinity);
+        } while (Vector3.Distance(newPosition, enemyBuildings[0].transform.position) < 10 || nHit.distance < distanceAllowed || !nearPlacedBuilding || nHit.distance == Mathf.Infinity);
 
-        if (counter < 100)
+        if (counter <= 100)
         {
             GameObject newBuilding = Instantiate(building, newPosition, Quaternion.Euler(new Vector3(-90, 0, Random.Range(0, 359))));
 

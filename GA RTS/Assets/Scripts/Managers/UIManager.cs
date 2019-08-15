@@ -74,6 +74,8 @@ public class UIManager : MonoBehaviour
         }
 
         activePane.SetActive(true);
+
+        PlayerSkillManager.instance.NewAction(PlayerSkillManager.ACTION_TYPES.SELECT_BUILDING);
     }
 
     public void CancelUnitSpawn(int _id)
