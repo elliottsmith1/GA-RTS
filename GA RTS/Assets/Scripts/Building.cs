@@ -264,11 +264,22 @@ public class Building : MonoBehaviour
             if (!enemyBuilding)
             {
                 playerManager.DestroyedHouse();
+                PlayerSkillManager.instance.BuildingLost();
             }
             else
             {
                 aiManager.DestroyedHouse();
+                PlayerSkillManager.instance.EnemyBuildingKill();
             }
+        }
+
+        if (!enemyBuilding)
+        {
+            PlayerSkillManager.instance.BuildingLost();
+        }
+        else
+        {
+            PlayerSkillManager.instance.EnemyBuildingKill();
         }
 
         CancelSpawnQueue();

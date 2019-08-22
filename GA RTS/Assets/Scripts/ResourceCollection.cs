@@ -70,6 +70,7 @@ public class ResourceCollection : MonoBehaviour
                     if (!enemyBuilding)
                     {
                         playerManager.AddWood(resourceValue);
+                        PlayerSkillManager.instance.Income(resourceValue);
                     }
                     else
                     {
@@ -80,6 +81,7 @@ public class ResourceCollection : MonoBehaviour
                     if (!enemyBuilding)
                     {
                         playerManager.AddGold(resourceValue);
+                        PlayerSkillManager.instance.Income(resourceValue);
                     }
                     else
                     {

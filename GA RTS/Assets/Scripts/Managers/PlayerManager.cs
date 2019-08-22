@@ -15,18 +15,6 @@ public class PlayerManager : MonoBehaviour
     private int gold = 50;
     private int wood = 50;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public string GetPopulationString()
     {
         population = unitManager.GetArmyPopulation();
@@ -40,6 +28,8 @@ public class PlayerManager : MonoBehaviour
     public void NewHouse()
     {
         currentPopulationMax += 10;
+
+        PlayerSkillManager.instance.SetPopCapped(false);
 
         if (currentPopulationMax > populationMax)
         {
@@ -87,6 +77,11 @@ public class PlayerManager : MonoBehaviour
     public void AddPopulation(int _pop)
     {
         population += _pop;
+
+        if (population == currentPopulationMax)
+        {
+            PlayerSkillManager.instance.SetPopCapped(true);
+        }
     }
 
     public BuildingManager GetBuildingManager()

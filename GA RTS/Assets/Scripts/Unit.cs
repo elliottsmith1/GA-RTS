@@ -56,6 +56,8 @@ public class Unit : MonoBehaviour
     [SerializeField] float spawnTime = 10.0f;
     [SerializeField] int populationValue = 1;
 
+    [SerializeField] float militaryValue = 1.0f;
+
     [SerializeField] STATE state = STATE.IDLE;
 
     [SerializeField] WEAPONTYPE weapon;
@@ -239,6 +241,11 @@ public class Unit : MonoBehaviour
 
         //if (gameObject.tag == "Friendly")
         //    unitManager.RemoveUnit(this.gameObject);
+
+        if (enemyTag == "Enemy")
+            PlayerSkillManager.instance.UnitDeath(populationValue);
+        else
+            PlayerSkillManager.instance.EnemyDeath(populationValue);
 
         this.enabled = false;
         Destroy(this);
@@ -733,5 +740,10 @@ public class Unit : MonoBehaviour
     public int GetPopulationValue()
     {
         return populationValue;
+    }
+
+    public float GetMilitaryValue()
+    {
+        return militaryValue;
     }
 }
