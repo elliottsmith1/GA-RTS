@@ -96,7 +96,7 @@ public class AIManager : MonoBehaviour
 
     private void SetDifficulty()
     {
-        difficulty = PlayerSkillManager.instance.GetAPM() * 10.0f;
+        difficulty = PlayerSkillManager.instance.GetPlayerSkill();
 
         if (difficulty < 10)
             difficulty = 10;

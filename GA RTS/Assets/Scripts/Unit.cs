@@ -56,8 +56,6 @@ public class Unit : MonoBehaviour
     [SerializeField] float spawnTime = 10.0f;
     [SerializeField] int populationValue = 1;
 
-    [SerializeField] float militaryValue = 1.0f;
-
     [SerializeField] STATE state = STATE.IDLE;
 
     [SerializeField] WEAPONTYPE weapon;
@@ -120,6 +118,8 @@ public class Unit : MonoBehaviour
 
         NewDestination(new Vector3(transform.position.x + UnityEngine.Random.Range(-5, 5), transform.position.y, transform.position.z + UnityEngine.Random.Range(-5, 5)), false);
 
+        if (enemyTag == "Enemy")
+            PlayerSkillManager.instance.newUnit(populationValue);
     }
 
     // Update is called once per frame
@@ -740,10 +740,5 @@ public class Unit : MonoBehaviour
     public int GetPopulationValue()
     {
         return populationValue;
-    }
-
-    public float GetMilitaryValue()
-    {
-        return militaryValue;
     }
 }

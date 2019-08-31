@@ -915,6 +915,18 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 2094527247}
+    - target: {fileID: 1365415304, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: archerGoldCost
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365415304, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: crossbowmanGoldCost
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365415304, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
+      propertyPath: heavyInfantryGoldCost
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 224607714, guid: 4f9540e36a04bda4d9231539af2e7226, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1126,6 +1138,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b44b56029206340922c0ef32ab09f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSkill: 0
+  totalPerformance: 0
+  APM: 0
+  militaryPerformance: 0
+  unitLossPM: 0
+  enemyUnitLossPM: 0
+  enemyBuildingLossPM: 0
+  unitProductionPM: 0
+  expansionPerformance: 0
+  buildingConstructionPM: 0
+  buildingLossPM: 0
+  totalTimePopCapped: 0
+  percentageTimePopCapped: 0
+  totalValue: 0
+  economyValue: 0
+  totalWealth: 0
+  income: 0
+  militaryValue: 0
+  totalArmyValue: 0
+  effectiveArmyValue: 0
+  armyValueLoss: 0
+  enemyArmyValueLoss: 0
+  effectiveArmyPerformanceValue: 0
+  technologyValue: 0
+  expansionValue: 0
+  incomeCapacity: 0
+  unitProductionCapacity: 0
+  defensiveCapacity: 0
+  populationCapacity: 0
+  researchCapacity: 0
 --- !u!114 &1365415304 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1365415304, guid: 4f9540e36a04bda4d9231539af2e7226,

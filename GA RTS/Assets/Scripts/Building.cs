@@ -38,6 +38,7 @@ public class Building : MonoBehaviour
 
     [SerializeField] bool increasePopulation = false;
 
+    [SerializeField] PlayerSkillManager.BUILDING_TYPE buildingType = PlayerSkillManager.BUILDING_TYPE.MILITARY;
     [SerializeField] bool collector = false;
     [SerializeField] bool spawner = false;
     [SerializeField] SPAWNERTYPE spawnerType = SPAWNERTYPE.MELEE;    
@@ -264,18 +265,16 @@ public class Building : MonoBehaviour
             if (!enemyBuilding)
             {
                 playerManager.DestroyedHouse();
-                PlayerSkillManager.instance.BuildingLost();
             }
             else
             {
                 aiManager.DestroyedHouse();
-                PlayerSkillManager.instance.EnemyBuildingKill();
             }
         }
 
         if (!enemyBuilding)
         {
-            PlayerSkillManager.instance.BuildingLost();
+            PlayerSkillManager.instance.BuildingLost(buildingType);
         }
         else
         {
@@ -441,5 +440,10 @@ public class Building : MonoBehaviour
     public bool GetCollector()
     {
         return collector;
+    }
+
+    public PlayerSkillManager.BUILDING_TYPE GetBuildingType()
+    {
+        return buildingType;
     }
 }

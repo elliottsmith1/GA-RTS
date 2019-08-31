@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerSkillManager : MonoBehaviour
 {
@@ -14,6 +15,15 @@ public class PlayerSkillManager : MonoBehaviour
         WAIT
     }
 
+    public enum BUILDING_TYPE
+    {
+        MILITARY,
+        ECONOMY,
+        TECHNOLOGY,
+        DEFENSIVE,
+        POPULATION
+    }
+
     public static PlayerSkillManager instance;
 
     private PlayerManager playerManager;
@@ -22,7 +32,14 @@ public class PlayerSkillManager : MonoBehaviour
 
     private float timeStarted = 0.0f;
 
-    [Header("Actions")]
+    [Header("Skill")]
+    [SerializeField] private float playerSkill = 0.0f;
+
+    [Header("Performance")]
+
+    //TOTAL
+    [SerializeField] private float totalPerformance = 0.0f;
+
     [Header("APM")]
     //ACTIONS
     //APM
@@ -35,6 +52,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     [Header("Military")]
     //MILITARY
+    [SerializeField] private float militaryPerformance = 0.0f;
     [SerializeField] private float unitLossPM = 0.0f;
     [SerializeField] private float enemyUnitLossPM = 0.0f;
     [SerializeField] private float enemyBuildingLossPM = 0.0f;
@@ -53,6 +71,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     [Header("Expansion")]
     //EXPANSION
+    [SerializeField] private float expansionPerformance = 0.0f;
     [SerializeField] private float buildingConstructionPM = 0.0f;
     [SerializeField] private float buildingLossPM = 0.0f;
     [SerializeField] private float totalTimePopCapped = 0.0f;
@@ -63,14 +82,20 @@ public class PlayerSkillManager : MonoBehaviour
     private float buildingLost = 0;
 
     [Header("Value")]
+
+    //TOTAL
+    [SerializeField] private float totalValue = 0.0f;
+
     [Header("Economy")]
     //VALUE
     //ECONOMY
+    [SerializeField] private float economyValue = 0.0f;
     [SerializeField] private float totalWealth = 0.0f;
     [SerializeField] private float income = 0.0f;
 
     [Header("Military")]
     //MILITARY
+    [SerializeField] private float militaryValue = 0.0f;
     [SerializeField] private float totalArmyValue = 0.0f;
     [SerializeField] private float effectiveArmyValue = 0.0f;
     [SerializeField] private float armyValueLoss = 0.0f;
@@ -83,6 +108,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     [Header("Expansion")]
     //EXPANSION
+    [SerializeField] private float expansionValue = 0.0f;
     [SerializeField] private float incomeCapacity = 0.0f;
     [SerializeField] private float unitProductionCapacity = 0.0f;
     [SerializeField] private float defensiveCapacity = 0.0f;
@@ -152,6 +178,7 @@ public class PlayerSkillManager : MonoBehaviour
             CalculateMilitaryValue();
             CalculateExpansionValue();
             CalculateEconomyValue();
+            CalculateTotals();
         }               
     }
 
@@ -164,7 +191,11 @@ public class PlayerSkillManager : MonoBehaviour
 
         armyValueLoss = (armyValueLoss + (newArmyValueLoss * (60 / calculationUpdateDelay))) / 2;
         enemyArmyValueLoss = (enemyArmyValueLoss + (newEnemyArmyValueLoss * (60 / calculationUpdateDelay))) / 2;
-        effectiveArmyPerformanceValue = enemyArmyValueLoss / armyValueLoss;
+
+        if (armyValueLoss > 0)
+            effectiveArmyPerformanceValue = enemyArmyValueLoss / armyValueLoss;
+        else
+            effectiveArmyPerformanceValue = 0.0f;
 
         newUnits = 0.0f;
         unitDeaths = 0.0f;
@@ -177,8 +208,10 @@ public class PlayerSkillManager : MonoBehaviour
     private void CalculateExpansionValue()
     {
         buildingConstructionPM = (buildingConstructionPM + (newBuildings * (60 / calculationUpdateDelay))) / 2;
+        buildingLossPM = (buildingLossPM + (buildingLost * (60 / calculationUpdateDelay))) / 2;
 
         newBuildings = 0;
+        buildingLost = 0;
     }
 
     private void CalculateEconomyValue()
@@ -189,18 +222,30 @@ public class PlayerSkillManager : MonoBehaviour
         newWealth = 0;
     }
 
+    private void CalculateTotals()
+    {
+        //value of assets
+        economyValue = (income / 10) + (totalWealth / 10);
+        militaryValue = totalArmyValue;
+        technologyValue = 0.0f;
+        expansionValue = defensiveCapacity + incomeCapacity + populationCapacity + researchCapacity + unitProductionCapacity;        
+
+        totalValue = economyValue + militaryValue + technologyValue + expansionValue;
+
+        //player performance
+        expansionPerformance = (buildingConstructionPM - buildingLossPM) - percentageTimePopCapped;
+        if (expansionPerformance < 0)
+            expansionPerformance = 0.0f;
+
+        militaryPerformance = unitProductionPM + enemyBuildingLossPM + effectiveArmyPerformanceValue;
+
+        totalPerformance = (militaryPerformance + expansionPerformance) * 5;
+
+        playerSkill = APM + totalValue + totalPerformance;
+    }
+
     public void NewAction(ACTION_TYPES _action)
     {
-        switch(_action)
-        {
-            case ACTION_TYPES.NEW_UNIT:
-                newUnits++;
-                break;
-            case ACTION_TYPES.NEW_BUILDING:
-                newBuildings++;
-                break;
-        }
-
         if (_action == lastAction)
             return;
 
@@ -208,10 +253,17 @@ public class PlayerSkillManager : MonoBehaviour
         actions.Add(lastAction);
     }
 
+    public void newUnit(float _value)
+    {
+        newUnits++;
+        totalArmyValue += _value;
+    }
+
     public void UnitDeath(float _value)
     {
         unitDeaths++;
         newArmyValueLoss += _value;
+        totalArmyValue -= _value;
     }
 
     public void EnemyDeath(float _value)
@@ -220,9 +272,28 @@ public class PlayerSkillManager : MonoBehaviour
         newEnemyArmyValueLoss += _value;
     }
 
-    public void BuildingLost()
+    public void BuildingLost(BUILDING_TYPE _type)
     {
-        newBuildingKill++;
+        buildingLost++;
+
+        switch (_type)
+        {
+            case BUILDING_TYPE.MILITARY:
+                unitProductionCapacity -= 3;
+                break;
+            case BUILDING_TYPE.DEFENSIVE:
+                defensiveCapacity -= 1;
+                break;
+            case BUILDING_TYPE.ECONOMY:
+                incomeCapacity -= 2;
+                break;
+            case BUILDING_TYPE.POPULATION:
+                populationCapacity -= 1;
+                break;
+            case BUILDING_TYPE.TECHNOLOGY:
+                researchCapacity -= 4;
+                break;
+        }
     }
 
     public void EnemyBuildingKill()
@@ -243,5 +314,34 @@ public class PlayerSkillManager : MonoBehaviour
     public void Income(float _inc)
     {
         newWealth += _inc;
+    }
+
+    public void NewBuilding(BUILDING_TYPE _type)
+    {
+        newBuildings++;
+
+        switch (_type)
+        {
+            case BUILDING_TYPE.MILITARY:
+                unitProductionCapacity += 3;
+                break;
+            case BUILDING_TYPE.DEFENSIVE:
+                defensiveCapacity += 1;
+                break;
+            case BUILDING_TYPE.ECONOMY:
+                incomeCapacity += 2;
+                break;
+            case BUILDING_TYPE.POPULATION:
+                populationCapacity += 1;
+                break;
+            case BUILDING_TYPE.TECHNOLOGY:
+                researchCapacity += 4;
+                break;
+        }
+    }
+
+    public float GetPlayerSkill()
+    {
+        return playerSkill;
     }
 }

@@ -119,6 +119,7 @@ MonoBehaviour:
   buildTime: 40
   maxHealth: 500
   increasePopulation: 1
+  buildingType: 4
   collector: 0
   spawner: 0
   spawnerType: 0

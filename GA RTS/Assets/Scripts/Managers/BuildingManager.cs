@@ -145,6 +145,7 @@ public class BuildingManager : MonoBehaviour
                 playerBuildings.Add(selectedBuilding);
 
                 PlayerSkillManager.instance.NewAction(PlayerSkillManager.ACTION_TYPES.NEW_BUILDING);
+                PlayerSkillManager.instance.NewBuilding(build.GetBuildingType());
 
                 selectedBuilding = null;
                 holdingObject = false;
