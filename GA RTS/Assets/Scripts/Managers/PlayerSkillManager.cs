@@ -227,7 +227,6 @@ public class PlayerSkillManager : MonoBehaviour
         //value of assets
         economyValue = (income / 10) + (totalWealth / 10);
         militaryValue = totalArmyValue;
-        technologyValue = 0.0f;
         expansionValue = defensiveCapacity + incomeCapacity + populationCapacity + researchCapacity + unitProductionCapacity;        
 
         totalValue = economyValue + militaryValue + technologyValue + expansionValue;
@@ -270,6 +269,11 @@ public class PlayerSkillManager : MonoBehaviour
     {
         newKill++;
         newEnemyArmyValueLoss += _value;
+    }
+
+    public void NewTech(float _value)
+    {
+        technologyValue += _value;
     }
 
     public void BuildingLost(BUILDING_TYPE _type)

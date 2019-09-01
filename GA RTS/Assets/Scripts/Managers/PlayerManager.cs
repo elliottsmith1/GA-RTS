@@ -82,7 +82,7 @@ public class PlayerManager : MonoBehaviour
 
     public void NewTech()
     {
-        purchasables.CheckWealth(gold, wood, population, currentPopulationMax);
+        purchasables.CheckWealth(gold, wood, population, currentPopulationMax);        
     }
 
     public void AddPopulation(int _pop)
