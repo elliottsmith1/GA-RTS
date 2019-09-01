@@ -111,44 +111,51 @@ public class TechnologyManager : MonoBehaviour
         {
             case "meleeDamage":
                 meleeDamage++;
-                PlayerSkillManager.instance.NewTech(meleeDamage * techBaseValue);
+                if (isPlayer)
+                    PlayerSkillManager.instance.NewTech(meleeDamage * techBaseValue);
                 if (meleeDamage < maxBuff)
                     researchingMeleeDam = false;
                 break;
             case "meleeDefence":
                 meleeDefence++;
-                PlayerSkillManager.instance.NewTech(meleeDefence * techBaseValue);
+                if (isPlayer)
+                    PlayerSkillManager.instance.NewTech(meleeDefence * techBaseValue);
                 if (meleeDefence < maxBuff)
                     researchingMeleeDef = false;
                 break;
             case "rangedDamage":
                 rangedDamage++;
-                PlayerSkillManager.instance.NewTech(rangedDamage * techBaseValue);
+                if (isPlayer)
+                    PlayerSkillManager.instance.NewTech(rangedDamage * techBaseValue);
                 if (rangedDamage < maxBuff)
                     researchingRangedDam = false;
                 break;
             case "rangedDefence":
                 rangedDefence++;
-                PlayerSkillManager.instance.NewTech(rangedDefence * techBaseValue);
+                if (isPlayer)
+                    PlayerSkillManager.instance.NewTech(rangedDefence * techBaseValue);
                 if (rangedDefence < maxBuff)
                     researchingRangedDef = false;
                 break;
 
             case "armourTech":
                 armourTech++;
-                PlayerSkillManager.instance.NewTech(armourTech * techBaseValue);
+                if (isPlayer)
+                    PlayerSkillManager.instance.NewTech(armourTech * techBaseValue);
                 if (armourTech < maxMeleeTech)
                     researchingArmourTech = false;
                 break;
             case "weaponTech":
                 weaponTech++;
-                PlayerSkillManager.instance.NewTech(weaponTech * techBaseValue);
+                if (isPlayer)
+                    PlayerSkillManager.instance.NewTech(weaponTech * techBaseValue);
                 if (weaponTech < maxMeleeTech)
                     researchingWeaponTech = false;
                 break;
             case "rangedTech":
                 rangedTech++;
-                PlayerSkillManager.instance.NewTech(rangedTech * techBaseValue);
+                if (isPlayer)
+                    PlayerSkillManager.instance.NewTech(rangedTech * techBaseValue);
                 if (rangedTech < maxRangedTech)
                     researchingRangedTech = false;
                 break;
