@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 559471182}
   - component: {fileID: 559471184}
   - component: {fileID: 6767580760690986423}
+  - component: {fileID: 6577772337458015627}
   m_Layer: 0
   m_Name: Blacksmith
   m_TagString: FriendlyBuilding
@@ -119,10 +120,10 @@ MonoBehaviour:
   buildTime: 60
   maxHealth: 1000
   increasePopulation: 0
-  buildingType: 0
+  buildingType: 2
   collector: 0
   spawner: 0
-  spawnerType: 0
+  buildType: 4
   buildTimer: 0
   buildState: 0
 --- !u!114 &559471181
@@ -184,6 +185,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 30
   m_Center: {x: 0.13334909, y: -0.012184811, z: 0.94758093}
+--- !u!114 &6577772337458015627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559471177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da9a310b6a81a84b9d1ec825e0a4a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1016809265
 PrefabInstance:
   m_ObjectHideFlags: 0

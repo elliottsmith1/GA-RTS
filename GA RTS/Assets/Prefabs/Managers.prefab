@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 513039790}
   - component: {fileID: 513039791}
+  - component: {fileID: 1942032184}
   m_Layer: 0
   m_Name: AI Manager
   m_TagString: Untagged
@@ -44,13 +45,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barracks: {fileID: 578884400, guid: 473beeb8f58a65c4c9ee4c417f156387, type: 3}
-  archeryRange: {fileID: 0}
-  house: {fileID: 0}
-  lumberMill: {fileID: 0}
-  market: {fileID: 0}
+  archeryRange: {fileID: 167486519, guid: 13dfbbb78e6c24b4e9af0d0cbef747f3, type: 3}
+  house: {fileID: 177632736, guid: 2ea57e5e04754714e91f0e1d549bcfc0, type: 3}
+  lumberMill: {fileID: 887727767, guid: b9dc5b0a52a729c4aadcf2312de088b6, type: 3}
+  market: {fileID: 1441239984, guid: 7a519f757d8a68f48a418f0a1dda7ecd, type: 3}
   enemyPrefab: {fileID: 2094045977, guid: 0fd6504041e618a499c8557f62dcefdc, type: 3}
   groupSize: 5
   enemyMaterial: {fileID: 2100000, guid: b06e94e520620604e820eac67dd18db0, type: 2}
+  decisionTimerDelay: 5
+  difficulty: 10
+--- !u!114 &1942032184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513039789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b129fbee1245694093cc4e9843fa88e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &748629795
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,6 +122,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7467340911054027532}
   - component: {fileID: 7467340911054027533}
+  - component: {fileID: 1336185596}
+  - component: {fileID: 1336185597}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -143,6 +160,60 @@ MonoBehaviour:
   buildingManager: {fileID: 8803682836516390815}
   unitManager: {fileID: 7467340912024083127}
   purchasables: {fileID: 0}
+--- !u!114 &1336185596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467340911054027535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2692d923580a0a14cb99e60deec6e691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1336185597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467340911054027535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1b44b56029206340922c0ef32ab09f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSkill: 0
+  totalPerformance: 0
+  APM: 0
+  militaryPerformance: 0
+  unitLossPM: 0
+  enemyUnitLossPM: 0
+  enemyBuildingLossPM: 0
+  unitProductionPM: 0
+  expansionPerformance: 0
+  buildingConstructionPM: 0
+  buildingLossPM: 0
+  totalTimePopCapped: 0
+  percentageTimePopCapped: 0
+  totalValue: 0
+  economyValue: 0
+  totalWealth: 0
+  income: 0
+  militaryValue: 0
+  totalArmyValue: 0
+  effectiveArmyValue: 0
+  armyValueLoss: 0
+  enemyArmyValueLoss: 0
+  effectiveArmyPerformanceValue: 0
+  technologyValue: 0
+  expansionValue: 0
+  incomeCapacity: 0
+  unitProductionCapacity: 0
+  defensiveCapacity: 0
+  populationCapacity: 0
+  researchCapacity: 0
 --- !u!1 &7467340911095445384
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,9 +434,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2129538638965991698, guid: 52545e44002fd9c4ebb9e6223a876602,
         type: 3}
+      propertyPath: purchasables
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2129538638965991698, guid: 52545e44002fd9c4ebb9e6223a876602,
+        type: 3}
+      propertyPath: selectedBuilding
+      value: 
+      objectReference: {fileID: 8803682836747984074}
+    - target: {fileID: 2129538638965991698, guid: 52545e44002fd9c4ebb9e6223a876602,
+        type: 3}
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 7467340911054027533}
+    - target: {fileID: 2129538638965991698, guid: 52545e44002fd9c4ebb9e6223a876602,
+        type: 3}
+      propertyPath: blacksmith
+      value: 
+      objectReference: {fileID: 559471177, guid: b8731c0633cfbee42b26ecc7e79bf789,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52545e44002fd9c4ebb9e6223a876602, type: 3}
 --- !u!224 &8803682836516390814 stripped
@@ -386,3 +473,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a015e25f4f7674a97f04da43b7f9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8803682836747984074 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2129538637931164231, guid: 52545e44002fd9c4ebb9e6223a876602,
+    type: 3}
+  m_PrefabInstance: {fileID: 7467340910830431885}
+  m_PrefabAsset: {fileID: 0}

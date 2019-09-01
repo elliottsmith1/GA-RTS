@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject archerRangePane;
     [SerializeField] GameObject mageTowerPane;
     [SerializeField] GameObject stablesPane;
+    [SerializeField] GameObject techPane;
 
     private GameObject activePane;
 
@@ -70,6 +71,9 @@ public class UIManager : MonoBehaviour
                 break;
             case "buildings":
                 activePane = buildingsPane;
+                break;
+            case "research":
+                activePane = techPane;
                 break;
         }
 

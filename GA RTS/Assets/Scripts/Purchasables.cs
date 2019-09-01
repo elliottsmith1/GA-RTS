@@ -7,8 +7,14 @@ using UnityEngine.UI;
 public class Purchasables : MonoBehaviour
 {
     [SerializeField] PlayerManager playerManager;
+    [SerializeField] TechnologyManager playerTechManager;
 
     [Header("Costs")]
+
+    [Header("Tech")]
+    public float levelOneCost = 50.0f;
+
+    public float levelOneResearchTime = 40.0f;
 
     [Header("Buildings")]
     public int barracksWoodCost = 20;
@@ -21,6 +27,8 @@ public class Purchasables : MonoBehaviour
     public int lumberGoldCost = 20;
     public int marketWoodCost = 20;
     public int marketGoldCost = 0;
+    public int blacksmithWoodCost = 20;
+    public int blacksmithGoldCost = 0;
 
     [Header("Units")]
     public int infantryGoldCost = 10;
@@ -50,6 +58,8 @@ public class Purchasables : MonoBehaviour
     [SerializeField] Text lumberGoldCostText;
     [SerializeField] Text marketWoodCostText;
     [SerializeField] Text marketGoldCostText;
+    [SerializeField] Text blacksmithWoodCostText;
+    [SerializeField] Text blacksmithGoldCostText;
 
     [Header("Unit text references")]
     [SerializeField] Text infantryGoldCostText;
@@ -68,12 +78,22 @@ public class Purchasables : MonoBehaviour
     [SerializeField] Text archerPopCostText;
     [SerializeField] Text crossbowmanPopCostText;
 
+    [Header("Tech text references")]
+    [SerializeField] Text meleeDamCostText;
+    [SerializeField] Text meleeDefCostText;
+    [SerializeField] Text rangedDamCostText;
+    [SerializeField] Text rangedDefCostText;
+    [SerializeField] Text weaponTechCostText;
+    [SerializeField] Text armourTechCostText;
+    [SerializeField] Text rangedTechCostText;
+
     [Header("Building button references")]
     [SerializeField] Button barracksButton;
     [SerializeField] Button archeryButton;
     [SerializeField] Button houseButton;
     [SerializeField] Button marketButton;
     [SerializeField] Button lumberButton;
+    [SerializeField] Button blacksmithButton;
 
     [Header("Unit button references")]
     [SerializeField] Button infantryButton;
@@ -83,6 +103,15 @@ public class Purchasables : MonoBehaviour
 
     [SerializeField] Button archerButton;
     [SerializeField] Button crossbowmanButton;
+
+    [Header("Tech button references")]
+    [SerializeField] Button meleeDamButton;
+    [SerializeField] Button meleeDefButton;
+    [SerializeField] Button rangedDamButton;
+    [SerializeField] Button rangedDefButton;
+    [SerializeField] Button weaponTechButton;
+    [SerializeField] Button armourTechButton;
+    [SerializeField] Button rangedTechButton;
 
     // Start is called before the first frame update
     void Start()
@@ -103,6 +132,8 @@ public class Purchasables : MonoBehaviour
         lumberGoldCostText.text = lumberGoldCost.ToString();
         marketWoodCostText.text = marketWoodCost.ToString();
         marketGoldCostText.text = marketGoldCost.ToString();
+        blacksmithWoodCostText.text = blacksmithWoodCost.ToString();
+        blacksmithGoldCostText.text = blacksmithGoldCost.ToString();
 
         infantryGoldCostText.text = infantryGoldCost.ToString();
         spearmanGoldCostText.text = spearmanGoldCost.ToString();
@@ -119,6 +150,14 @@ public class Purchasables : MonoBehaviour
 
         archerPopCostText.text = archerPopCost.ToString();
         crossbowmanPopCostText.text = crossbowmanPopCost.ToString();
+
+        meleeDamCostText.text = levelOneCost.ToString();
+        meleeDefCostText.text = levelOneCost.ToString();
+        rangedDamCostText.text = levelOneCost.ToString();
+        rangedDefCostText.text = levelOneCost.ToString();
+        weaponTechCostText.text = levelOneCost.ToString();
+        armourTechCostText.text = levelOneCost.ToString();
+        rangedTechCostText.text = levelOneCost.ToString();
     }
 
     // Update is called once per frame
@@ -149,6 +188,10 @@ public class Purchasables : MonoBehaviour
             marketButton.interactable = true;
         else
             marketButton.interactable = false;
+        if (_gold >= blacksmithGoldCost && _wood >= blacksmithWoodCost)
+            blacksmithButton.interactable = true;
+        else
+            blacksmithButton.interactable = false;
 
         if (_gold >= infantryGoldCost && infantryPopCost + _pop <= _maxPop)
             infantryButton.interactable = true;
@@ -176,6 +219,54 @@ public class Purchasables : MonoBehaviour
         else
             crossbowmanButton.interactable = false;
 
+        CheckTechWealth(_gold, _wood);
+    }
+
+    public void CheckTechWealth(int _gold, int _wood)
+    {
+        float meleeDam = playerTechManager.GetTechLevel("meleeDamage") * levelOneCost;
+        meleeDamCostText.text = meleeDam.ToString();
+        float meleeDef = playerTechManager.GetTechLevel("meleeDefence") * levelOneCost;
+        meleeDefCostText.text = meleeDef.ToString();
+        float rangedDam = playerTechManager.GetTechLevel("rangedDamage") * levelOneCost;
+        rangedDamCostText.text = rangedDam.ToString();
+        float rangedDef = playerTechManager.GetTechLevel("rangedDefence") * levelOneCost;
+        rangedDefCostText.text = rangedDef.ToString();
+        float weaponTech = playerTechManager.GetTechLevel("weaponTech") * levelOneCost;
+        weaponTechCostText.text = weaponTech.ToString();
+        float armourTech = playerTechManager.GetTechLevel("armourTech") * levelOneCost;
+        armourTechCostText.text = armourTech.ToString();
+        float rangedTech = playerTechManager.GetTechLevel("rangedTech") * levelOneCost;
+        rangedTechCostText.text = rangedTech.ToString();
+
+        if (_gold >= meleeDam && _wood >= meleeDam && !playerTechManager.GetCurrentResearch("meleeDamage"))
+            meleeDamButton.interactable = true;
+        else
+            meleeDamButton.interactable = false;
+        if (_gold >= meleeDef && _wood >= meleeDef && !playerTechManager.GetCurrentResearch("meleeDefence"))
+            meleeDefButton.interactable = true;
+        else
+            meleeDefButton.interactable = false;
+        if (_gold >= rangedDam && _wood >= rangedDam && !playerTechManager.GetCurrentResearch("rangedDamage"))
+            rangedDamButton.interactable = true;
+        else
+            rangedDamButton.interactable = false;
+        if (_gold >= rangedDef && _wood >= rangedDef && !playerTechManager.GetCurrentResearch("rangedDefence"))
+            rangedDefButton.interactable = true;
+        else
+            rangedDefButton.interactable = false;
+        if (_gold >= weaponTech && _wood >= weaponTech && !playerTechManager.GetCurrentResearch("weaponTech"))
+            weaponTechButton.interactable = true;
+        else
+            weaponTechButton.interactable = false;
+        if (_gold >= armourTech && _wood >= armourTech && !playerTechManager.GetCurrentResearch("armourTech"))
+            armourTechButton.interactable = true;
+        else
+            armourTechButton.interactable = false;
+        if (_gold >= rangedTech && _wood >= rangedTech && !playerTechManager.GetCurrentResearch("rangedTech"))
+            rangedTechButton.interactable = true;
+        else
+            rangedTechButton.interactable = false;
     }
 
     public List<int> GetBuildingCost(string _building)
@@ -211,5 +302,44 @@ public class Purchasables : MonoBehaviour
         costs.Add(gold);
         costs.Add(wood);
         return costs;
+    }
+
+    public float GetUpgradeCost(int _level)
+    {
+        return levelOneCost * _level;
+    }
+
+    public float GetResearchTime(int _level)
+    {
+        return levelOneResearchTime * _level;
+    }
+
+    public void UpdateResearchTimer(string _tech, float _progress)
+    {
+        switch (_tech)
+        {
+            case "meleeDamage":
+                meleeDamButton.image.fillAmount = _progress;
+                break;
+            case "meleeDefence":
+                meleeDefButton.image.fillAmount = _progress;
+                break;
+            case "rangedDamage":
+                rangedDamButton.image.fillAmount = _progress;
+                break;
+            case "rangedDefence":
+                rangedDefButton.image.fillAmount = _progress;
+                break;
+
+            case "armourTech":
+                armourTechButton.image.fillAmount = _progress;
+                break;
+            case "weaponTech":
+                weaponTechButton.image.fillAmount = _progress;
+                break;
+            case "rangedTech":
+                rangedTechButton.image.fillAmount = _progress;
+                break;
+        }
     }
 }

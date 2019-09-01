@@ -15,12 +15,13 @@ public class Building : MonoBehaviour
         FINISHED
     }
 
-    public enum SPAWNERTYPE
+    public enum SPAWNER_TYPE
     {
         MELEE,
         RANGED,
         MAGIC,
-        MOUNTED
+        MOUNTED,
+        RESEARCH
     }
 
     [SerializeField] Image buildtimerBackground;
@@ -41,7 +42,7 @@ public class Building : MonoBehaviour
     [SerializeField] PlayerSkillManager.BUILDING_TYPE buildingType = PlayerSkillManager.BUILDING_TYPE.MILITARY;
     [SerializeField] bool collector = false;
     [SerializeField] bool spawner = false;
-    [SerializeField] SPAWNERTYPE spawnerType = SPAWNERTYPE.MELEE;    
+    [SerializeField] SPAWNER_TYPE spawnerType = SPAWNER_TYPE.MELEE;    
 
     public float buildTimer = 0.0f;
 
@@ -308,28 +309,37 @@ public class Building : MonoBehaviour
             if (buildState == BUILDSTATE.FINISHED)
             {
                 buildingManager.SetActiveBuilding(this);
+
+                string spawn = "buildings";
+
                 if (spawner)
                 {
-                    string spawn = "buildings";
-
                     switch (spawnerType)
                     {
-                        case SPAWNERTYPE.MELEE:
+                        case SPAWNER_TYPE.MELEE:
                             spawn = "barracks";
                             break;
-                        case SPAWNERTYPE.MAGIC:
+                        case SPAWNER_TYPE.MAGIC:
                             spawn = "magetower";
                             break;
-                        case SPAWNERTYPE.MOUNTED:
+                        case SPAWNER_TYPE.MOUNTED:
                             spawn = "stables";
                             break;
-                        case SPAWNERTYPE.RANGED:
+                        case SPAWNER_TYPE.RANGED:
                             spawn = "archery";
                             break;
-                    }
-
-                    uiManager.ActivatePane(spawn);
+                    }                    
                 }
+                else
+                {
+                    switch (buildingType)
+                    {
+                        case PlayerSkillManager.BUILDING_TYPE.TECHNOLOGY:
+                            spawn = "research";
+                            break;
+                    }
+                }
+                uiManager.ActivatePane(spawn);
             }
         }
     }
@@ -422,7 +432,7 @@ public class Building : MonoBehaviour
         return spawner;
     }
 
-    public SPAWNERTYPE GetSpawnerType()
+    public SPAWNER_TYPE GetBuildType()
     {
         return spawnerType;
     }

@@ -39,6 +39,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] GameObject house;
     [SerializeField] GameObject lumberMill;
     [SerializeField] GameObject market;
+    [SerializeField] GameObject blacksmith;
 
     // Start is called before the first frame update
     void Start()
@@ -180,6 +181,10 @@ public class BuildingManager : MonoBehaviour
                 SetSelectedBuildingCost(purchasables.marketGoldCost, purchasables.marketWoodCost);                
                 selectedBuilding = Instantiate(market, transform);
                 break;
+            case "BLACKSMITH":
+                SetSelectedBuildingCost(purchasables.blacksmithGoldCost, purchasables.blacksmithWoodCost);
+                selectedBuilding = Instantiate(blacksmith, transform);
+                break;
         }
         outline = selectedBuilding.GetComponent<Outline>();
         outline.enabled = true;
@@ -212,6 +217,14 @@ public class BuildingManager : MonoBehaviour
     public Building GetActiveBuilding()
     {
         return activeBuilding;
+    }
+
+    public ResearchBuilding GetActiveResearchBuilding()
+    {
+        //if (!activeBuilding.gameObject.GetComponent<ResearchBuilding>())
+        //    return null;
+
+        return activeBuilding.gameObject.GetComponent<ResearchBuilding>();
     }
 
     public List<GameObject> GetPlayerBuildings()

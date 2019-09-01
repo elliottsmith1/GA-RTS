@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,6 +58,11 @@ public class PlayerManager : MonoBehaviour
         return wood;
     }
 
+    public Purchasables GetPurchasables()
+    {
+        return purchasables;
+    }
+
     public int GetGold()
     {
         return gold;
@@ -71,6 +77,11 @@ public class PlayerManager : MonoBehaviour
     public void AddWood(int _val)
     {
         wood += _val;
+        purchasables.CheckWealth(gold, wood, population, currentPopulationMax);
+    }
+
+    public void NewTech()
+    {
         purchasables.CheckWealth(gold, wood, population, currentPopulationMax);
     }
 
