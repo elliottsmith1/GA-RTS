@@ -13,6 +13,7 @@ public class UnitManager : MonoBehaviour
     [SerializeField] Purchasables purchasables;
     [SerializeField] BuildingManager buildingManager;
     [SerializeField] PlayerManager playerManager;
+    [SerializeField] TechnologyManager techManager;
 
     [SerializeField] GameObject archerPrefab;
     [SerializeField] GameObject crossbowmanPrefab;
@@ -270,7 +271,18 @@ public class UnitManager : MonoBehaviour
                 playerManager.AddPopulation(selectedUnitPopCost);
                 NewUnit(unit);
                 unit.SetActive(false);
-                unit.GetComponent<Unit>().SetPopulationValue(selectedUnitPopCost);
+                Unit unitScript = unit.GetComponent<Unit>();
+                unitScript.SetPopulationValue(selectedUnitPopCost);
+                if (unitScript.GetMelee())
+                {
+                    unitScript.IncreaseDamage(techManager.GetTechLevel("meleeDamage") * techManager.GetBuffAmount());
+                    unitScript.IncreaseArmour(techManager.GetTechLevel("meleeArmour") * techManager.GetBuffAmount());
+                }
+                else
+                {
+                    unitScript.IncreaseDamage(techManager.GetTechLevel("rangedDamage") * techManager.GetBuffAmount());
+                    unitScript.IncreaseArmour(techManager.GetTechLevel("rangedArmour") * techManager.GetBuffAmount());
+                }
                 buildingManager.GetActiveBuilding().NewSpawnUnit(unit.GetComponent<Unit>(), selectedUnitGoldCost);                
             }
         }

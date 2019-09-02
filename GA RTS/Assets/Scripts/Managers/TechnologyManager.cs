@@ -7,7 +7,7 @@ public class TechnologyManager : MonoBehaviour
     private bool isPlayer = false;
     private PlayerManager playerManager;
     private BuildingManager buildingManager;
-    private Purchasables purchasables;
+    private Purchasables purchasables;    
 
     //buff tech
     private int meleeDamage = 1;
@@ -17,6 +17,7 @@ public class TechnologyManager : MonoBehaviour
     private int rangedDefence = 1;
 
     private int maxBuff = 4;
+    private int buffAmount = 5;
 
     //unlock tech
     private int armourTech = 1;
@@ -245,5 +246,10 @@ public class TechnologyManager : MonoBehaviour
     public void ResearchProgress(string _tech, float _progress)
     {
         purchasables.UpdateResearchTimer(_tech, _progress);        
+    }
+
+    public int GetBuffAmount()
+    {
+        return buffAmount;
     }
 }

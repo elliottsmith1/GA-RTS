@@ -717,6 +717,11 @@ public class Unit : MonoBehaviour
         return mounted;
     }
 
+    public bool GetMelee()
+    {
+        return melee;
+    }
+
     public STATE GetState()
     {
         return state;
@@ -740,5 +745,15 @@ public class Unit : MonoBehaviour
     public int GetPopulationValue()
     {
         return populationValue;
+    }
+
+    public void IncreaseDamage(float _dam)
+    {
+        weaponDamage += _dam;
+    }
+
+    public void IncreaseArmour(float _arm)
+    {
+        armour += _arm;
     }
 }

@@ -197,15 +197,15 @@ public class Purchasables : MonoBehaviour
             infantryButton.interactable = true;
         else
             infantryButton.interactable = false;
-        if (_gold >= spearmanGoldCost && spearmanPopCost + _pop <= _maxPop)
+        if (_gold >= spearmanGoldCost && spearmanPopCost + _pop <= _maxPop && playerTechManager.GetTechLevel("weaponTech") > 1 && playerTechManager.GetTechLevel("armourTech") > 1)
             spearmanButton.interactable = true;
         else
             spearmanButton.interactable = false;
-        if (_gold >= pikemanGoldCost && pikemanPopCost + _pop <= _maxPop)
+        if (_gold >= pikemanGoldCost && pikemanPopCost + _pop <= _maxPop && playerTechManager.GetTechLevel("weaponTech") > 2 && playerTechManager.GetTechLevel("armourTech") > 1)
             pikemanButton.interactable = true;
         else
             pikemanButton.interactable = false;
-        if (_gold >= heavyInfantryGoldCost && heavyInfantryPopCost + _pop <= _maxPop)
+        if (_gold >= heavyInfantryGoldCost && heavyInfantryPopCost + _pop <= _maxPop && playerTechManager.GetTechLevel("weaponTech") > 2 && playerTechManager.GetTechLevel("armourTech") > 2)
             heavyInfantryButton.interactable = true;
         else
             heavyInfantryButton.interactable = false;
@@ -214,7 +214,7 @@ public class Purchasables : MonoBehaviour
             archerButton.interactable = true;
         else
             archerButton.interactable = false;
-        if (_gold >= crossbowmanGoldCost && crossbowmanPopCost + _pop <= _maxPop)
+        if (_gold >= crossbowmanGoldCost && crossbowmanPopCost + _pop <= _maxPop && playerTechManager.GetTechLevel("rangedTech") > 1 && playerTechManager.GetTechLevel("armourTech") > 1)
             crossbowmanButton.interactable = true;
         else
             crossbowmanButton.interactable = false;
@@ -255,6 +255,7 @@ public class Purchasables : MonoBehaviour
             rangedDefButton.interactable = true;
         else
             rangedDefButton.interactable = false;
+
         if (_gold >= weaponTech && _wood >= weaponTech && !playerTechManager.GetCurrentResearch("weaponTech"))
             weaponTechButton.interactable = true;
         else
