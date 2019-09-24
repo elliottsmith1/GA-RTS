@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 7467340911054027533}
   - component: {fileID: 1336185596}
   - component: {fileID: 1336185597}
+  - component: {fileID: 2490464062113625743}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -214,6 +215,18 @@ MonoBehaviour:
   defensiveCapacity: 0
   populationCapacity: 0
   researchCapacity: 0
+--- !u!114 &2490464062113625743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467340911054027535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7119439c478389148a7362a0f8c870ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7467340911095445384
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +311,7 @@ MonoBehaviour:
   purchasables: {fileID: 0}
   buildingManager: {fileID: 8803682836516390815}
   playerManager: {fileID: 7467340911054027533}
+  techManager: {fileID: 1336185596}
   archerPrefab: {fileID: 2084155023, guid: c0c1e763ae322024799c7d67ef7af6d5, type: 3}
   crossbowmanPrefab: {fileID: 1512005914, guid: 29d695af1c1193c45b33faca5df40d8b,
     type: 3}

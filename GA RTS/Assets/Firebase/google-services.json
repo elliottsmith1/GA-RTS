@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "618855693055",
+    "firebase_url": "https://rts-flow.firebaseio.com",
+    "project_id": "rts-flow",
+    "storage_bucket": "rts-flow.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618855693055:android:8c04dde5ceb973c534aaca",
+        "android_client_info": {
+          "package_name": "com.UWE.GARTS"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618855693055-vl1fcsau1reetg8ja1ole4a20u9sf2t9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANLyzLPZ-jC70pSxA8szYvOmowjYNFNOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618855693055-vl1fcsau1reetg8ja1ole4a20u9sf2t9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
