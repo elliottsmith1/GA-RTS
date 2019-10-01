@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
 
+using Firebase;
+using Firebase.Database;
+
 public class AIManager : MonoBehaviour
 {
     [Header("Building prefabs")]
@@ -56,8 +59,7 @@ public class AIManager : MonoBehaviour
     private float armyExpansionFactor = 10.0f;
 
     //difficulty
-    [Range(10.0f, 200.0f)]
-    [SerializeField] float difficulty = 10.0f;
+    private float difficulty = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +72,8 @@ public class AIManager : MonoBehaviour
         purchasables = GameObject.Find("UI").GetComponent<Purchasables>();
 
         unitManager = GetComponent<AIUnitManager>();
+
+        SetDifficulty();
     }
 
     // Update is called once per frame
@@ -80,7 +84,7 @@ public class AIManager : MonoBehaviour
 
         playerBuildings.RemoveAll(item => item == null);
 
-        SetDifficulty();
+        //SetDifficulty();
 
         decisionTimer += Time.deltaTime;
 
@@ -96,30 +100,62 @@ public class AIManager : MonoBehaviour
 
     private void SetDifficulty()
     {
-        difficulty = PlayerSkillManager.instance.GetPlayerSkill();
+        //difficulty = PlayerSkillManager.instance.GetPlayerSkill();       
 
-        if (difficulty < 10)
-            difficulty = 10;
-
-        if (difficulty > 200)
-            difficulty = 200;
-
-        if (unitManager.GetMaxWaves() != Mathf.RoundToInt(difficulty / 10))
+        FirebaseDatabase.DefaultInstance.GetReference("Difficulty").Child("Counter").GetValueAsync().ContinueWith(task2 =>
         {
-            unitManager.SetMaxWaves(Mathf.RoundToInt(difficulty / 10));
-        }
+            if (task2.IsFaulted)
+            {
+                Debug.Log("Error retrieving games played");
+            }
+            else if (task2.IsCompleted)
+            {
+                if (task2.Result.Exists)
+                {
+                    long count = (long)task2.Result.GetValue(true);
+                    FirebaseDatabase.DefaultInstance.GetReference("Difficulty").Child("Difficulties").Child("rands").GetValueAsync().ContinueWith(task3 =>
+                    {
+                        if (task3.IsCompleted)
+                        {
+                            foreach (DataSnapshot item in task3.Result.Children)
+                            {
+                                if (count.ToString() == item.Key)
+                                {
+                                    double v = (double)item.Value;
+                                    difficulty = Mathf.Lerp(10, 200, (float)v);
+                                    break;
+                                }
+                            }
 
-        if (unitManager.GetMaxWaveNum() != Mathf.RoundToInt(difficulty / 10))
-        {
-            unitManager.SetMaxWaveNum(Mathf.RoundToInt(difficulty / 10));
-        }
+                            if (difficulty < 10)
+                                difficulty = 10;
 
-        float decision = 10.0f - ((difficulty / 10) / 2);
+                            if (difficulty > 200)
+                                difficulty = 200;
 
-        if (decisionTimerDelay != decision)
-        {
-            decisionTimerDelay = decision;
-        }
+                            if (unitManager.GetMaxWaves() != Mathf.RoundToInt(difficulty / 10))
+                            {
+                                unitManager.SetMaxWaves(Mathf.RoundToInt(difficulty / 10));
+                            }
+
+                            if (unitManager.GetMaxWaveNum() != Mathf.RoundToInt(difficulty / 10))
+                            {
+                                unitManager.SetMaxWaveNum(Mathf.RoundToInt(difficulty / 10));
+                            }
+
+                            float decision = 10.0f - ((difficulty / 10) / 2);
+
+                            if (decisionTimerDelay != decision)
+                            {
+                                decisionTimerDelay = decision;
+                            }
+                        }
+                    });
+
+                    FirebaseDatabase.DefaultInstance.RootReference.Child("Difficulty").Child("Counter").SetValueAsync(count + 1);
+                }
+            }
+        });
     }
 
     private void ModifyDecisionFactors()
@@ -596,6 +632,11 @@ public class AIManager : MonoBehaviour
     public void NewPlayerBuilding(GameObject _building)
     {
         playerBuildings.Add(_building);
+    }
+
+    public float GetDifficulty()
+    {
+        return difficulty;
     }
 
 //#if UNITY_EDITOR
