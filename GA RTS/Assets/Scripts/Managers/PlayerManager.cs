@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] UnitManager unitManager;
     [SerializeField] Purchasables purchasables;
 
-    private int populationMax = 200;
+    private int populationMax = 100;
     private int currentPopulationMax = 20;
     private int population = 0;
 

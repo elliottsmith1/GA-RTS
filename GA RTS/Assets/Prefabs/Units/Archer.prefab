@@ -16308,7 +16308,7 @@ MonoBehaviour:
   healthBarPrefab: {fileID: 3281908294729117128, guid: 22a140eb5b88cc645b82e47cff85aa28,
     type: 3}
   maxHealth: 30
-  weaponDamage: 40
+  weaponDamage: 30
   armour: 0
   spawnTime: 10
   populationValue: 1

@@ -12,7 +12,7 @@ public class Feedback : MonoBehaviour
     [SerializeField] Slider slider;
     [SerializeField] GameObject ui;
 
-    [SerializeField] float feedbackIntervalTime = 90.0f;
+    [SerializeField] float feedbackIntervalTime = 60.0f;
     private float feedbackTimer = 0.0f;
 
     private int skillCounter = 1;
@@ -36,13 +36,13 @@ public class Feedback : MonoBehaviour
             {
                 skillTotal += playerSkillManager.GetPlayerSkill();
                 skillCounter++;
-                Debug.Log(skillTotal);
             }
         }
 
         if (feedbackTimer > feedbackIntervalTime)
         {
-            ShowUI();
+            if (!GameplayManager.instance.GetGameOver())
+                ShowUI();
 
             feedbackTimer = 0.0f;            
 
@@ -61,6 +61,8 @@ public class Feedback : MonoBehaviour
         float flow = slider.value;
         float skill = skillTotal / skillCounter;
         float difficulty = aiManager.GetDifficulty();
+        //float skill = Mathf.Lerp(0, 500, (skillTotal / skillCounter));
+        //float difficulty = Mathf.Lerp(10, 200, aiManager.GetDifficulty());
 
         skillTotal = 0;
 

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
+    public static GameplayManager instance;
+
     [SerializeField] PlayerManager playerManager;
     [SerializeField] AIManager aiManager;
     [SerializeField] UIManager uiManager;
@@ -12,6 +14,14 @@ public class GameplayManager : MonoBehaviour
     private bool gameOver = false;
 
     private float timeElapsed = 0.0f;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -48,5 +58,15 @@ public class GameplayManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public bool GetGameOver()
+    {
+        return gameOver;
     }
 }

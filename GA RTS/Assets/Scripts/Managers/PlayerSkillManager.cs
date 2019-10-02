@@ -241,6 +241,11 @@ public class PlayerSkillManager : MonoBehaviour
         totalPerformance = (militaryPerformance + expansionPerformance) * 5;
 
         playerSkill = APM + totalValue + totalPerformance;
+
+        if (playerSkill > 500)
+        {
+            playerSkill = 500;
+        }
     }
 
     public void NewAction(ACTION_TYPES _action)

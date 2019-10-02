@@ -51,7 +51,7 @@ public class AIManager : MonoBehaviour
     private float populationFactor = 10.0f;
 
     //population
-    private int populationMax = 200;
+    private int populationMax = 100;
     private int currentPopulationMax = 20;
     private int population = 0;
 

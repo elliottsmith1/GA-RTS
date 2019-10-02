@@ -6042,7 +6042,7 @@ MonoBehaviour:
   maxHealth: 100
   weaponDamage: 65
   armour: 15
-  spawnTime: 10
+  spawnTime: 20
   populationValue: 4
   state: 0
   weapon: 6

@@ -26,12 +26,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject stablesPane;
     [SerializeField] GameObject techPane;
 
+    [SerializeField] GameObject intro;
+    [SerializeField] List<GameObject> introSlides;
+    private GameObject activeIntroSlide;
+
     private GameObject activePane;
 
     // Start is called before the first frame update
     void Start()
     {
         activePane = buildingsPane;
+        Time.timeScale = 0.0f;
+
+        activeIntroSlide = introSlides[0];
     }
 
     // Update is called once per frame
@@ -103,6 +110,29 @@ public class UIManager : MonoBehaviour
         else
         {
             gameOverText.text = "Game Over!";
+        }
+    }
+
+    public void DisableIntro()
+    {
+        Time.timeScale = 1.0f;
+        intro.SetActive(false);
+    }
+
+    public void NextIntroSlide()
+    {
+        for (int i = 0; i < introSlides.Count; i++)
+        {
+            if (introSlides[i] == activeIntroSlide)
+            {
+                if (i < introSlides.Count-1)
+                {
+                    activeIntroSlide.SetActive(false);
+                    activeIntroSlide = introSlides[i + 1];
+                    activeIntroSlide.SetActive(true);
+                    break;
+                }
+            }
         }
     }
 }
